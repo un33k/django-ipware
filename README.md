@@ -25,7 +25,7 @@ How to install
 
 How to use
 =================
-    from ipware import get_ip_address_from_request
+    from ipware.ip import get_ip_address_from_request
     ip = get_ip_address_from_request(request)
 
 Running the tests
