@@ -9,7 +9,7 @@ import sys
 
 name = 'django-ipware'
 package = 'ipware'
-description = 'A Django utility application around IP addresses'
+description = "A Django utility application that returns client's real IP address"
 url = 'https://github.com/un33k/django-ipware'
 author = 'Val Neekman'
 author_email = 'info@neekware.com'
