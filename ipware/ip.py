@@ -20,7 +20,7 @@ def get_real_ip(request):
 
 def get_ip_address_from_request(request):
     """
-    Backward compatiblity -- use get_real_ip instead
+    Backwards compatibility -- use get_real_ip() instead
     """
     return get_real_ip(request)
 
