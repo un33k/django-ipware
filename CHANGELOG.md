@@ -1,4 +1,3 @@
-
 ## 0.0.5
 
 Enhancement:
@@ -20,9 +19,6 @@ Features:
 
   - Added get_ip() to return the best-matched IP
   - Removed get_ip_address_from_request()
-
-
-## 0.0.3
 
 Bugfixes:
 
