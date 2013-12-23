@@ -1,4 +1,12 @@
 
+## 0.0.4
+
+Enhancement:
+
+  - Added changelog file
+  - Added more private ip prefixes
+
+
 ## 0.0.3
 
 Features:
