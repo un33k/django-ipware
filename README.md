@@ -8,7 +8,7 @@ Django IPware
 Overview
 ========
 
-`Best attempt` to get user's (client's) real ip-address
+**Best attempt** to get user's (client's) real ip-address
 
 
 How to install
