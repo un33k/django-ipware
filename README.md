@@ -27,7 +27,6 @@ How to install
 How to use
 =================
 
-    ```python
     # if you want the real IP address
     from ipware.ip import get_real_ip
     ip = get_real_ip(request)
@@ -35,10 +34,8 @@ How to use
        # we have a real ip address for user
     else:
        # we don't have a real ip address for user
-    ```
 
 
-    ```python
     # if you want the best matched IP address
     from ipware.ip import get_ip
     ip = get_ip(request)
@@ -46,12 +43,10 @@ How to use
        # we have an ip address for user
     else:
        # we don't have an ip address for user
-    ```
 
 Advanced users:
 =================
 
-    ```python
     # you provide your own meta precedence order by
     # including IPWARE_META_PRECEDENCE_ORDER in your
     # settings.py. The check is done from top to bottom
@@ -66,9 +61,7 @@ Advanced users:
         'HTTP_VIA',
         'REMOTE_ADDR',
     )
-    ```
 
-    ```python
     # you can provide your own private IP prefixes by
     # including IPWARE_PRIVATE_IP_PREFIX in your setting.py
     # IPs that start with items listed below are ignored
@@ -90,7 +83,6 @@ Advanced users:
         'fe80:', # link-local unicast
         'ff00:', # IPv6 multicast
     )
-    ```
 
 Running the tests
 =================
