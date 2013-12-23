@@ -47,7 +47,7 @@ How to use
 Advanced users:
 =================
 
-    # you provide your own meta precedence order by
+    # you can provide your own meta precedence order by
     # including IPWARE_META_PRECEDENCE_ORDER in your
     # settings.py. The check is done from top to bottom
     IPWARE_META_PRECEDENCE_LIST = (
