@@ -1,7 +1,7 @@
 
-from utils import is_valid_ip
-from defaults import IPWARE_META_PRECEDENCE_ORDER
-from defaults import IPWARE_NON_PUBLIC_IP_PREFIX
+from .utils import is_valid_ip
+from .defaults import IPWARE_META_PRECEDENCE_ORDER
+from .defaults import IPWARE_NON_PUBLIC_IP_PREFIX
 
 
 def get_ip(request, real_ip_only=False):
