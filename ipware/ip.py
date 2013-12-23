@@ -1,7 +1,7 @@
 
 from utils import is_valid_ip
 from defaults import IPWARE_META_PRECEDENCE_LIST
-from defaults import IPWARE_PRIVATE_IP_PREFIX
+from defaults import IPWARE_NON_PUBLIC_IP_PREFIX
 
 
 def get_real_ip(request):
@@ -11,9 +11,9 @@ def get_real_ip(request):
     for key in IPWARE_META_PRECEDENCE_LIST:
         value = request.META.get(key, '')
         if value.strip() != '':
-            ips = [ip.strip() for ip in value.split(',')]
+            ips = [ip.strip().lower() for ip in value.split(',')]
             for ip_str in ips:
-                if ip_str and not ip_str.startswith(IPWARE_PRIVATE_IP_PREFIX):
+                if ip_str and not ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
                     if is_valid_ip(ip_str):
                         return ip_str
     return None

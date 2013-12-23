@@ -268,6 +268,14 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEquals(ip, "fe80:0:0:0:200:f8ff:fe21:67cf")
 
+    def test_missing_x_forwarded_missing_real_ip_mix_case(self):
+        request = HttpRequest()
+        request.META = {
+            'REMOTE_ADDR': 'fe80:0:0:0:200:f8ff:fe21:67cf',
+        }
+        ip = get_real_ip(request)
+        self.assertNotEquals(ip, "FE80:0:0:0:200:f8ff:fe21:67cf")
+
 
 
 
