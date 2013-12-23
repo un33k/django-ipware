@@ -1,4 +1,11 @@
 
+## 0.0.5
+
+Enhancement:
+
+  - Added Python 3.2 and 3.3 support
+
+
 ## 0.0.4
 
 Enhancement:
