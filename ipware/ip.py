@@ -1,26 +1,29 @@
 
 from utils import is_valid_ip
-from defaults import IPWARE_META_PRECEDENCE_LIST
+from defaults import IPWARE_META_PRECEDENCE_ORDER
 from defaults import IPWARE_NON_PUBLIC_IP_PREFIX
 
 
-def get_real_ip(request):
+def get_ip(request, real_ip_only=False):
     """
-    Best attempt to get client's real ip-address or returns None
+    Returns client's best-matched ip-address, or None
     """
-    for key in IPWARE_META_PRECEDENCE_LIST:
-        value = request.META.get(key, '')
+    best_matched_ip = None
+    for key in IPWARE_META_PRECEDENCE_ORDER:
+        value = request.META.get(key, '').strip()
         if value.strip() != '':
             ips = [ip.strip().lower() for ip in value.split(',')]
             for ip_str in ips:
-                if ip_str and not ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
-                    if is_valid_ip(ip_str):
+                if ip_str and is_valid_ip(ip_str):
+                    if ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
+                        if not real_ip_only:
+                            best_matched_ip = ip_str
+                    else:
                         return ip_str
-    return None
+    return best_matched_ip
 
-def get_ip_address_from_request(request):
+def get_real_ip(request):
     """
-    Backwards compatibility -- use get_real_ip() instead
+    Returns client's best-matched `real` ip-address, or None
     """
-    return get_real_ip(request)
-
+    return get_ip(request, real_ip_only=True)

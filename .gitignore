@@ -10,9 +10,3 @@ src
 .svn
 *_db
 temp_data
-
-asset/collect/*
-!asset/collect/index.html
-
-
-

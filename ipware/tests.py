@@ -2,7 +2,7 @@
 
 from django.http import HttpRequest
 from django.test import TestCase
-from ipware.ip import get_real_ip
+from ipware.ip import get_real_ip, get_ip
 
 class IPv4TestCase(TestCase):
     """IP address Test"""
@@ -135,6 +135,16 @@ class IPv4TestCase(TestCase):
         }
         ip = get_real_ip(request)
         self.assertEquals(ip, "177.139.233.133")
+
+
+    def test_best_matched_real_ip(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_REAL_IP': '127.0.0.1',
+            'REMOTE_ADDR': '172.31.233.133',
+        }
+        ip = get_ip(request)
+        self.assertEquals(ip, "172.31.233.133")
 
 
 class IPv6TestCase(TestCase):
@@ -283,6 +293,14 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEquals(ip, None)
 
+    def test_best_matched_real_ip(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_REAL_IP': '::1',
+            'REMOTE_ADDR': 'fe80::02ba',
+        }
+        ip = get_ip(request)
+        self.assertEquals(ip, "fe80::02ba")
 
 
 

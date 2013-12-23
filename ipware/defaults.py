@@ -2,8 +2,9 @@ from django.conf import settings
 
 
 # Search for the real IP address in the following order
-IPWARE_META_PRECEDENCE_LIST = getattr(settings,
-    'IPWARE_META_PRECEDENCE_LIST', (
+# Configurable via settings.py
+IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
+    'IPWARE_META_PRECEDENCE_ORDER', (
         'HTTP_X_FORWARDED_FOR', # client, proxy1, proxy2
         'HTTP_CLIENT_IP',
         'HTTP_X_REAL_IP',
@@ -19,9 +20,11 @@ IPWARE_META_PRECEDENCE_LIST = getattr(settings,
 # Private IP addresses
 # http://www.ietf.org/rfc/rfc3330.txt (IPv4)
 # http://www.ietf.org/rfc/rfc5156.txt (IPv6)
+# Regex would be ideal here, but keeping it simple
+# as this is configurable via settings.py
 IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
     'IPWARE_PRIVATE_IP_PREFIX', (
-        '0.', '1.', '2.', # nont externally routable
+        '0.', '1.', '2.', # externally non-routable
         '10.', # class A private block
         '169.254.', # link-local block
         '172.16.', '172.17.', '172.18.', '172.19.',
