@@ -27,7 +27,7 @@ IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
         '255.', # IPv4 broadcast address
     ) + (  # the following addresses MUST be in lowercase)
         '2001:db8:', # reserved for documentation and example code
-        'fc00:' # IPv6 private block
+        'fc00:', # IPv6 private block
         'fe80:', # link-local unicast
         'ff00:', # IPv6 multicast
     )
