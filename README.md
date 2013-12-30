@@ -3,7 +3,17 @@ Django IPware
 
 **A Django application to retrieve user's IP address**
 
-**Author:** Val Neekman, [ info@neekware.com, [@vneekman](https://twitter.com/vneekman) ]
+.. image:: https://travis-ci.org/omab/django-ipware.png?branch=master
+   :target: https://travis-ci.org/omab/django-ipware
+
+.. image:: https://badge.fury.io/py/django-ipware.png
+   :target: http://badge.fury.io/py/django-ipware
+
+.. image:: https://pypip.in/d/django-ipware/badge.png
+   :target: https://crate.io/packages/django-ipware?version=latest
+
+.. contents:: Table of Contents
+
 
 Overview
 ========
@@ -92,8 +102,13 @@ To run the tests against the current environment:
     python manage.py test
 
 
+Credits
+=================
+**Author:** Val Neekman, [ info@neekware.com, [@vneekman](https://twitter.com/vneekman) ]
+
+
 License
-=======
+=================
 
 Copyright © Val Neekman ([Neekware Inc.](http://neekware.com))
 
