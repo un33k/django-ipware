@@ -3,26 +3,19 @@ Django IPware
 
 **A Django application to retrieve user's IP address**
 
-.. image:: https://travis-ci.org/omab/django-ipware.png?branch=master
-   :target: https://travis-ci.org/omab/django-ipware
-
-.. image:: https://badge.fury.io/py/django-ipware.png
-   :target: http://badge.fury.io/py/django-ipware
-
-.. image:: https://pypip.in/d/django-ipware/badge.png
-   :target: https://crate.io/packages/django-ipware?version=latest
-
-.. contents:: Table of Contents
+[![build-status-image]][travis]
+[![build-status-image]][fury]
+[![build-status-image]][pypip]
 
 
 Overview
-========
+====================
 
 **Best attempt** to get user's (client's) real ip-address
 
 
 How to install
-==================
+====================
 
     1. easy_install django-ipware
     2. pip install django-ipware
@@ -35,7 +28,7 @@ How to install
         c. run python setup.py
 
 How to use
-=================
+====================
 
     # if you want the real IP address
     from ipware.ip import get_real_ip
@@ -55,7 +48,7 @@ How to use
        # we don't have an ip address for user
 
 Advanced users:
-=================
+====================
 
     # you can provide your own meta precedence order by
     # including IPWARE_META_PRECEDENCE_ORDER in your
@@ -95,7 +88,7 @@ Advanced users:
     )
 
 Running the tests
-=================
+====================
 
 To run the tests against the current environment:
 
@@ -103,12 +96,12 @@ To run the tests against the current environment:
 
 
 Credits
-=================
+====================
 **Author:** Val Neekman, [ info@neekware.com, [@vneekman](https://twitter.com/vneekman) ]
 
 
 License
-=================
+====================
 
 Copyright © Val Neekman ([Neekware Inc.](http://neekware.com))
 
