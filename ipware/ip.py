@@ -11,7 +11,7 @@ def get_ip(request, real_ip_only=False):
     best_matched_ip = None
     for key in IPWARE_META_PRECEDENCE_ORDER:
         value = request.META.get(key, '').strip()
-        if value.strip() != '':
+        if value != '':
             ips = [ip.strip().lower() for ip in value.split(',')]
             for ip_str in ips:
                 if ip_str and is_valid_ip(ip_str):
