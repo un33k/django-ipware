@@ -3,16 +3,19 @@ Django IPware
 
 **A Django application to retrieve user's IP address**
 
-**Author:** Val Neekman, [ info@neekware.com, [@vneekman](https://twitter.com/vneekman) ]
+[![build-status-image-travis]][travis]
+[![build-status-image-fury]][fury]
+[![build-status-image-pypi]][pypi]
+
 
 Overview
-========
+====================
 
-**Best attempt** to get user's (client's) real ip-address
+**Best attempt** to get user's (client's) real ip-address while keeping it **DRY**.
 
 
 How to install
-==================
+====================
 
     1. easy_install django-ipware
     2. pip install django-ipware
@@ -25,7 +28,7 @@ How to install
         c. run python setup.py
 
 How to use
-=================
+====================
 
     # if you want the real IP address
     from ipware.ip import get_real_ip
@@ -45,7 +48,7 @@ How to use
        # we don't have an ip address for user
 
 Advanced users:
-=================
+====================
 
     # you can provide your own meta precedence order by
     # including IPWARE_META_PRECEDENCE_ORDER in your
@@ -85,15 +88,20 @@ Advanced users:
     )
 
 Running the tests
-=================
+====================
 
 To run the tests against the current environment:
 
     python manage.py test
 
 
+Credits
+====================
+**Author:** Val Neekman, [ info@neekware.com, [@vneekman](https://twitter.com/vneekman) ]
+
+
 License
-=======
+====================
 
 Copyright © Val Neekman ([Neekware Inc.](http://neekware.com))
 
@@ -122,4 +130,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Note: Django is a registered trademark of the Django Software Foundation.
 
 
+
+[build-status-image-travis]: https://secure.travis-ci.org/un33k/django-ipware.png?branch=master
+[travis]: http://travis-ci.org/tomchristie/django-ipware?branch=master
+
+[build-status-image-fury]: https://badge.fury.io/py/django-ipware.png
+[fury]: http://badge.fury.io/py/django-ipware
+
+[build-status-image-pypi]: https://pypip.in/d/django-ipware/badge.png
+[pypi]: https://crate.io/packages/django-ipware?version=latest
 
