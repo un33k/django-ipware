@@ -13,7 +13,6 @@ Overview
 
 **Best attempt** to get user's (client's) real ip-address while keeping it **DRY**.
 
-
 How to install
 ====================
 
@@ -27,25 +26,38 @@ How to install
         b. cd into django-ipware-* directory
         c. run python setup.py
 
+
 How to use
 ====================
 
-    # if you want the real IP address
+    # If your web server is publicly accessible on the Internet
+    # =========================================================
+    # To get the `real`, `public` IP address of the client.
+    # Where:
+    #    `Real IP` = Client's IP and not that of any `in-between` proxies.
+    #    `Public IP` = Any IP address that is route-able on the Internet
+
     from ipware.ip import get_real_ip
     ip = get_real_ip(request)
     if ip is not None:
-       # we have a real ip address for user
+       # we have a real, public ip address for user
     else:
-       # we don't have a real ip address for user
+       # we don't have a real, public ip address for user
 
 
-    # if you want the best matched IP address
+    # If your web server is NOT publicly accessible on the Internet
+    # =============================================================
+    # To get the `best matched` IP address of the client.
+    # Where:
+    #    `Best Matched IP` = The first matched public IP or the last matched non-public IP.
+
     from ipware.ip import get_ip
     ip = get_ip(request)
     if ip is not None:
        # we have an ip address for user
     else:
        # we don't have an ip address for user
+
 
 Advanced users:
 ====================
@@ -87,6 +99,7 @@ Advanced users:
         'ff00:', # IPv6 multicast
     )
 
+
 Running the tests
 ====================
 
@@ -100,7 +113,7 @@ Credits
 **Author:** Val Neekman, [ info@neekware.com, [@vneekman](https://twitter.com/vneekman) ]
 
 
-License
+License (BSD)
 ====================
 
 Copyright © Val Neekman ([Neekware Inc.](http://neekware.com))
@@ -128,7 +141,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 Note: Django is a registered trademark of the Django Software Foundation.
-
 
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/django-ipware.png?branch=master
