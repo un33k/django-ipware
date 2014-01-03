@@ -111,11 +111,11 @@ To run the tests against the current environment:
 License
 ====================
 
-Released under ([BSD](LICENSE.md)).
+Released under a ([BSD](LICENSE.md)) license.
 
 
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/django-ipware.png?branch=master
-[travis]: http://travis-ci.org/tomchristie/django-ipware?branch=master
+[travis]: http://travis-ci.org/un33k/django-ipware?branch=master
 
 [build-status-image-fury]: https://badge.fury.io/py/django-ipware.png
 [fury]: http://badge.fury.io/py/django-ipware
