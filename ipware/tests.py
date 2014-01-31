@@ -15,7 +15,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "198.84.193.157")
+        self.assertEqual(ip, "198.84.193.157")
 
     def test_x_forwarded_for_multiple_bad_address(self):
         request = HttpRequest()
@@ -25,7 +25,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "198.84.193.157")
+        self.assertEqual(ip, "198.84.193.157")
 
     def test_x_forwarded_for_singleton(self):
         request = HttpRequest()
@@ -35,7 +35,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.139")
+        self.assertEqual(ip, "177.139.233.139")
 
     def test_x_forwarded_for_singleton_private_address(self):
         request = HttpRequest()
@@ -45,7 +45,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.132")
+        self.assertEqual(ip, "177.139.233.132")
 
     def test_bad_x_forwarded_for_fallback_on_x_real_ip(self):
         request = HttpRequest()
@@ -55,7 +55,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.132")
+        self.assertEqual(ip, "177.139.233.132")
 
     def test_empty_x_forwarded_for_fallback_on_x_real_ip(self):
         request = HttpRequest()
@@ -65,7 +65,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.132")
+        self.assertEqual(ip, "177.139.233.132")
 
     def test_empty_x_forwarded_for_empty_x_real_ip_fallback_on_remote_addr(self):
         request = HttpRequest()
@@ -75,7 +75,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.133")
+        self.assertEqual(ip, "177.139.233.133")
 
     def test_empty_x_forwarded_for_private_x_real_ip_fallback_on_remote_addr(self):
         request = HttpRequest()
@@ -85,7 +85,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.133")
+        self.assertEqual(ip, "177.139.233.133")
 
 
     def test_private_x_forward_for_ip_addr(self):
@@ -96,7 +96,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, None)
+        self.assertEqual(ip, None)
 
     def test_private_real_ip_for_ip_addr(self):
         request = HttpRequest()
@@ -106,7 +106,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, None)
+        self.assertEqual(ip, None)
 
     def test_private_remote_addr_for_ip_addr(self):
         request = HttpRequest()
@@ -116,7 +116,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '127.0.0.1',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, None)
+        self.assertEqual(ip, None)
 
     def test_missing_x_forwarded(self):
         request = HttpRequest()
@@ -125,7 +125,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.132")
+        self.assertEqual(ip, "177.139.233.132")
 
 
     def test_missing_x_forwarded_missing_real_ip(self):
@@ -134,7 +134,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "177.139.233.133")
+        self.assertEqual(ip, "177.139.233.133")
 
 
     def test_best_matched_real_ip(self):
@@ -144,7 +144,7 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '172.31.233.133',
         }
         ip = get_ip(request)
-        self.assertEquals(ip, "172.31.233.133")
+        self.assertEqual(ip, "172.31.233.133")
 
 
 class IPv6TestCase(TestCase):
@@ -158,7 +158,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '74dc::02ba',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "3ffe:1900:4545:3:200:f8ff:fe21:67cf")
+        self.assertEqual(ip, "3ffe:1900:4545:3:200:f8ff:fe21:67cf")
 
     def test_x_forwarded_for_multiple_bad_address(self):
         request = HttpRequest()
@@ -168,7 +168,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_x_forwarded_for_singleton(self):
         request = HttpRequest()
@@ -178,7 +178,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_x_forwarded_for_singleton_private_address(self):
         request = HttpRequest()
@@ -188,7 +188,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_bad_x_forwarded_for_fallback_on_x_real_ip(self):
         request = HttpRequest()
@@ -198,7 +198,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_empty_x_forwarded_for_fallback_on_x_real_ip(self):
         request = HttpRequest()
@@ -208,7 +208,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_empty_x_forwarded_for_empty_x_real_ip_fallback_on_remote_addr(self):
         request = HttpRequest()
@@ -218,7 +218,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '74dc::02ba',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_empty_x_forwarded_for_private_x_real_ip_fallback_on_remote_addr(self):
         request = HttpRequest()
@@ -228,7 +228,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '74dc::02ba',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_private_x_forward_for_ip_addr(self):
         request = HttpRequest()
@@ -238,7 +238,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, None)
+        self.assertEqual(ip, None)
 
     def test_private_real_ip_for_ip_addr(self):
         request = HttpRequest()
@@ -248,7 +248,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, None)
+        self.assertEqual(ip, None)
 
     def test_private_remote_addr_for_ip_addr(self):
         request = HttpRequest()
@@ -258,7 +258,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '::1/128',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, None)
+        self.assertEqual(ip, None)
 
     def test_missing_x_forwarded(self):
         request = HttpRequest()
@@ -267,7 +267,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '74dc::02ba',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_missing_x_forwarded_missing_real_ip(self):
         request = HttpRequest()
@@ -275,7 +275,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '74dc::02ba',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_missing_x_forwarded_missing_real_ip_mix_case(self):
         request = HttpRequest()
@@ -283,7 +283,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': '74DC::02BA',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, "74dc::02ba")
+        self.assertEqual(ip, "74dc::02ba")
 
     def test_private_remote_address(self):
         request = HttpRequest()
@@ -291,7 +291,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': 'fe80::02ba',
         }
         ip = get_real_ip(request)
-        self.assertEquals(ip, None)
+        self.assertEqual(ip, None)
 
     def test_best_matched_real_ip(self):
         request = HttpRequest()
@@ -300,7 +300,7 @@ class IPv6TestCase(TestCase):
             'REMOTE_ADDR': 'fe80::02ba',
         }
         ip = get_ip(request)
-        self.assertEquals(ip, "fe80::02ba")
+        self.assertEqual(ip, "fe80::02ba")
 
 
 
