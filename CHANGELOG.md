@@ -1,3 +1,11 @@
+## 0.0.6
+
+Enhancement:
+
+  - Converted print statements to new format. (Python 3.x)
+  - Replaced deprecated unit test APIs
+
+
 ## 0.0.5
 
 Enhancement:
