@@ -30,6 +30,7 @@ How to install
 How to use
 ====================
 
+   ```python
     # If your web server is publicly accessible on the Internet
     # =========================================================
     # To get the `real`, `public` IP address of the client.
@@ -57,11 +58,12 @@ How to use
        # we have an ip address for user
     else:
        # we don't have an ip address for user
-
+   ```
 
 Advanced users:
 ====================
 
+   ```python
     # you can provide your own meta precedence order by
     # including IPWARE_META_PRECEDENCE_ORDER in your
     # settings.py. The check is done from top to bottom
@@ -98,7 +100,7 @@ Advanced users:
         'fe80:', # link-local unicast
         'ff00:', # IPv6 multicast
     )
-
+   ```
 
 Running the tests
 ====================

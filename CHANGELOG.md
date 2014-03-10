@@ -2,7 +2,7 @@
 
 Enhancement:
 
-  - Add Django 1.7 support
+  - Django 1.7 support
   - PEP8 Compliance
 
 
