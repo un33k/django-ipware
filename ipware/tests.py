@@ -4,6 +4,7 @@ from django.http import HttpRequest
 from django.test import TestCase
 from ipware.ip import get_real_ip, get_ip
 
+
 class IPv4TestCase(TestCase):
     """IP address Test"""
 
@@ -87,7 +88,6 @@ class IPv4TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "177.139.233.133")
 
-
     def test_private_x_forward_for_ip_addr(self):
         request = HttpRequest()
         request.META = {
@@ -127,7 +127,6 @@ class IPv4TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "177.139.233.132")
 
-
     def test_missing_x_forwarded_missing_real_ip(self):
         request = HttpRequest()
         request.META = {
@@ -135,7 +134,6 @@ class IPv4TestCase(TestCase):
         }
         ip = get_real_ip(request)
         self.assertEqual(ip, "177.139.233.133")
-
 
     def test_best_matched_real_ip(self):
         request = HttpRequest()
@@ -301,9 +299,3 @@ class IPv6TestCase(TestCase):
         }
         ip = get_ip(request)
         self.assertEqual(ip, "fe80::02ba")
-
-
-
-
-
-

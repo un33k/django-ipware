@@ -18,6 +18,7 @@ def is_valid_ipv4(ip_str):
         return False
     return True
 
+
 def is_valid_ipv6(ip_str):
     """
     Check the validity of an IPv6 address
@@ -28,17 +29,9 @@ def is_valid_ipv6(ip_str):
         return False
     return True
 
+
 def is_valid_ip(ip_str):
     """
     Check the validity of an IP address
     """
     return is_valid_ipv4(ip_str) or is_valid_ipv6(ip_str)
-
-
-
-
-
-
-
-
-

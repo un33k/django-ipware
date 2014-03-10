@@ -22,6 +22,7 @@ def get_ip(request, real_ip_only=False):
                         return ip_str
     return best_matched_ip
 
+
 def get_real_ip(request):
     """
     Returns client's best-matched `real` ip-address, or None

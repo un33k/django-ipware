@@ -1,3 +1,11 @@
+## 0.0.7
+
+Enhancement:
+
+  - Add Django 1.7 support
+  - PEP8 Compliance
+
+
 ## 0.0.6
 
 Enhancement:
