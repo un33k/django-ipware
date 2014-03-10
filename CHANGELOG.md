@@ -1,10 +1,10 @@
-## 0.0.7
+## 0.0.8
 
 Enhancement:
 
   - Django 1.7 support
   - PEP8 Compliance
-
+  - Bump Alpha to Beta
 
 ## 0.0.6
 
