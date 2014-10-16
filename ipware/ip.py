@@ -15,11 +15,14 @@ def get_ip(request, real_ip_only=False):
             ips = [ip.strip().lower() for ip in value.split(',')]
             for ip_str in ips:
                 if ip_str and is_valid_ip(ip_str):
-                    if ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
-                        if not real_ip_only:
-                            best_matched_ip = ip_str
-                    else:
+                    if not ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
                         return ip_str
+                    elif not real_ip_only:
+                        loopback = ('127.0.0.1', '::1')
+                        if best_matched_ip is None:
+                            best_matched_ip = ip_str
+                        elif best_matched_ip in loopback and ip_str not in loopback:
+                            best_matched_ip = ip_str
     return best_matched_ip
 
 

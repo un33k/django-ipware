@@ -1,3 +1,10 @@
+## 0.0.9
+
+Enhancement:
+
+  - Django 1.7 official support
+  - First non-loopback private IP match is best matched now.
+
 ## 0.0.8
 
 Enhancement:

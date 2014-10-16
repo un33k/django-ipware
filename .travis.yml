@@ -7,10 +7,9 @@ python:
   - "2.6"
 
 env:
-  - DJANGO="https://www.djangoproject.com/download/1.7a2/tarball/"
-  - DJANGO="django==1.6.2"
-  - DJANGO="django==1.5.5"
-  - DJANGO="django==1.4.10"
+  - DJANGO="django==1.7"
+  - DJANGO="django==1.6.7"
+  - DJANGO="django==1.4.15"
 
 install:
   - pip install $DJANGO
@@ -26,10 +25,10 @@ before_script:
 matrix:
   exclude:
    - python: "3.3"
-     env: DJANGO="django==1.4.10"
+     env: DJANGO="django==1.4.15"
    - python: "3.2"
-     env: DJANGO="django==1.4.10"
+     env: DJANGO="django==1.4.15"
    - python: "2.6"
-     env: DJANGO="https://www.djangoproject.com/download/1.7a2/tarball/"
+     env: DJANGO="django==1.7"
 
 script: python manage.py test

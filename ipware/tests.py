@@ -144,6 +144,24 @@ class IPv4TestCase(TestCase):
         ip = get_ip(request)
         self.assertEqual(ip, "172.31.233.133")
 
+    def test_best_matched_private_ip(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_REAL_IP': '127.0.0.1',
+            'REMOTE_ADDR': '192.31.233.133',
+        }
+        ip = get_ip(request)
+        self.assertEqual(ip, "192.31.233.133")
+
+    def test_best_matched_private_ip_2(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_REAL_IP': '192.31.233.133',
+            'REMOTE_ADDR': '127.0.0.1',
+        }
+        ip = get_ip(request)
+        self.assertEqual(ip, "192.31.233.133")
+
 
 class IPv6TestCase(TestCase):
     """IP address Test"""
