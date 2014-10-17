@@ -1,3 +1,10 @@
+## 0.1.0
+
+Enhancement:
+
+  - pypy support
+  - PY3.4 support
+
 ## 0.0.9
 
 Enhancement:
