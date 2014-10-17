@@ -50,7 +50,7 @@ How to use
     # =============================================================
     # To get the `best matched` IP address of the client.
     # Where:
-    #    `Best Matched IP` = The first matched public IP or the last matched non-public IP.
+    #    `Best Matched IP` = 1st public IP if any, otherwise 1st private IP.
 
     from ipware.ip import get_ip
     ip = get_ip(request)
