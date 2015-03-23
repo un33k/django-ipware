@@ -16,12 +16,12 @@ class IPv4TestCase(TestCase):
             'REMOTE_ADDR': '177.139.233.133',
         }
         ip = get_real_ip(request)
-        self.assertEqual(ip, "198.84.193.157")
+        self.assertEqual(ip, "177.139.233.139")
 
     def test_x_forwarded_for_multiple_bad_address(self):
         request = HttpRequest()
         request.META = {
-            'HTTP_X_FORWARDED_FOR': 'unknown, 192.168.255.182, 10.0.0.0, 127.0.0.1, 198.84.193.157, 177.139.233.139',
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, unknown, 192.168.255.182, 10.0.0.0, 127.0.0.1',
             'HTTP_X_REAL_IP': '177.139.233.132',
             'REMOTE_ADDR': '177.139.233.133',
         }
@@ -169,7 +169,7 @@ class IPv6TestCase(TestCase):
     def test_x_forwarded_for_multiple(self):
         request = HttpRequest()
         request.META = {
-            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba',
+            'HTTP_X_FORWARDED_FOR': '74dc::02ba, 3ffe:1900:4545:3:200:f8ff:fe21:67cf',
             'HTTP_X_REAL_IP': '74dc::02ba',
             'REMOTE_ADDR': '74dc::02ba',
         }

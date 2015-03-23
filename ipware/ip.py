@@ -13,7 +13,7 @@ def get_ip(request, real_ip_only=False):
         value = request.META.get(key, '').strip()
         if value != '':
             ips = [ip.strip().lower() for ip in value.split(',')]
-            for ip_str in ips:
+            for ip_str in reversed(ips):
                 if ip_str and is_valid_ip(ip_str):
                     if not ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
                         return ip_str
