@@ -1,6 +1,13 @@
 from django.conf import settings
 
 
+# Header that proxy servers for this Django instance
+# are configured to send to convey the IP address of
+# the client issuing the request.
+IPWARE_META_IP_ADDRESS_HEADER = getattr(settings,
+    'IPWARE_META_IP_ADDRESS_HEADER', None
+)
+
 # Search for the real IP address in the following order
 # Configurable via settings.py
 IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
