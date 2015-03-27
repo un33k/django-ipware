@@ -4,7 +4,7 @@ from .defaults import IPWARE_META_PRECEDENCE_ORDER
 from .defaults import IPWARE_NON_PUBLIC_IP_PREFIX
 
 
-def get_ip(request, real_ip_only=False):
+def get_ip(request, real_ip_only=False, right_most_proxy=False):
     """
     Returns client's best-matched ip-address, or None
     """
@@ -13,6 +13,8 @@ def get_ip(request, real_ip_only=False):
         value = request.META.get(key, '').strip()
         if value != '':
             ips = [ip.strip().lower() for ip in value.split(',')]
+            if right_most_proxy:
+                ips = reversed(ips)
             for ip_str in ips:
                 if ip_str and is_valid_ip(ip_str):
                     if not ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
@@ -26,8 +28,8 @@ def get_ip(request, real_ip_only=False):
     return best_matched_ip
 
 
-def get_real_ip(request):
+def get_real_ip(request, right_most_proxy=False):
     """
     Returns client's best-matched `real` ip-address, or None
     """
-    return get_ip(request, real_ip_only=True)
+    return get_ip(request, real_ip_only=True, right_most_proxy=right_most_proxy)
