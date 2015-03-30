@@ -94,9 +94,9 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
                       "To avoid this warning, set IPWARE_META_IP_ADDRESS_HEADER "
                       "to a header forwarded by trusted proxies.",
                       DeprecationWarning)
-        return _get_ip_using_precedence_order(request, real_ip_only, right_most_proxy=right_most_proxy)
+        return _get_ip_using_precedence_order(request, real_ip_only, right_most_proxy)
     else:
-        return _get_ip_using_ip_address_header(request, real_ip_only, right_most_proxy=right_most_proxy)
+        return _get_ip_using_ip_address_header(request, real_ip_only, right_most_proxy)
 
 
 def get_real_ip(request, right_most_proxy=False):
