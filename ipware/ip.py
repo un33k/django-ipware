@@ -11,18 +11,20 @@ def _get_ip_from_header_value(value, real_ip_only=False, best_matched_ip=None):
     """
     Scans `value` and returns a two-tuple with an IP and a boolean to express whether or not the IP is real.
 
-    The tuple takes the form: ({IP_ADDRESS}, {IS_REAL})
+    `value` should be the header value from an HTTP header such as `X-Forwarded-For`.
+
+    The returned tuple takes the form: ({IP_ADDRESS}, {IS_REAL}).
 
     The returned IP may be `None` if no good candidate IPs are found in `value`.
 
-    If `real_ip_only` is `False`, good candidate IPs include any well-formed IP. Otherwise,
-    good candidate IPs must be external, non-loopback IPs.
+    If `real_ip_only` is `False`, good candidate IPs include any well-formed IP, including
+    internal and loopback IPs. Otherwise, good candidate IPs must be well-formed external IPs.
 
     :param value: HTTP header value that contains a chain of IP addresses
-    :param real_ip_only: when `True`, this function only returns external, non-loopback IPs
-    :param best_matched_ip: an already-discovered IP that corresponds to the request. Returned
+    :param real_ip_only: when `True`, this function only returns well-formed external IPs
+    :param best_matched_ip: an already-discovered IP for the request in question. Returned
                             in the two-tuple unless a better match is found
-    :returns: a two-tuple with the IP address and a boolean to express whether or not the IP is real
+    :return: a two-tuple with the IP address and a boolean to express whether or not the IP is real
     """
     assert value != '', "Empty value passed to function."
 
@@ -42,6 +44,12 @@ def _get_ip_from_header_value(value, real_ip_only=False, best_matched_ip=None):
 
 
 def _get_ip_using_ip_address_header(request, real_ip_only=False):
+    """ Returns best matched IP address based on the `IPWARE_META_IP_ADDRESS_HEADER` setting.
+
+    :param request: the current HTTP request
+    :param real_ip_only: when `True`, this function only returns well-formed external IPs
+    :return: the best matched client IP address for `request`, or `None` if no match is found
+    """
     value = request.META.get(IPWARE_META_IP_ADDRESS_HEADER, '').strip()
     if value != '':
         return _get_ip_from_header_value(value)[0]
@@ -50,6 +58,17 @@ def _get_ip_using_ip_address_header(request, real_ip_only=False):
 
 
 def _get_ip_using_precedence_order(request, real_ip_only=False):
+    """ Returns best matched IP address based on the `IPWARE_META_PRECEDENCE_ORDER` setting.
+
+    Iterates over each header in order. Whenever a real (well-formed, external) IP address
+    is found in a particular header, it's returned right away. Otherwise, if an internal or
+    loopback IP is found, it's stored and returned if `real_ip_only` is `True` and there are
+    no subsequent external IPs.
+
+    :param request: the current HTTP request
+    :param real_ip_only: when `True`, this function only returns well-formed external IPs
+    :return: the best matched IP client address for `request`, or `None` if no match is found
+    """
     best_matched_ip = None
     for key in IPWARE_META_PRECEDENCE_ORDER:
         value = request.META.get(key, '').strip()
@@ -68,7 +87,7 @@ def get_ip(request, real_ip_only=False):
     if not IPWARE_META_IP_ADDRESS_HEADER:
         warnings.warn("The use of header precedence ordering is deprecated. "
                       "To avoid this warning, set IPWARE_META_IP_ADDRESS_HEADER "
-                      "to a header used by trusted proxies.",
+                      "to a header forwarded by trusted proxies.",
                       DeprecationWarning)
         return _get_ip_using_precedence_order(request, real_ip_only)
     else:
@@ -76,5 +95,5 @@ def get_ip(request, real_ip_only=False):
 
 
 def get_real_ip(request):
-    """ Returns client's best-matched `real` ip-address, or None """
+    """ Returns client's best-matched real (well-formed, external) ip-address, or `None` """
     return get_ip(request, real_ip_only=True)
