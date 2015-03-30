@@ -1,3 +1,9 @@
+## 0.1.1
+
+Enhancement:
+
+  - Support for Left2Right or Right2Left Proxy IP Lookup
+
 ## 0.1.0
 
 Enhancement:

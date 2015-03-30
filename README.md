@@ -58,6 +58,15 @@ How to use
        # we have an ip address for user
     else:
        # we don't have an ip address for user
+
+    # By default the left most address in the `HTTP_X_FORWARDED_FOR` is returned. However, depending on your
+    # preference and needs, you can change this behavior by passing the `right_most_proxy=True` to the API.
+    # Please note that not all proxies are equal. So left to right or right to left is not a rule that all
+    # proxy servers follow.
+    from ipware.ip import get_ip
+    ip = get_ip(request, right_most_proxy=True)
+    # OR
+    ip = get_real_ip(request, right_most_proxy=True)
    ```
 
 Advanced users:
