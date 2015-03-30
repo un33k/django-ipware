@@ -2,6 +2,8 @@
 
 from django.http import HttpRequest
 from django.test import TestCase
+
+import ipware.ip as ipware_module
 from ipware.ip import get_real_ip, get_ip
 
 
@@ -317,3 +319,23 @@ class IPv6TestCase(TestCase):
         }
         ip = get_ip(request)
         self.assertEqual(ip, "fe80::02ba")
+
+
+class IPAddressHeaderTestCase(TestCase):
+    """IP address header test"""
+
+    def setUp(self):
+        ipware_module.IPWARE_META_IP_ADDRESS_HEADER = 'HTTP_X_REAL_IP'
+
+    def tearDown(self):
+        ipware_module.IPWARE_META_IP_ADDRESS_HEADER = None
+
+    def test_x_real_ip(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139',
+            'HTTP_X_REAL_IP': '177.139.233.132',
+            'REMOTE_ADDR': '177.139.233.133',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "177.139.233.132")
