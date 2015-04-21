@@ -135,5 +135,5 @@ Released under a ([BSD](LICENSE.md)) license.
 [build-status-image-pypi]: https://pypip.in/d/django-ipware/badge.png
 [pypi]: https://crate.io/packages/django-ipware?version=latest
 
-[build-status-image-coverage]: https://coveralls.io/repos/un33k/django-ipware/badge.svg?branch=master
-[coverage]: https://coveralls.io/r/un33k/django-ipware?branch=master
+[build-status-image-coverage]: https://coveralls.io/repos/un33k/django-ipware/badge.svg
+[coverage]: https://coveralls.io/r/un33k/django-ipware
