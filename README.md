@@ -6,6 +6,7 @@ Django IPware
 [![build-status-image-travis]][travis]
 [![build-status-image-fury]][fury]
 [![build-status-image-pypi]][pypi]
+[![build-status-image-coverage]][coverage]
 
 
 Overview
@@ -134,3 +135,5 @@ Released under a ([BSD](LICENSE.md)) license.
 [build-status-image-pypi]: https://pypip.in/d/django-ipware/badge.png
 [pypi]: https://crate.io/packages/django-ipware?version=latest
 
+[build-status-image-coverage]: https://coveralls.io/repos/un33k/django-ipware/badge.svg?branch=master
+[coverage]: https://coveralls.io/r/un33k/django-ipware?branch=master
