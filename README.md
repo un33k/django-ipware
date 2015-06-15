@@ -126,6 +126,14 @@ License
 Released under a ([BSD](LICENSE.md)) license.
 
 
+Version
+====================
+X.Y.Z Version
+
+    `MAJOR` version -- when you make incompatible API changes,
+    `MINOR` version -- when you add functionality in a backwards-compatible manner, and
+    `PATCH` version -- when you make backwards-compatible bug fixes.
+
 [build-status-image-travis]: https://secure.travis-ci.org/un33k/django-ipware.png?branch=master
 [travis]: http://travis-ci.org/un33k/django-ipware?branch=master
 
