@@ -1,3 +1,9 @@
+## 1.1.0
+
+Enhancement:
+
+  - Added support for 1.0.0.0/8 and 2.0.0.0/8 blocks
+
 ## 1.0.0
 
 Enhancement:

@@ -9,9 +9,9 @@ def is_valid_ipv4(ip_str):
     try:
         socket.inet_pton(socket.AF_INET, ip_str)
     except AttributeError:
-        try:
+        try:  # Fall-back on legacy API or False
             socket.inet_aton(ip_str)
-        except socket.error:
+        except (AttributeError, socket.error):
             return False
         return ip_str.count('.') == 3
     except socket.error:

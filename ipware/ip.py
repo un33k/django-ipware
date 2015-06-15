@@ -1,7 +1,8 @@
 
 from .utils import is_valid_ip
-from .defaults import IPWARE_META_PRECEDENCE_ORDER
-from .defaults import IPWARE_NON_PUBLIC_IP_PREFIX
+from . import defaults as defs
+
+NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in defs.IPWARE_NON_PUBLIC_IP_PREFIX])
 
 
 def get_ip(request, real_ip_only=False, right_most_proxy=False):
@@ -9,7 +10,7 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
     Returns client's best-matched ip-address, or None
     """
     best_matched_ip = None
-    for key in IPWARE_META_PRECEDENCE_ORDER:
+    for key in defs.IPWARE_META_PRECEDENCE_ORDER:
         value = request.META.get(key, '').strip()
         if value != '':
             ips = [ip.strip().lower() for ip in value.split(',')]
@@ -17,13 +18,13 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
                 ips = reversed(ips)
             for ip_str in ips:
                 if ip_str and is_valid_ip(ip_str):
-                    if not ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX):
+                    if not ip_str.startswith(NON_PUBLIC_IP_PREFIX):
                         return ip_str
-                    elif not real_ip_only:
-                        loopback = ('127.0.0.1', '::1')
+                    if not real_ip_only:
+                        loopback = defs.IPWARE_LOOPBACK_PREFIX
                         if best_matched_ip is None:
                             best_matched_ip = ip_str
-                        elif best_matched_ip in loopback and ip_str not in loopback:
+                        elif best_matched_ip.startswith(loopback) and not ip_str.startswith(loopback):
                             best_matched_ip = ip_str
     return best_matched_ip
 
