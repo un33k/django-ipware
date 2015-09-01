@@ -13,6 +13,7 @@ IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
         'HTTP_FORWARDED_FOR',
         'HTTP_FORWARDED',
         'HTTP_VIA',
+        'X_FORWARDED_FOR',  # Same as HTTP_X_FORWARDED_FOR and used by AWS etc.
         'REMOTE_ADDR',
     )
 )

@@ -1,3 +1,9 @@
+## 1.1.1
+
+Enhancement:
+
+  - Added support for X_FORWARDED_FOR
+
 ## 1.1.0
 
 Enhancement:

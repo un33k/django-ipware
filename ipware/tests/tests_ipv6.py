@@ -8,7 +8,7 @@ from ipware.ip import get_real_ip, get_ip
 class IPv6TestCase(TestCase):
     """IP address Test"""
 
-    def test_x_forwarded_for_multiple(self):
+    def test_http_x_forwarded_for_multiple(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba',
@@ -18,7 +18,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "3ffe:1900:4545:3:200:f8ff:fe21:67cf")
 
-    def test_x_forwarded_for_multiple_bad_address(self):
+    def test_http_x_forwarded_for_multiple_bad_address(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': 'unknown, ::1/128, 74dc::02ba',
@@ -28,7 +28,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
 
-    def test_x_forwarded_for_singleton(self):
+    def test_http_x_forwarded_for_singleton(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '74dc::02ba',
@@ -38,7 +38,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
 
-    def test_x_forwarded_for_singleton_private_address(self):
+    def test_http_x_forwarded_for_singleton_private_address(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '::1/128',
@@ -48,7 +48,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
 
-    def test_bad_x_forwarded_for_fallback_on_x_real_ip(self):
+    def test_bad_http_x_forwarded_for_fallback_on_x_real_ip(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': 'unknown ::1/128',
@@ -58,7 +58,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
 
-    def test_empty_x_forwarded_for_fallback_on_x_real_ip(self):
+    def test_empty_http_x_forwarded_for_fallback_on_x_real_ip(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '',
@@ -68,7 +68,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
 
-    def test_empty_x_forwarded_for_empty_x_real_ip_fallback_on_remote_addr(self):
+    def test_empty_http_x_forwarded_for_empty_x_real_ip_fallback_on_remote_addr(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '',
@@ -78,7 +78,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
 
-    def test_empty_x_forwarded_for_private_x_real_ip_fallback_on_remote_addr(self):
+    def test_empty_http_x_forwarded_for_private_x_real_ip_fallback_on_remote_addr(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '',
@@ -88,7 +88,7 @@ class IPv6TestCase(TestCase):
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
 
-    def test_private_x_forward_for_ip_addr(self):
+    def test_private_http_x_forward_for_ip_addr(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '::1/128',
@@ -159,3 +159,85 @@ class IPv6TestCase(TestCase):
         }
         ip = get_ip(request)
         self.assertEqual(ip, "fe80::02ba")
+
+    def test_x_forwarded_for_multiple(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba',
+            'REMOTE_ADDR': '74dc::02ba',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "3ffe:1900:4545:3:200:f8ff:fe21:67cf")
+
+    def test_x_forwarded_for_multiple_bad_address(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': 'unknown, ::1/128, 74dc::02ba',
+            'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "74dc::02ba")
+
+    def test_x_forwarded_for_singleton(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '74dc::02ba',
+            'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "74dc::02ba")
+
+    def test_x_forwarded_for_singleton_private_address(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '::1/128',
+            'HTTP_X_REAL_IP': '74dc::02ba',
+            'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "74dc::02ba")
+
+    def test_bad_x_forwarded_for_fallback_on_x_real_ip(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': 'unknown ::1/128',
+            'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "3ffe:1900:4545:3:200:f8ff:fe21:67cf")
+
+    def test_empty_x_forwarded_for_fallback_on_x_real_ip(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '',
+            'REMOTE_ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "3ffe:1900:4545:3:200:f8ff:fe21:67cf")
+
+    def test_empty_x_forwarded_for_empty_x_real_ip_fallback_on_remote_addr(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '',
+            'REMOTE_ADDR': '74dc::02ba',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "74dc::02ba")
+
+    def test_empty_x_forwarded_for_private_x_real_ip_fallback_on_remote_addr(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '',
+            'REMOTE_ADDR': '74dc::02ba',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "74dc::02ba")
+
+    def test_private_x_forward_for_ip_addr(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '::1/128',
+            'REMOTE_ADDR': '',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, None)

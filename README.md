@@ -86,6 +86,7 @@ Advanced users:
         'HTTP_FORWARDED_FOR',
         'HTTP_FORWARDED',
         'HTTP_VIA',
+        'X_FORWARDED_FOR', # client, proxy1, proxy2 - used by AWS etc.
         'REMOTE_ADDR',
     )
 
