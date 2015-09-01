@@ -3,10 +3,10 @@ Django IPware
 
 **A Django application to retrieve user's IP address**
 
-[![build-status-image-travis]][travis]
-[![build-status-image-fury]][fury]
-[![build-status-image-pypi]][pypi]
-[![build-status-image-coverage]][coverage]
+[![status-image]][status-link]
+[![version-image]][version-link]
+[![coverage-image]][coverage-link]
+[![download-image]][download-link]
 
 
 Overview
@@ -127,14 +127,22 @@ License
 Released under a ([BSD](LICENSE.md)) license.
 
 
-[build-status-image-travis]: https://secure.travis-ci.org/un33k/django-ipware.png?branch=master
-[travis]: http://travis-ci.org/un33k/django-ipware?branch=master
+Version
+====================
+X.Y.Z Version
 
-[build-status-image-fury]: https://badge.fury.io/py/django-ipware.png
-[fury]: http://badge.fury.io/py/django-ipware
+    `MAJOR` version -- when you make incompatible API changes,
+    `MINOR` version -- when you add functionality in a backwards-compatible manner, and
+    `PATCH` version -- when you make backwards-compatible bug fixes.
 
-[build-status-image-pypi]: https://pypip.in/d/django-ipware/badge.png
-[pypi]: https://crate.io/packages/django-ipware?version=latest
+[status-image]: https://secure.travis-ci.org/un33k/django-ipware.png?branch=master
+[status-link]: http://travis-ci.org/un33k/django-ipware?branch=master
 
-[build-status-image-coverage]: https://coveralls.io/repos/un33k/django-ipware/badge.svg
-[coverage]: https://coveralls.io/r/un33k/django-ipware
+[version-image]: https://img.shields.io/pypi/v/django-ipware.svg
+[version-link]: https://pypi.python.org/pypi/django-ipware
+
+[coverage-image]: https://coveralls.io/repos/un33k/django-ipware/badge.svg
+[coverage-link]: https://coveralls.io/r/un33k/django-ipware
+
+[download-image]: https://img.shields.io/pypi/dm/django-ipware.svg
+[download-link]: https://pypi.python.org/pypi/django-ipware
