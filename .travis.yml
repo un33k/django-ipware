@@ -9,9 +9,9 @@ python:
   - pypy
 
 env:
-  - DJANGO="django==1.8.2"
-  - DJANGO="django==1.7.8"
-  - DJANGO="django==1.4.20"
+  - DJANGO="django==1.8.4"
+  - DJANGO="django==1.7.10"
+  - DJANGO="django==1.4.22"
 
 install:
   - pip install $DJANGO
@@ -28,15 +28,15 @@ before_script:
 matrix:
   exclude:
    - python: "3.4"
-     env: DJANGO="django==1.4.20"
+     env: DJANGO="django==1.4.22"
    - python: "3.3"
-     env: DJANGO="django==1.4.20"
+     env: DJANGO="django==1.4.22"
    - python: "3.2"
-     env: DJANGO="django==1.4.20"
+     env: DJANGO="django==1.4.22"
    - python: "2.6"
-     env: DJANGO="django==1.7.8"
+     env: DJANGO="django==1.7.10"
    - python: "2.6"
-     env: DJANGO="django==1.8.2"
+     env: DJANGO="django==1.8.4"
 
 script: coverage run --source=ipware manage.py test
 
