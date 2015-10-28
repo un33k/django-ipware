@@ -14,6 +14,11 @@ Overview
 
 **Best attempt** to get user's (client's) real ip-address while keeping it **DRY**.
 
+Notice
+====================
+
+Please note that there is no good solution against fake IP addresses, aka `IP Address Spoofing`.
+
 How to install
 ====================
 
