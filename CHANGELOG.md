@@ -1,3 +1,10 @@
+## 1.1.2
+
+Updates:
+
+  - Added support for Django 1.8.6 and Python 3.5.
+  - Dropped support for Django 1.4.x and Python 2.6 and 3.2
+
 ## 1.1.1
 
 Enhancement:

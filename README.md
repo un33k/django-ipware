@@ -17,7 +17,9 @@ Overview
 Notice
 ====================
 
-Please note that there is no good solution against fake IP addresses, aka `IP Address Spoofing`.
+There is no good solution against fake IP addresses, aka `IP Address Spoofing`.
+You are encouraged to read the `Advanced users` section and set the `IPWARE_META_PRECEDENCE_LIST`
+to match your needs `if` you are planning to pull this module in any `security` related architecture.
 
 How to install
 ====================
