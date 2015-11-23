@@ -12,7 +12,7 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
     best_matched_ip = None
     for key in defs.IPWARE_META_PRECEDENCE_ORDER:
         value = request.META.get(key, '').strip()
-        if value != '':
+        if value is not None and value != '':
             ips = [ip.strip().lower() for ip in value.split(',')]
             if right_most_proxy:
                 ips = reversed(ips)

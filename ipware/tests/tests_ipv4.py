@@ -8,6 +8,13 @@ from ipware.ip import get_real_ip, get_ip
 class IPv4TestCase(TestCase):
     """IP address Test"""
 
+    def test_meta_none(self):
+        request = HttpRequest()
+        request.META = {
+        }
+        ip = get_real_ip(request)
+        self.assertIsNone(ip)
+
     def test_http_x_forwarded_for_multiple(self):
         request = HttpRequest()
         request.META = {
