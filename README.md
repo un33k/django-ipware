@@ -84,7 +84,7 @@ Advanced users:
     # you can provide your own meta precedence order by
     # including IPWARE_META_PRECEDENCE_ORDER in your
     # settings.py. The check is done from top to bottom
-    IPWARE_META_PRECEDENCE_LIST = (
+    IPWARE_META_PRECEDENCE_ORDER = (
         'HTTP_X_FORWARDED_FOR', # client, proxy1, proxy2
         'HTTP_CLIENT_IP',
         'HTTP_X_REAL_IP',
