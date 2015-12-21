@@ -18,8 +18,8 @@ Notice
 ====================
 
 There is no good solution against fake IP addresses, aka `IP Address Spoofing`.
-You are encouraged to read the `Advanced users` section and set the `IPWARE_META_PRECEDENCE_LIST`
-to match your needs `if` you are planning to pull this module in any `security` related architecture.
+You are encouraged to read the `([Advanced users](README.md#advanced-users))` section and set the `IPWARE_META_PRECEDENCE_ORDER`
+to match your needs `if` you are planning to include this module in any `security` related architecture.
 
 How to install
 ====================
