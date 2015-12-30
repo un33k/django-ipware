@@ -1,3 +1,9 @@
+## 1.1.3
+
+Fix:
+
+  - Fix read me file updating `IPWARE_META_PRECEDENCE_ORDER` reference.
+
 ## 1.1.2
 
 Updates:
