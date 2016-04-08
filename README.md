@@ -85,7 +85,7 @@ Advanced users:
     # including IPWARE_META_PRECEDENCE_ORDER in your
     # settings.py. The check is done from top to bottom
     IPWARE_META_PRECEDENCE_ORDER = (
-        'HTTP_X_FORWARDED_FOR', # client, proxy1, proxy2
+        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # client, proxy1, proxy2
         'HTTP_CLIENT_IP',
         'HTTP_X_REAL_IP',
         'HTTP_X_FORWARDED',
@@ -93,7 +93,6 @@ Advanced users:
         'HTTP_FORWARDED_FOR',
         'HTTP_FORWARDED',
         'HTTP_VIA',
-        'X_FORWARDED_FOR', # client, proxy1, proxy2 - used by AWS etc.
         'REMOTE_ADDR',
     )
 

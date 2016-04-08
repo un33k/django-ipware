@@ -1,3 +1,11 @@
+## 1.1.4
+
+Enhancement:
+
+  - Added support for proxies with `underscores_in_headers off;`
+  - Handling hyphen as delimiter - ex: `X-FORWARDED-FOR` instead of `X_FORWARDED_FOR`
+  - Up version Django version in .travis.yml
+
 ## 1.1.3
 
 Fix:

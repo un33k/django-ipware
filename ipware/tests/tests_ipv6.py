@@ -241,3 +241,12 @@ class IPv6TestCase(TestCase):
         }
         ip = get_real_ip(request)
         self.assertEqual(ip, None)
+
+    def test_x_forwarded_for_singleton_hyphen_as_delimiter(self):
+        request = HttpRequest()
+        request.META = {
+            'X-FORWARDED-FOR': '74dc::02ba',
+            'REMOTE-ADDR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
+        }
+        ip = get_real_ip(request)
+        self.assertEqual(ip, "74dc::02ba")

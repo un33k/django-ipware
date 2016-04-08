@@ -5,7 +5,7 @@ from django.conf import settings
 # Configurable via settings.py
 IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
     'IPWARE_META_PRECEDENCE_ORDER', (
-        'HTTP_X_FORWARDED_FOR',  # (client, proxy1, proxy2) OR (proxy2, proxy1, client)
+        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # (client, proxy1, proxy2) OR (proxy2, proxy1, client)
         'HTTP_CLIENT_IP',
         'HTTP_X_REAL_IP',
         'HTTP_X_FORWARDED',
@@ -13,7 +13,6 @@ IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
         'HTTP_FORWARDED_FOR',
         'HTTP_FORWARDED',
         'HTTP_VIA',
-        'X_FORWARDED_FOR',  # Same as HTTP_X_FORWARDED_FOR and used by AWS etc.
         'REMOTE_ADDR',
     )
 )
