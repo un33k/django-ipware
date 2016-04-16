@@ -1,6 +1,9 @@
 from django.conf import settings
 
 
+# List of known proxy server(s)
+IPWARE_TRUSTED_PROXY_LIST = getattr(settings, 'IPWARE_TRUSTED_PROXY_LIST', [])
+
 # Search for the real IP address in the following order
 # Configurable via settings.py
 IPWARE_META_PRECEDENCE_ORDER = getattr(settings,

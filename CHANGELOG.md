@@ -1,3 +1,8 @@
+## 1.1.5
+
+Feature:
+  - Added support for trusted proxy configuration
+
 ## 1.1.4
 
 Enhancement:
@@ -6,11 +11,13 @@ Enhancement:
   - Handling hyphen as delimiter - ex: `X-FORWARDED-FOR` instead of `X_FORWARDED_FOR`
   - Up version Django version in .travis.yml
 
+
 ## 1.1.3
 
 Fix:
 
   - Fix read me file updating `IPWARE_META_PRECEDENCE_ORDER` reference.
+
 
 ## 1.1.2
 
@@ -19,11 +26,13 @@ Updates:
   - Added support for Django 1.8.6 and Python 3.5.
   - Dropped support for Django 1.4.x and Python 2.6 and 3.2
 
+
 ## 1.1.1
 
 Enhancement:
 
   - Added support for X_FORWARDED_FOR
+
 
 ## 1.1.0
 
@@ -31,17 +40,20 @@ Enhancement:
 
   - Added support for 1.0.0.0/8 and 2.0.0.0/8 blocks
 
+
 ## 1.0.0
 
 Enhancement:
 
   - Promoting to production grade
 
+
 ## 0.1.1
 
 Enhancement:
 
   - Support for Left2Right or Right2Left Proxy IP Lookup
+
 
 ## 0.1.0
 
@@ -50,12 +62,14 @@ Enhancement:
   - pypy support
   - PY3.4 support
 
+
 ## 0.0.9
 
 Enhancement:
 
   - Django 1.7 official support
   - First non-loopback private IP match is best matched now.
+
 
 ## 0.0.8
 
@@ -64,6 +78,7 @@ Enhancement:
   - Django 1.7 support
   - PEP8 Compliance
   - Bump Alpha to Beta
+
 
 ## 0.0.6
 

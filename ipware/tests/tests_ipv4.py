@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
 from django.http import HttpRequest
 from django.test import TestCase
-from ipware.ip import get_real_ip, get_ip
+from ipware.ip import get_ip
+from ipware.ip import get_real_ip
+from ipware.ip import get_trusted_ip
 
 
 class IPv4TestCase(TestCase):
@@ -303,3 +306,87 @@ class IPv4TestCase(TestCase):
         }
         ip = get_real_ip(request)
         self.assertEqual(ip, "177.139.233.139")
+
+
+class IPv4TrustedProxiesTestCase(TestCase):
+    """Trusted Proxies - IP address Test"""
+
+    def test_meta_none(self):
+        request = HttpRequest()
+        request.META = {
+        }
+        ip = get_trusted_ip(request)
+        self.assertIsNone(ip)
+
+    def test_http_x_forwarded_for_conf_settings(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.100',
+        }
+        ip = get_trusted_ip(request)
+        self.assertEqual(ip, "198.84.193.157")
+
+    def test_http_x_forwarded_for_no_proxy(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=[])
+        self.assertIsNone(ip)
+
+    def test_http_x_forwarded_for_single_proxy(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['177.139.233.139'])
+        self.assertEqual(ip, "198.84.193.157")
+
+    def test_http_x_forwarded_for_multi_proxy(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['177.139.233.138', '177.139.233.139'])
+        self.assertEqual(ip, "198.84.193.157")
+
+    def test_http_x_forwarded_for_all_proxies_in_subnet(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['177.139.233'])
+        self.assertEqual(ip, "198.84.193.157")
+
+    def test_http_x_forwarded_for_all_proxies_in_subnet_2(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['177.139'])
+        self.assertEqual(ip, "198.84.193.157")
+
+    def test_x_forwarded_for_single_proxy(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['177.139.233.139'])
+        self.assertEqual(ip, "198.84.193.157")
+
+    def test_x_forwarded_for_single_proxy_hyphens(self):
+        request = HttpRequest()
+        request.META = {
+            'X-FORWARDED-FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['177.139.233.139'])
+        self.assertEqual(ip, "198.84.193.157")
+
+    def test_http_x_forwarded_for_and_x_forward_for_single_proxy(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '198.84.193.156, 177.139.200.139, 177.139.233.139',
+            'X_FORWARDED_FOR': '198.84.193.157, 177.139.200.139, 177.139.233.139',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['177.139.233.139'])
+        self.assertEqual(ip, "198.84.193.156")
