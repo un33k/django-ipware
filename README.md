@@ -18,9 +18,10 @@ Overview
 Notice
 ====================
 
-There is no good solution against fake IP addresses, aka `IP Address Spoofing`.
-You are encouraged to read the ([Advanced users](README.md#advanced-users)) section and set `IPWARE_TRUSTED_PROXY_LIST`
-to match your needs `if` you are planning to include this module in any `security` related architecture.
+There is no good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
+You are encouraged to read the ([Advanced users](README.md#advanced-users)) section of this page and
+set `IPWARE_TRUSTED_PROXY_LIST` to match your needs `if` you are planning to include `ipware` in any
+authentication, security or `anti-fraud` related architecture.
 
 
 How to install
