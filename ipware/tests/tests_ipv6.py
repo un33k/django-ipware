@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from django.conf import settings
 from django.http import HttpRequest
 from django.test import TestCase
-from ipware.ip import get_real_ip, get_ip
+from django.test import override_settings
+from ipware.ip import get_ip
+from ipware.ip import get_real_ip
+from ipware.ip import get_trusted_ip
 
 
 class IPv6TestCase(TestCase):
@@ -250,3 +254,23 @@ class IPv6TestCase(TestCase):
         }
         ip = get_real_ip(request)
         self.assertEqual(ip, "74dc::02ba")
+
+
+class IPv6TrustedProxiesTestCase(TestCase):
+    """Trusted Proxies - IP address Test"""
+
+    def test_http_x_forwarded_for_no_proxy(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=[])
+        self.assertIsNone(ip)
+
+    def test_http_x_forwarded_for_single_proxy(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba',
+        }
+        ip = get_trusted_ip(request, trusted_proxies=['74dc::02ba'])
+        self.assertEqual(ip, "3ffe:1900:4545:3:200:f8ff:fe21:67cf")

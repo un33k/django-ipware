@@ -14,12 +14,15 @@ Overview
 
 **Best attempt** to get user's (client's) real ip-address while keeping it **DRY**.
 
+
 Notice
 ====================
 
-There is no good solution against fake IP addresses, aka `IP Address Spoofing`.
-You are encouraged to read the ([Advanced users](README.md#advanced-users)) section and set the `IPWARE_META_PRECEDENCE_ORDER`
-to match your needs `if` you are planning to include this module in any `security` related architecture.
+There is no good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
+You are encouraged to read the ([Advanced users](README.md#advanced-users)) section of this page and
+set `IPWARE_TRUSTED_PROXY_LIST` to match your needs `if` you are planning to include `ipware` in any
+authentication, security or `anti-fraud` related architecture.
+
 
 How to install
 ====================
@@ -41,10 +44,9 @@ How to use
    ```python
     # If your web server is publicly accessible on the Internet
     # =========================================================
-    # To get the `real`, `public` IP address of the client.
+    # To get the `real` IP address of the client.
     # Where:
-    #    `Real IP` = Client's IP and not that of any `in-between` proxies.
-    #    `Public IP` = Any IP address that is route-able on the Internet
+    #    `Real IP` = an IP address that is route-able on the Internet
 
     from ipware.ip import get_real_ip
     ip = get_real_ip(request)
@@ -77,12 +79,13 @@ How to use
     ip = get_real_ip(request, right_most_proxy=True)
    ```
 
+
 Advanced users:
 ====================
 
    ```python
     # you can provide your own meta precedence order by
-    # including IPWARE_META_PRECEDENCE_ORDER in your
+    # including IPWARE_META_PRECEDENCE_ORDER in your project's
     # settings.py. The check is done from top to bottom
     IPWARE_META_PRECEDENCE_ORDER = (
         'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # client, proxy1, proxy2
@@ -97,7 +100,7 @@ Advanced users:
     )
 
     # you can provide your own private IP prefixes by
-    # including IPWARE_PRIVATE_IP_PREFIX in your setting.py
+    # including IPWARE_PRIVATE_IP_PREFIX in your project's setting.py
     # IPs that start with items listed below are ignored
     # and are not considered a `real` IP address
     'IPWARE_PRIVATE_IP_PREFIX', (
@@ -117,7 +120,17 @@ Advanced users:
         'fe80:',  # link-local unicast
         'ff00:',  # IPv6 multicast
     )
+
+    # if you plan to use `ipware` in any authentication, security or `anti-fraud` related
+    # architecture, you should configure it to only `trust` one or more `known` proxy server(s)).
+    # simply include `IPWARE_TRUSTED_PROXY_LIST` in your project's settings.py
+    IPWARE_TRUSTED_PROXY_LIST = ['23.91.45.15', '23.91.45.16']  # exact proxies
+    # -- OR --
+    IPWARE_TRUSTED_PROXY_LIST = ['23.91.45'] # any proxy within a specific subnet
+    # alternatively, you may pass the `trusted` proxy list on demand on each call
+    # example:  ip = get_trusted_ip(request, trusted_proxies=['23.91.45.15'])
    ```
+
 
 Running the tests
 ====================
