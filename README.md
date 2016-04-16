@@ -126,7 +126,7 @@ Advanced users:
     # simply include `IPWARE_TRUSTED_PROXY_LIST` in your project's settings.py
     IPWARE_TRUSTED_PROXY_LIST = ['23.91.45.15', '23.91.45.16']  # exact proxies
     # -- OR --
-    IPWARE_TRUSTED_PROXY_LIST = ['23.91.45'] # any proxy within specific subnet
+    IPWARE_TRUSTED_PROXY_LIST = ['23.91.45'] # any proxy within a specific subnet
     # alternatively, you may pass the `trusted` proxy list on demand on each call
     # example:  ip = get_trusted_ip(request, trusted_proxies=['23.91.45.15'])
    ```
