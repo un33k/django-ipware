@@ -124,8 +124,9 @@ Advanced users:
     # if you plan to use `ipware` in any authentication, security or `anti-fraud` related
     # architecture, you should configure it to only `trust` one or more `known` proxy server(s)).
     # simply include `IPWARE_TRUSTED_PROXY_LIST` in your project's settings.py
-    # IPWARE_TRUSTED_PROXY_LIST = ('23.91.45.15', '23.91.45.16')  # exact proxies
-    # IPWARE_TRUSTED_PROXY_LIST = ('23.91.45')                    # any proxy within specific subnet
+    IPWARE_TRUSTED_PROXY_LIST = ('23.91.45.15', '23.91.45.16')  # exact proxies
+    # -- OR --
+    IPWARE_TRUSTED_PROXY_LIST = ('23.91.45') # any proxy within specific subnet
     # alternatively, you may pass the `trusted` proxy list on demand on each call
     # example:  ip = get_trusted_ip(request, trusted_proxies=('23.91.45.15',))
    ```
