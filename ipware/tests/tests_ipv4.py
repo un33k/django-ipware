@@ -342,6 +342,14 @@ class IPv4TrustedProxiesTestCase(TestCase):
         ip = get_trusted_ip(request, trusted_proxies=['177.139.233.139'])
         self.assertEqual(ip, "198.84.193.157")
 
+    def test_http_x_forwarded_for_single_proxy_with_right_most(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 177.139.200.139, 198.84.193.157',
+        }
+        ip = get_trusted_ip(request, right_most_proxy=True, trusted_proxies=['177.139.233.139'])
+        self.assertEqual(ip, "198.84.193.157")
+
     def test_http_x_forwarded_for_multi_proxy(self):
         request = HttpRequest()
         request.META = {

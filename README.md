@@ -6,8 +6,6 @@ Django IPware
 [![status-image]][status-link]
 [![version-image]][version-link]
 [![coverage-image]][coverage-link]
-[![download-image]][download-link]
-
 
 Overview
 ====================
@@ -103,7 +101,7 @@ Advanced users:
     # including IPWARE_PRIVATE_IP_PREFIX in your project's setting.py
     # IPs that start with items listed below are ignored
     # and are not considered a `real` IP address
-    'IPWARE_PRIVATE_IP_PREFIX', (
+    IPWARE_PRIVATE_IP_PREFIX = (
         '0.',  # externally non-routable
         '10.',  # class A private block
         '169.254.',  # link-local block

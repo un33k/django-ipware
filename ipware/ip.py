@@ -46,10 +46,9 @@ def get_trusted_ip(request, right_most_proxy=False, trusted_proxies=TRUSTED_PROX
             value = request.META.get(key, request.META.get(key.replace('_', '-'), '')).strip()
             if value:
                 ips = [ip.strip().lower() for ip in value.split(',')]
-                count = len(ips)
-                if right_most_proxy and count > 1:
-                    ips = reversed(ips)
-                if count > 1:
+                if len(ips) > 1:
+                    if right_most_proxy:
+                        ips.reverse()
                     for proxy in trusted_proxies:
                         if proxy in ips[-1]:
                             return ips[0]
