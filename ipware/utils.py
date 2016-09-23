@@ -8,7 +8,7 @@ def is_valid_ipv4(ip_str):
     """
     try:
         socket.inet_pton(socket.AF_INET, ip_str)
-    except AttributeError:
+    except AttributeError:  # pragma: no cover
         try:  # Fall-back on legacy API or False
             socket.inet_aton(ip_str)
         except (AttributeError, socket.error):
