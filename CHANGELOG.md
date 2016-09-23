@@ -1,3 +1,9 @@
+## 1.1.6
+
+Fix:
+  - Fix trusted proxies Right2Left + Test & Bumped Django versions (@felixxm)
+  - Changed licensing to MIT
+
 ## 1.1.5
 
 Feature:
