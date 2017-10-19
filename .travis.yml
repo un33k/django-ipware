@@ -2,17 +2,16 @@ sudo: false
 language: python
 
 python:
-  - "3.6"
   - "3.5"
   - "3.4"
+  - "3.3"
   - "2.7"
   - pypy
 
 env:
-  - DJANGO="django==2.0b1"
-  - DJANGO="django>=1.11,<2.0"
-  - DJANGO="django>=1.10,<1.11"
-  - DJANGO="django>=1.8,<1.9"
+  - DJANGO="django==1.10.2"
+  - DJANGO="django==1.9.10"
+  - DJANGO="django==1.8.15"
 
 install:
   - pip install $DJANGO
@@ -27,16 +26,13 @@ before_script:
 
 matrix:
   exclude:
-   - python: "3.6"
-     env: DJANGO="django>=1.8,<1.9"
-   - python: "3.6"
-     env: DJANGO="django>=1.10,<1.11"
-   - python: "2.7"
-     env: DJANGO="django==2.0b1"
-  allow_failures:
-   - env: DJANGO="django==2.0b1"
+   - python: "3.3"
+     env: DJANGO="django==1.9.10"
+   - python: "3.3"
+     env: DJANGO="django==1.10.2"
 
 script: coverage run --source=ipware manage.py test
 
 after_success:
   coveralls
+
