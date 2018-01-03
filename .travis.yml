@@ -7,10 +7,11 @@ python:
   - "3.5"
   - "3.4"
   - "2.7"
-  - pypy
+  - "pypy"
+  - "pypy3"
 
 env:
-  - DJANGO="django>=2.0.0,<3.0.0"
+  - DJANGO="django==2.0.1"
   - DJANGO="django==1.11.9"
   - DJANGO="django==1.8.18"
 
@@ -28,7 +29,9 @@ before_script:
 matrix:
   exclude:
    - python: "2.7"
-     env: DJANGO="django>=2.0.0,<3.0.0"
+     env: DJANGO="django==2.0.1"
+   - python: "pypy"
+     env: DJANGO="django==2.0.1"
 
 script: coverage run --source=ipware manage.py test
 
