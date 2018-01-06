@@ -29,11 +29,11 @@ How to install
     2. pip install django-ipware
     3. git clone http://github.com/un33k/django-ipware
         a. cd django-ipware
-        b. run python setup.py
+        b. run python setup.py install
     4. wget https://github.com/un33k/django-ipware/zipball/master
         a. unzip the downloaded file
         b. cd into django-ipware-* directory
-        c. run python setup.py
+        c. run python setup.py install
 
 
 How to use
