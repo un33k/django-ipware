@@ -2,20 +2,21 @@ sudo: false
 language: python
 
 python:
+  - "3.7-dev"
+  - "3.6"
   - "3.5"
   - "3.4"
-  - "3.3"
   - "2.7"
-  - pypy
+  - "pypy"
+  - "pypy3"
 
 env:
-  - DJANGO="django==1.10.1"
-  - DJANGO="django==1.9.9"
-  - DJANGO="django==1.8.14"
+  - DJANGO="django==2.0.1"
+  - DJANGO="django==1.11.9"
+  - DJANGO="django==1.8.18"
 
 install:
   - pip install $DJANGO
-  - pip install -r requirements.txt
   - pip install -e .
   - pip install pep8
   - pip install https://github.com/un33k/pyflakes/tarball/master
@@ -27,10 +28,10 @@ before_script:
 
 matrix:
   exclude:
-   - python: "3.3"
-     env: DJANGO="django==1.9.9"
-   - python: "3.3"
-     env: DJANGO="django==1.10.1"
+   - python: "2.7"
+     env: DJANGO="django==2.0.1"
+   - python: "pypy"
+     env: DJANGO="django==2.0.1"
 
 script: coverage run --source=ipware manage.py test
 
