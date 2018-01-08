@@ -167,10 +167,10 @@ class IPv4TestCase(TestCase):
         request = HttpRequest()
         request.META = {
             'HTTP_X_REAL_IP': '127.0.0.1',
-            'REMOTE_ADDR': '172.31.233.133',
+            'REMOTE_ADDR': '177.31.233.133',
         }
         ip = get_ip(request)
-        self.assertEqual(ip, "172.31.233.133")
+        self.assertEqual(ip, "177.31.233.133")
 
     def test_best_matched_private_ip(self):
         request = HttpRequest()
