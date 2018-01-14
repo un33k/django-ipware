@@ -3,10 +3,6 @@ import socket
 from . import defaults as defs
 
 
-NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in defs.IPWARE_NON_PUBLIC_IP_PREFIX])
-TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in defs.IPWARE_TRUSTED_PROXY_LIST])
-
-
 def is_valid_ipv4(ip_str):
     """
     Check the validity of an IPv4 address
@@ -46,24 +42,21 @@ def is_private_ip(ip_str):
     """
     Returns true of ip_str is private & not routable, else return false
     """
-    ip = ip_str.strip().lower()
-    return ip.startswith(NON_PUBLIC_IP_PREFIX)
+    return ip_str.startswith(defs.IPWARE_NON_PUBLIC_IP_PREFIX)
 
 
 def is_public_ip(ip_str):
     """
     Returns true of ip_str is public & routable, else return false
     """
-    ip = ip_str.strip().lower()
-    return not ip.startswith(NON_PUBLIC_IP_PREFIX)
+    return not is_private_ip(ip_str)
 
 
-def is_loopback(ip_str):
+def is_loopback_ip(ip_str):
     """
     Returns true of ip_str is public & routable, else return false
     """
-    ip = ip_str.strip()
-    return ip in defs.IPWARE_LOOPBACK_PREFIX
+    return ip_str.startswith(defs.IPWARE_LOOPBACK_PREFIX)
 
 
 def get_request_meta(request, key):
@@ -76,17 +69,28 @@ def get_request_meta(request, key):
     return value
 
 
-def get_ip_info_from_string(ip_str):
+def get_ips_from_string(ip_str):
     """
-    Given a string, it returns one or more `,` separated IP addresses
+    Given a string, it returns a list of one or more valid IP addresses
     """
-    ip_list = [ip.strip().lower() for ip in ip_str.split(',')]
-    return ip_list, len(ip_list)
+    ip_list = []
+
+    for ip in ip_str.split(','):
+        clean_ip = ip.strip().lower()
+        if clean_ip:
+            ip_list.append(clean_ip)
+
+    ip_count = len(ip_list)
+    if ip_count > 0:
+        if is_valid_ip(ip_list[0]) and is_valid_ip(ip_list[-1]):
+            return ip_list, len(ip_list)
+
+    return [], 0
 
 
-def validate_ip(ip_str):
+def get_ip_info(ip_str):
     """
-    Validates IP address and returns IP & whether IP is routable
+    Given a string, it returns a tuple of (IP, Routable).
     """
     ip = None
     is_routable_ip = False
@@ -94,3 +98,18 @@ def validate_ip(ip_str):
         ip = ip_str
         is_routable_ip = is_public_ip(ip)
     return ip, is_routable_ip
+
+
+def get_best_ip(last_ip, next_ip):
+    """
+    Given two IP addresses, it returns the the best match ip.
+    Precedence order is (None -> loopback -> private -> public)
+    Right-most IP is returned
+    """
+    if last_ip is None:
+        return next_ip
+    if is_public_ip(last_ip) and not is_public_ip(next_ip):
+        return last_ip
+    if is_private_ip(last_ip) and is_loopback_ip(next_ip):
+        return last_ip
+    return next_ip

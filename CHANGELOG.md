@@ -1,10 +1,3 @@
-## 1.2.0
-
-Fix:
-  - Update Django versions (@illagrenan)
-  - Update Readme (@sabueso)
-  - Added unofficial ip2 version
-
 ## 1.1.6
 
 Fix:

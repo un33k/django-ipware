@@ -1,7 +1,7 @@
 Django IPware
 ====================
 
-**A Django application to retrieve user's IP address**
+**A Django application to retrieve client's IP address**
 
 [![status-image]][status-link]
 [![version-image]][version-link]
@@ -10,16 +10,15 @@ Django IPware
 Overview
 ====================
 
-**Best attempt** to get user's (client's) real ip-address while keeping it **DRY**.
-
+**Best attempt** to get client's IP address while keeping it **DRY**.
 
 Notice
 ====================
 
 There is no good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
 You are encouraged to read the ([Advanced users](README.md#advanced-users)) section of this page and
-set `IPWARE_TRUSTED_PROXY_LIST` to match your needs `if` you are planning to include `ipware` in any
-authentication, security or `anti-fraud` related architecture.
+use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially `if` you are
+planning to include `ipware` in any authentication, security or `anti-fraud` related architecture.
 
 
 How to install
@@ -40,53 +39,34 @@ How to use
 ====================
 
    ```python
-    # If your web server is publicly accessible on the Internet
-    # =========================================================
-    # To get the `real` IP address of the client.
-    # Where:
-    #    `Real IP` = an IP address that is route-able on the Internet
+    # In a view or a middleware where the `request` object is available
 
-    from ipware.ip import get_real_ip
-    ip = get_real_ip(request)
-    if ip is not None:
-       # we have a real, public ip address for user
+    from ipware import get_client_ip
+    client_ip, is_routable = get_client_ip(request)
+    if client_ip is None:
+       # Unable to get the client's IP address
     else:
-       # we don't have a real, public ip address for user
+        # We got the client's IP address
+        if is_routable:
+            # The client's IP address is publicly routable on the Internet
+        else:
+            # The client's IP address is private
 
-
-    # If your web server is NOT publicly accessible on the Internet
-    # =============================================================
-    # To get the `best matched` IP address of the client.
-    # Where:
-    #    `Best Matched IP` = The first matched public IP if found, else the first matched non-public IP.
-
-    from ipware.ip import get_ip
-    ip = get_ip(request)
-    if ip is not None:
-       # we have an ip address for user
-    else:
-       # we don't have an ip address for user
-
-    # By default the left most address in the `HTTP_X_FORWARDED_FOR` is returned. However, depending on your
-    # preference and needs, you can change this behavior by passing the `right_most_proxy=True` to the API.
-    # Please note that not all proxies are equal. So left to right or right to left is not a rule that all
-    # proxy servers follow.
-    from ipware.ip import get_ip
-    ip = get_ip(request, right_most_proxy=True)
-    # OR
-    ip = get_real_ip(request, right_most_proxy=True)
+    # Order of precedence is (Public, Private, Loopback, None)
    ```
 
 
 Advanced users:
 ====================
 
+- ### Precedence Order
+The default meta precedence order is top to bottom.  However, you may customize the order
+by providing your own `IPWARE_META_PRECEDENCE_ORDER` by adding it to your project's settings.py
+
    ```python
-    # you can provide your own meta precedence order by
-    # including IPWARE_META_PRECEDENCE_ORDER in your project's
-    # settings.py. The check is done from top to bottom
+    # The default meta precedence order
     IPWARE_META_PRECEDENCE_ORDER = (
-        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # client, proxy1, proxy2
+        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # <client>, <proxy1>, <proxy2
         'HTTP_CLIENT_IP',
         'HTTP_X_REAL_IP',
         'HTTP_X_FORWARDED',
@@ -96,11 +76,17 @@ Advanced users:
         'HTTP_VIA',
         'REMOTE_ADDR',
     )
+   ```
 
-    # you can provide your own private IP prefixes by
-    # including IPWARE_PRIVATE_IP_PREFIX in your project's setting.py
-    # IPs that start with items listed below are ignored
-    # and are not considered a `real` IP address
+
+- ### Private Prefixes
+
+You may customize the prefixes to indicate an IP addresses private. This is done by adding your
+own `IPWARE_PRIVATE_IP_PREFIX` to your project's settings.py.  IP addresses matching the following
+prefixes are considered `private` & are **not** publicly routable.
+
+   ```python
+   # The default private IP prefixes
     IPWARE_PRIVATE_IP_PREFIX = (
         '0.',  # externally non-routable
         '10.',  # class A private block
@@ -118,17 +104,62 @@ Advanced users:
         'fe80:',  # link-local unicast
         'ff00:',  # IPv6 multicast
     )
-
-    # if you plan to use `ipware` in any authentication, security or `anti-fraud` related
-    # architecture, you should configure it to only `trust` one or more `known` proxy server(s)).
-    # simply include `IPWARE_TRUSTED_PROXY_LIST` in your project's settings.py
-    IPWARE_TRUSTED_PROXY_LIST = ['23.91.45.15', '23.91.45.16']  # exact proxies
-    # -- OR --
-    IPWARE_TRUSTED_PROXY_LIST = ['23.91.45'] # any proxy within a specific subnet
-    # alternatively, you may pass the `trusted` proxy list on demand on each call
-    # example:  ip = get_trusted_ip(request, trusted_proxies=['23.91.45.15'])
    ```
 
+- ### Trusted Proxies
+
+If your Django server is behind one or more known proxy server(s), you can filter out unwanted requests
+by providing the `trusted` proxy list when calling `get_client_ip(request, proxy_trusted_ips=['177.139.233.133'])`.
+In the following example, your load balancer (LB) can be seen as a `trusted` proxy.
+
+   ```
+    `Real` Client  <public> <---> <public> LB (Server) <private> <--------> <private> Django Server
+                                                                      ^
+                                                                      |
+    `Fake` Client  <private> <---> <private> LB (Server) <private> ---^
+   ```
+
+
+   ```python
+   # In the above scenario, use your load balancer's IP address as a way to filter out unwanted requests.
+   client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.233.133'])
+
+   # If you have multiple proxies, simply add them to the list
+   client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.233.133', '177.139.233.134'])
+
+   # For proxy servers with fixed sub-domain and dynamic IP, use the following pattern.
+   client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.', '177.140'])
+   client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.233.', '177.139.240'])
+   ```
+
+- ### Proxy Count
+
+If your Django server is behind a `known` number of proxy server(s), you can filter out unwanted requests
+by providing the `number` of proxies when calling `get_client_ip(request, proxy_count=1)`.
+In the following example, your load balancer (LB) can be seen as the `only` proxy.
+
+   ```
+    `Real` Client  <public> <---> <public> LB (Server) <private> <--------> <private> Django Server
+                                                                      ^
+                                                                      |
+                                          `Fake` Client  <private> ---^
+   ```
+
+   ```python
+   # In the above scenario, the total number of proxies can be used as a way to filter out unwanted requests.
+   client_ip, is_routable = get_client_ip(request, proxy_count=1)
+
+   # The above may be very useful in cases where your proxy server's IP address is assigned dynamically.
+   # However, If you have the proxy IP address, you can use it in combination to the proxy count.
+   client_ip, is_routable = get_client_ip(request, proxy_count=1, proxy_trusted_ips=['177.139.233.133'])
+   ```
+
+- ### Originating Request
+
+If your proxy server is configured such that the right most IP address is that of the originating client, you
+can indicate `right-most` as your `proxy_order` when calling `get_client_ip(request, proxy_order="right-most")`.
+Please note that the [de-facto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) standard
+for the originating client IP address is  the `left-most` as per `<client>, <proxy1>, <proxy2>`.
 
 Running the tests
 ====================

@@ -1,10 +1,5 @@
 from django.conf import settings
 
-# Total number of configured proxies
-IPWARE_PROXY_COUNT = -1
-
-# List of known proxy server(s)
-IPWARE_TRUSTED_PROXY_LIST = getattr(settings, 'IPWARE_TRUSTED_PROXY_LIST', [])
 
 # Search for the real IP address in the following order
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
@@ -56,7 +51,3 @@ IPWARE_LOOPBACK_PREFIX = (
 )
 
 IPWARE_NON_PUBLIC_IP_PREFIX = IPWARE_PRIVATE_IP_PREFIX + IPWARE_LOOPBACK_PREFIX
-
-# Clean ups
-IPWARE_NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in IPWARE_NON_PUBLIC_IP_PREFIX])
-IPWARE_TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in IPWARE_TRUSTED_PROXY_LIST])
