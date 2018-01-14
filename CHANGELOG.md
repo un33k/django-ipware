@@ -4,7 +4,7 @@ Fix:
   - Update Django versions (@illagrenan)
   - Update Readme (@sabueso)
   - Added proxy count
-  - Moved version one to docs/readme.md
+  - Moved version one readme to /docs
 
 ## 1.1.6
 
