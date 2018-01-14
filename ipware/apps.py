@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-from django.apps import AppConfig as DjangoAppConfig
-=======
 from django.apps import AppConfig
->>>>>>> integration
 from django.utils.translation import ugettext_lazy as _
 
 
