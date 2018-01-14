@@ -3,10 +3,6 @@ Django IPware (Deprecated)
 
 **A Django application to retrieve user's IP address**
 
-[![status-image]][status-link]
-[![version-image]][version-link]
-[![coverage-image]][coverage-link]
-
 Overview
 ====================
 
@@ -151,15 +147,3 @@ X.Y.Z Version
     `MAJOR` version -- when you make incompatible API changes,
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
-
-[status-image]: https://secure.travis-ci.org/un33k/django-ipware.png?branch=master
-[status-link]: http://travis-ci.org/un33k/django-ipware?branch=master
-
-[version-image]: https://img.shields.io/pypi/v/django-ipware.svg
-[version-link]: https://pypi.python.org/pypi/django-ipware
-
-[coverage-image]: https://coveralls.io/repos/un33k/django-ipware/badge.svg
-[coverage-link]: https://coveralls.io/r/un33k/django-ipware
-
-[download-image]: https://img.shields.io/pypi/dm/django-ipware.svg
-[download-link]: https://pypi.python.org/pypi/django-ipware
