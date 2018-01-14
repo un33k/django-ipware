@@ -15,7 +15,7 @@ Overview
 Notice
 ====================
 
-There is no good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
+There is not a good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
 You are encouraged to read the ([Advanced users](README.md#advanced-users)) section of this page and
 use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially `if` you are
 planning to include `ipware` in any authentication, security or `anti-fraud` related architecture.

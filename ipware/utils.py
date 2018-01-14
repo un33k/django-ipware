@@ -83,7 +83,7 @@ def get_ips_from_string(ip_str):
     ip_count = len(ip_list)
     if ip_count > 0:
         if is_valid_ip(ip_list[0]) and is_valid_ip(ip_list[-1]):
-            return ip_list, len(ip_list)
+            return ip_list, ip_count
 
     return [], 0
 
@@ -103,7 +103,7 @@ def get_ip_info(ip_str):
 def get_best_ip(last_ip, next_ip):
     """
     Given two IP addresses, it returns the the best match ip.
-    Precedence order is (None -> loopback -> private -> public)
+    Order of precedence is (Public, Private, Loopback, None)
     Right-most IP is returned
     """
     if last_ip is None:
