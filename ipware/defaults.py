@@ -1,14 +1,13 @@
 from django.conf import settings
 
 
-# List of known proxy server(s)
-IPWARE_TRUSTED_PROXY_LIST = getattr(settings, 'IPWARE_TRUSTED_PROXY_LIST', [])
-
 # Search for the real IP address in the following order
+# https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+# X-Forwarded-For: <client>, <proxy1>, <proxy2>
 # Configurable via settings.py
 IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
     'IPWARE_META_PRECEDENCE_ORDER', (
-        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # (client, proxy1, proxy2) OR (proxy2, proxy1, client)
+        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',
         'HTTP_CLIENT_IP',
         'HTTP_X_REAL_IP',
         'HTTP_X_FORWARDED',
@@ -25,7 +24,7 @@ IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
 # http://www.ietf.org/rfc/rfc3330.txt (IPv4)
 # http://www.ietf.org/rfc/rfc5156.txt (IPv6)
 # Regex would be ideal here, but this is keeping it simple
-# as fields are configurable via settings.py
+# Configurable via settings.py
 IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
     'IPWARE_PRIVATE_IP_PREFIX', (
         '0.',  # externally non-routable

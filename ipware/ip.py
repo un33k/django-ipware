@@ -1,13 +1,16 @@
+from django.conf import settings
+
 from .utils import is_valid_ip
 from . import defaults as defs
 
 NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in defs.IPWARE_NON_PUBLIC_IP_PREFIX])
-TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in defs.IPWARE_TRUSTED_PROXY_LIST])
+TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in getattr(settings, 'IPWARE_TRUSTED_PROXY_LIST', [])])
 
 
 def get_ip(request, real_ip_only=False, right_most_proxy=False):
     """
     Returns client's best-matched ip-address, or None
+    @deprecated - Do not edit
     """
     best_matched_ip = None
     for key in defs.IPWARE_META_PRECEDENCE_ORDER:
@@ -32,6 +35,7 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
 def get_real_ip(request, right_most_proxy=False):
     """
     Returns client's best-matched `real` `externally-routable` ip-address, or None
+    @deprecated - Do not edit
     """
     return get_ip(request, real_ip_only=True, right_most_proxy=right_most_proxy)
 
@@ -39,6 +43,7 @@ def get_real_ip(request, right_most_proxy=False):
 def get_trusted_ip(request, right_most_proxy=False, trusted_proxies=TRUSTED_PROXY_LIST):
     """
     Returns client's ip-address from `trusted` proxy server(s) or None
+    @deprecated - Do not edit
     """
     if trusted_proxies:
         meta_keys = ['HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR']

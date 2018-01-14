@@ -1,3 +1,11 @@
+## 2.0.0
+
+Fix:
+  - Update Django versions (@illagrenan)
+  - Update Readme (@sabueso)
+  - Added proxy count
+  - Moved version one readme to /docs
+
 ## 1.1.6
 
 Fix:
