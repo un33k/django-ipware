@@ -1,3 +1,8 @@
+## 2.0.1
+
+Enhancement:
+  - Added more private IP blocks to the default list
+
 ## 2.0.0
 
 Fix:
