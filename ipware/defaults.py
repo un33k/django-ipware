@@ -40,7 +40,7 @@ IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
         '100.106.', '100.107.', '100.108.', '100.109.', '100.110.', '100.111.',
         '100.112.', '100.113.', '100.114.', '100.115.', '100.116.', '100.117.',
         '100.118.', '100.119.', '100.120.', '100.121.', '100.122.', '100.123.',
-        '100.124.', '100.125.', '100.126.', '100.127.', # carrier-grade NAT
+        '100.124.', '100.125.', '100.126.', '100.127.',  # carrier-grade NAT
         '169.254.',  # link-local block
         '172.16.', '172.17.', '172.18.', '172.19.',
         '172.20.', '172.21.', '172.22.', '172.23.',
@@ -50,12 +50,12 @@ IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
         '192.0.2.',  # reserved for documentation and example code
         '192.168.',  # class C private block
         '198.18.', '198.19.',  # reserved for inter-network communications between two separate subnets
-        '198.51.100.',  #reserved for documentation and example code
+        '198.51.100.',  # reserved for documentation and example code
         '203.0.113.',  # reserved for documentation and example code
         '255.255.255.',  # reserved for broadcast
     ) + (
         '::',  # Unspecified address
-        '::ffff:', '2001:10:', '2001:20:' # messages to software
+        '::ffff:', '2001:10:', '2001:20:'  # messages to software
         '2001:db8:',  # reserved for documentation and example code
         'fc00:',  # IPv6 private block
         'fe80:',  # link-local unicast
