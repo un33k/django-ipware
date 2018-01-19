@@ -206,3 +206,27 @@ class IPv4TestCase(TestCase):
         }
         ip = get_client_ip(request)
         self.assertEqual(ip, ("192.168.1.1", False))
+
+    def test_100_low_range_public(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_REAL_IP': '100.63.0.9',
+        }
+        ip = get_client_ip(request)
+        self.assertEqual(ip, ("100.63.0.9", True))
+
+    def test_100_block_private(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_REAL_IP': '100.76.0.9',
+        }
+        ip = get_client_ip(request)
+        self.assertEqual(ip, ("100.76.0.9", False))
+
+    def test_100_high_range_public(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_REAL_IP': '100.128.0.9',
+        }
+        ip = get_client_ip(request)
+        self.assertEqual(ip, ("100.128.0.9", True))
