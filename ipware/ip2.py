@@ -20,7 +20,10 @@ def get_client_ip(
     for key in defs.IPWARE_META_PRECEDENCE_ORDER:
         value = util.get_request_meta(request, key)
         if value:
-            ips, ip_count = util.get_ips_from_string(value)
+            if key == 'HTTP_FORWARDED':
+                ips, ip_count = util.get_ips_from_forwarded_string(value)
+            else:
+                ips, ip_count = util.get_ips_from_string(value)
 
             if ip_count < 1:
                 # we are expecting at least one IP address to process
