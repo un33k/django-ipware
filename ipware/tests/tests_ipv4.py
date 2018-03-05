@@ -251,3 +251,45 @@ class IPv4TestCase(TestCase):
         }
         ip = get_client_ip(request, request_header_order=['X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR'])
         self.assertEqual(ip, ("177.139.233.138", True))
+
+    def test_forwarded(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_FORWARDED': 'for=192.0.2.43, for=198.51.100.17;by=203.0.113.60;proto=http;host=example.com',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('192.0.2.43', False))
+
+    def test_forwarded_without_for(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_FORWARDED': 'by=203.0.113.43',
+        }
+        with self.assertRaisesRegexp(
+                ValueError,
+                'at least one forwarded-element is required'):
+            get_client_ip(request)
+
+    def test_forwarded_with_quoted_comma(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_FORWARDED': 'for=192.0.2.43, for=198.51.100.17;comment="with,comma"',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('192.0.2.43', False))
+
+    def test_forwarded_with_escaped_quote(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_FORWARDED': 'for=192.0.2.43, for=198.51.100.17;comment="with\\"quote"',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('192.0.2.43', False))
+
+    def test_forwarded_with_obfport(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_FORWARDED': 'for=192.0.2.43:_gazonk, for=198.51.100.17;by=203.0.113.60;proto=http;host=example.com',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('192.0.2.43', False))

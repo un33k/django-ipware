@@ -171,3 +171,19 @@ class IPv4TestCase(TestCase):
         }
         result = get_client_ip(request, proxy_count=1, proxy_trusted_ips=['74dc::02bb'])
         self.assertEqual(result, (None, False))
+
+    def test_forwarded(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_FORWARDED': 'for="[2001:db8:cafe::17]", for=unknown"',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('2001:db8:cafe::17', True))
+
+    def test_forwarded_with_port(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_FORWARDED': 'for="[2001:db8:cafe::17]:4711"',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('2001:db8:cafe::17', True))
