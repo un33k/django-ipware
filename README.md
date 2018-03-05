@@ -66,7 +66,7 @@ by providing your own `IPWARE_META_PRECEDENCE_ORDER` by adding it to your projec
    ```python
     # The default meta precedence order
     IPWARE_META_PRECEDENCE_ORDER = (
-        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # <client>, <proxy1>, <proxy2
+        'HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR',  # <client>, <proxy1>, <proxy2>
         'HTTP_CLIENT_IP',
         'HTTP_X_REAL_IP',
         'HTTP_X_FORWARDED',
