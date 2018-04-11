@@ -1,3 +1,8 @@
+## 2.0.2
+
+Enhancement:
+  - Added the ability to private the request precedence order on each call
+
 ## 2.0.1
 
 Enhancement:

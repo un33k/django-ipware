@@ -77,7 +77,11 @@ by providing your own `IPWARE_META_PRECEDENCE_ORDER` by adding it to your projec
         'REMOTE_ADDR',
     )
    ```
-
+**Alternativley**, you can provide your custom `request header meta precedence order` when calling `get_client_ip()`.
+```python
+get_client_ip(request, request_header_order=['X_FORWARDED_FOR'])
+get_client_ip(request, request_header_order=['X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR'])
+```
 
 - ### Private Prefixes
 
