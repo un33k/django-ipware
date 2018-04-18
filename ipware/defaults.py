@@ -22,8 +22,10 @@ IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
 # Private IP addresses
 # http://en.wikipedia.org/wiki/List_of_assigned_/8_IPv4_address_blocks
 # https://en.wikipedia.org/wiki/Reserved_IP_addresses
+# https://www.ietf.org/rfc/rfc1112.txt (IPv4 multicast)
 # http://www.ietf.org/rfc/rfc3330.txt (IPv4)
 # http://www.ietf.org/rfc/rfc5156.txt (IPv6)
+# https://www.ietf.org/rfc/rfc6890.txt
 # Regex would be ideal here, but this is keeping it simple
 # Configurable via settings.py
 IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
