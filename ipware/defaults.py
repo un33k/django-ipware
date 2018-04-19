@@ -22,8 +22,10 @@ IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
 # Private IP addresses
 # http://en.wikipedia.org/wiki/List_of_assigned_/8_IPv4_address_blocks
 # https://en.wikipedia.org/wiki/Reserved_IP_addresses
+# https://www.ietf.org/rfc/rfc1112.txt (IPv4 multicast)
 # http://www.ietf.org/rfc/rfc3330.txt (IPv4)
 # http://www.ietf.org/rfc/rfc5156.txt (IPv6)
+# https://www.ietf.org/rfc/rfc6890.txt
 # Regex would be ideal here, but this is keeping it simple
 # Configurable via settings.py
 IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
@@ -52,10 +54,15 @@ IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
         '198.18.', '198.19.',  # reserved for inter-network communications between two separate subnets
         '198.51.100.',  # reserved for documentation and example code
         '203.0.113.',  # reserved for documentation and example code
-        '255.255.255.',  # reserved for broadcast
+        '224.', '225.', '226.', '227.', '228.', '229.', '230.', '231.', '232.',
+        '233.', '234.', '235.', '236.', '237.', '238.', '239.',  # multicast
+        '240.', '241.', '242.', '243.', '244.', '245.', '246.', '247.', '248.',
+        '249.', '250.', '251.', '252.', '253.', '254.', '255.',  # reserved
     ) + (
         '::',  # Unspecified address
         '::ffff:', '2001:10:', '2001:20:'  # messages to software
+        '2001::',  # TEREDO
+        '2001:2::',  # benchmarking
         '2001:db8:',  # reserved for documentation and example code
         'fc00:',  # IPv6 private block
         'fe80:',  # link-local unicast
