@@ -121,7 +121,7 @@ prefixes are considered `private` & are **not** publicly routable.
         '233.', '234.', '235.', '236.', '237.', '238.', '239.',  # multicast
         '240.', '241.', '242.', '243.', '244.', '245.', '246.', '247.', '248.',
         '249.', '250.', '251.', '252.', '253.', '254.', '255.',  # reserved
-    ) + (
+      ) + (
         '::',  # Unspecified address
         '::ffff:', '2001:10:', '2001:20:'  # messages to software
         '2001::',  # TEREDO
@@ -130,9 +130,9 @@ prefixes are considered `private` & are **not** publicly routable.
         'fc00:',  # IPv6 private block
         'fe80:',  # link-local unicast
         'ff00:',  # IPv6 multicast
-    )
-   )
-   ```
+      )
+  )
+  ```
 
 - ### Trusted Proxies
 
