@@ -1,3 +1,8 @@
+## 2.1.0
+
+Enhancement:
+  - Added more non-routable ip blocks (@wking)
+
 ## 2.0.2
 
 Enhancement:
