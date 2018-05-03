@@ -1,4 +1,7 @@
-from django.conf import settings
+try:
+    from django.conf import settings
+except ImportError:
+    settings = {}
 
 
 # Search for the real IP address in the following order

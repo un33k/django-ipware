@@ -1,4 +1,7 @@
-from django.conf import settings
+try:
+    from django.conf import settings
+except ImportError:
+    settings = {}
 
 from .utils import is_valid_ip
 from . import defaults as defs
