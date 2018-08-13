@@ -5,10 +5,10 @@ from . import defaults as defs
 
 
 def get_non_public_ip_prefixes():
-    return getattr(settings, 'IPWARE_NON_PUBLIC_IP_PREFIX', 
-        getattr(settings, 'IPWARE_PRIVATE_IP_PREFIX', defs.DEFAULT_IPWARE_PRIVATE_IP_PREFIX) +
-        getattr(settings, 'IPWARE_LOOPBACK_PREFIX', defs.DEFAULT_IPWARE_LOOPBACK_PREFIX)
+    return getattr(settings, 'IPWARE_NON_PUBLIC_IP_PREFIX',
+        getattr(settings, 'IPWARE_PRIVATE_IP_PREFIX', defs.DEFAULT_IPWARE_PRIVATE_IP_PREFIX) + getattr(settings, 'IPWARE_LOOPBACK_PREFIX', defs.DEFAULT_IPWARE_LOOPBACK_PREFIX)
     )
+
 
 def is_valid_ipv4(ip_str):
     """
