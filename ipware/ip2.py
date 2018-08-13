@@ -1,3 +1,4 @@
+from django.conf import settings
 from . import utils as util
 from . import defaults as defs
 
@@ -19,7 +20,7 @@ def get_client_ip(
         proxy_trusted_ips = []
 
     if request_header_order is None:
-        request_header_order = defs.IPWARE_META_PRECEDENCE_ORDER
+        request_header_order = getattr(settings, 'IPWARE_META_PRECEDENCE_ORDER', defs.DEFAULT_IPWARE_META_PRECEDENCE_ORDER)
 
     for key in request_header_order:
         value = util.get_request_meta(request, key)
