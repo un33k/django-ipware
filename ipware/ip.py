@@ -1,7 +1,7 @@
 from django.conf import settings
 
 from .utils import is_valid_ip
-from . import defaults as defs
+from . import defaults_dep as defs
 
 NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in defs.IPWARE_NON_PUBLIC_IP_PREFIX])
 TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in getattr(settings, 'IPWARE_TRUSTED_PROXY_LIST', [])])

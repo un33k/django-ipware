@@ -2,7 +2,7 @@
 
 from django.conf import settings
 from django.http import HttpRequest
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from ipware import get_client_ip
 
 
@@ -251,3 +251,13 @@ class IPv4TestCase(TestCase):
         }
         ip = get_client_ip(request, request_header_order=['X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR'])
         self.assertEqual(ip, ("177.139.233.138", True))
+
+    @override_settings(IPWARE_META_PRECEDENCE_ORDER=('REMOTE_ADDR', 'HTTP_X_FORWARDED_FOR'))
+    def test_setting_override(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+            'REMOTE_ADDR': '177.139.233.133',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ("177.139.233.133", True))

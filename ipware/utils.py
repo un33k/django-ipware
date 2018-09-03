@@ -1,6 +1,23 @@
 import socket
 
+from django.conf import settings
 from . import defaults as defs
+
+
+def get_private_ip_prefixes():
+    return getattr(settings, 'IPWARE_PRIVATE_IP_PREFIX', defs.DEFAULT_IPWARE_PRIVATE_IP_PREFIX)
+
+
+def get_loopback_prefixes():
+    return getattr(settings, 'IPWARE_LOOPBACK_PREFIX', defs.DEFAULT_IPWARE_LOOPBACK_PREFIX)
+
+
+def get_non_public_ip_prefixes():
+    return getattr(settings, 'IPWARE_NON_PUBLIC_IP_PREFIX', get_private_ip_prefixes() + get_loopback_prefixes())
+
+
+def get_meta_precedence_order():
+    return getattr(settings, 'IPWARE_META_PRECEDENCE_ORDER', defs.DEFAULT_IPWARE_META_PRECEDENCE_ORDER)
 
 
 def is_valid_ipv4(ip_str):
@@ -42,7 +59,7 @@ def is_private_ip(ip_str):
     """
     Returns true of ip_str is private & not routable, else return false
     """
-    return ip_str.startswith(defs.IPWARE_NON_PUBLIC_IP_PREFIX)
+    return ip_str.startswith(get_non_public_ip_prefixes())
 
 
 def is_public_ip(ip_str):
@@ -56,7 +73,7 @@ def is_loopback_ip(ip_str):
     """
     Returns true of ip_str is public & routable, else return false
     """
-    return ip_str.startswith(defs.IPWARE_LOOPBACK_PREFIX)
+    return ip_str.startswith(get_loopback_prefixes())
 
 
 def get_request_meta(request, key):
