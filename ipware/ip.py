@@ -1,8 +1,9 @@
 from django.conf import settings
 
-from .utils import is_valid_ip, get_non_public_ip_prefixes, get_meta_precedence_order, get_loopback_prefixes
+from .utils import is_valid_ip
+from . import defaults_dep as defs
 
-NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in get_non_public_ip_prefixes()])
+NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in defs.IPWARE_NON_PUBLIC_IP_PREFIX])
 TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in getattr(settings, 'IPWARE_TRUSTED_PROXY_LIST', [])])
 
 
@@ -12,7 +13,7 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
     @deprecated - Do not edit
     """
     best_matched_ip = None
-    for key in get_meta_precedence_order():
+    for key in defs.IPWARE_META_PRECEDENCE_ORDER:
         value = request.META.get(key, request.META.get(key.replace('_', '-'), '')).strip()
         if value is not None and value != '':
             ips = [ip.strip().lower() for ip in value.split(',')]
@@ -23,7 +24,7 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
                     if not ip_str.startswith(NON_PUBLIC_IP_PREFIX):
                         return ip_str
                     if not real_ip_only:
-                        loopback = get_loopback_prefixes()
+                        loopback = defs.IPWARE_LOOPBACK_PREFIX
                         if best_matched_ip is None:
                             best_matched_ip = ip_str
                         elif best_matched_ip.startswith(loopback) and not ip_str.startswith(loopback):
