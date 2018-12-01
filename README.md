@@ -222,3 +222,9 @@ X.Y.Z Version
 
 [download-image]: https://img.shields.io/pypi/dm/django-ipware.svg
 [download-link]: https://pypi.python.org/pypi/django-ipware
+
+
+Sponsors
+====================
+
+[![Surge](https://www.surgeforward.com/wp-content/themes/understrap-master/images/logo.png)](https://github.com/surgeforward)
