@@ -10,6 +10,7 @@ TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in getattr(settings, 'IPWARE_TRUST
 
 warnings.simplefilter('always', DeprecationWarning)
 
+
 def get_ip(request, real_ip_only=False, right_most_proxy=False):
     """
     Returns client's best-matched ip-address, or None
