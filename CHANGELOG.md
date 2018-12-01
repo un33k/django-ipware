@@ -1,3 +1,9 @@
+## 2.1.1
+
+Enhancement:
+  - Added deprecation warnings preparing for version 3.0
+  - Update to latest Django
+  
 ## 2.1.0
 
 Enhancement:

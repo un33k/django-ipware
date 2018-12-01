@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import warnings
 from django.conf import settings
 from django.http import HttpRequest
 from django.test import TestCase
@@ -8,6 +9,7 @@ from ipware.ip import get_ip
 from ipware.ip import get_real_ip
 from ipware.ip import get_trusted_ip
 
+warnings.simplefilter('ignore')
 
 class IPv6TestCase(TestCase):
     """IP address Test"""
