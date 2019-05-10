@@ -15,10 +15,10 @@ Overview
 Notice
 ====================
 
-There is not a good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
+There is not a good *out-of-the-box* solution against fake IP addresses, aka *IP Address Spoofing*.
 You are encouraged to read the ([Advanced users](README.md#advanced-users)) section of this page and
-use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially `if` you are
-planning to include `ipware` in any authentication, security or `anti-fraud` related architecture.
+use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially *if* you are
+planning to include `ipware` in any authentication, security or *anti-fraud* related architecture.
 
 
 How to install
@@ -77,17 +77,17 @@ by providing your own `IPWARE_META_PRECEDENCE_ORDER` by adding it to your projec
         'REMOTE_ADDR',
     )
    ```
-**Alternativley**, you can provide your custom `request header meta precedence order` when calling `get_client_ip()`.
+**Alternatively**, you can provide your custom *request header meta precedence order* when calling `get_client_ip()`.
 ```python
 get_client_ip(request, request_header_order=['X_FORWARDED_FOR'])
 get_client_ip(request, request_header_order=['X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR'])
 ```
 
-- ### Private Prefixes
+### Private Prefixes
 
-You may customize the prefixes to indicate an IP addresses private. This is done by adding your
+You may customize the prefixes to indicate an IP address is private. This is done by adding your
 own `IPWARE_PRIVATE_IP_PREFIX` to your project's settings.py.  IP addresses matching the following
-prefixes are considered `private` & are **not** publicly routable.
+prefixes are considered *private* & are **not** publicly routable.
 
    ```python
    # The default private IP prefixes
@@ -134,7 +134,7 @@ prefixes are considered `private` & are **not** publicly routable.
   )
   ```
 
-- ### Trusted Proxies
+### Trusted Proxies
 
 If your Django server is behind one or more known proxy server(s), you can filter out unwanted requests
 by providing the `trusted` proxy list when calling `get_client_ip(request, proxy_trusted_ips=['177.139.233.133'])`.
@@ -160,11 +160,11 @@ In the following example, your load balancer (LB) can be seen as a `trusted` pro
    client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.233.', '177.139.240'])
    ```
 
-- ### Proxy Count
+### Proxy Count
 
-If your Django server is behind a `known` number of proxy server(s), you can filter out unwanted requests
-by providing the `number` of proxies when calling `get_client_ip(request, proxy_count=1)`.
-In the following example, your load balancer (LB) can be seen as the `only` proxy.
+If your Django server is behind a *known* number of proxy server(s), you can filter out unwanted requests
+by providing the *number* of proxies when calling `get_client_ip(request, proxy_count=1)`.
+In the following example, your load balancer (LB) can be seen as the *only* proxy.
 
    ```
     `Real` Client  <public> <---> <public> LB (Server) <private> <--------> <private> Django Server
@@ -182,9 +182,9 @@ In the following example, your load balancer (LB) can be seen as the `only` prox
    client_ip, is_routable = get_client_ip(request, proxy_count=1, proxy_trusted_ips=['177.139.233.133'])
    ```
 
-- ### Originating Request
+### Originating Request
 
-If your proxy server is configured such that the right most IP address is that of the originating client, you
+If your proxy server is configured such that the right-most IP address is that of the originating client, you
 can indicate `right-most` as your `proxy_order` when calling `get_client_ip(request, proxy_order="right-most")`.
 Please note that the [de-facto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) standard
 for the originating client IP address is  the `left-most` as per `<client>, <proxy1>, <proxy2>`.
@@ -227,4 +227,4 @@ X.Y.Z Version
 Sponsors
 ====================
 
-[![Surge](https://www.surgeforward.com/wp-content/themes/understrap-master/images/logo.png)](https://github.com/surgeforward)
+[Surge](https://github.com/surgeforward)
