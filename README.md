@@ -227,4 +227,4 @@ X.Y.Z Version
 Sponsors
 ====================
 
-[![Surge](https://www.surgeforward.com/wp-content/themes/understrap-master/images/logo.png)](https://github.com/surgeforward)
+[Surge](https://github.com/surgeforward)
