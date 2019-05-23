@@ -171,3 +171,23 @@ class IPv4TestCase(TestCase):
         }
         result = get_client_ip(request, proxy_count=1, proxy_trusted_ips=['74dc::02bb'])
         self.assertEqual(result, (None, False))
+
+
+class IPv6EncapsulationOfIPv4TestCase(TestCase):
+    """IPv6 Encapsulation of IPv4 - IP address Test"""
+
+    def test_ipv6_encapsulation_of_ipv4_private(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '::ffff:127.0.0.1',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('127.0.0.1', False))
+
+    def test_ipv6_encapsulation_of_ipv4_public(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '::ffff:177.139.233.139',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ('177.139.233.139', True))
