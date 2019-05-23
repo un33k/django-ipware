@@ -3,6 +3,16 @@ import socket
 from . import defaults as defs
 
 
+def cleanup_ip(ip):
+    """
+    Given ip address string, it cleans it up
+    """
+    ip = ip.strip().lower()
+    if (ip.startswith('::ffff:')):
+        return ip.replace('::ffff:', '')
+    return ip
+
+
 def is_valid_ipv4(ip_str):
     """
     Check the validity of an IPv4 address
@@ -94,8 +104,9 @@ def get_ip_info(ip_str):
     """
     ip = None
     is_routable_ip = False
-    if is_valid_ip(ip_str):
-        ip = ip_str
+    clean_ip = cleanup_ip(ip_str)
+    if is_valid_ip(clean_ip):
+        ip = clean_ip
         is_routable_ip = is_public_ip(ip)
     return ip, is_routable_ip
 
