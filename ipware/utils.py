@@ -1,4 +1,5 @@
 import socket
+import ipaddress
 
 from . import defaults as defs
 
@@ -50,23 +51,26 @@ def is_valid_ip(ip_str):
 
 def is_private_ip(ip_str):
     """
-    Returns true of ip_str is private & not routable, else return false
+    Returns true if ip_str is private & not routable, else return false
     """
-    return ip_str.startswith(defs.IPWARE_NON_PUBLIC_IP_PREFIX)
-
+    for net in defs.IPWARE_NON_PUBLIC_IP_PREFIX:
+        if ipaddress.ip_address(ip_str) in ipaddress.ip_network(net):
+            return True
 
 def is_public_ip(ip_str):
     """
-    Returns true of ip_str is public & routable, else return false
+    Returns true if ip_str is public & routable, else return false
     """
     return not is_private_ip(ip_str)
 
 
 def is_loopback_ip(ip_str):
     """
-    Returns true of ip_str is public & routable, else return false
+    Returns true if ip_str is a loopback address, else return false
     """
-    return ip_str.startswith(defs.IPWARE_LOOPBACK_PREFIX)
+    for net in defs.IPWARE_LOOPBACK_PREFIX:
+        if ipaddress.ip_address(ip_str) in ipaddress.ip_network(net):
+            return True
 
 
 def get_request_meta(request, key):

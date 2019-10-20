@@ -28,7 +28,13 @@ class IPv4TestCase(TestCase):
         ip = '127.0.0.1'
         self.assertTrue(util.is_private_ip(ip))
 
-        ip = '::1/128'
+        ip = '192.168.10.15'
+        self.assertTrue(util.is_private_ip(ip))
+
+        ip = '::1'
+        self.assertTrue(util.is_private_ip(ip))
+
+        ip = 'fd58:54fe:3425::22:cafe'
         self.assertTrue(util.is_private_ip(ip))
 
     def test_is_public_ip(self):
@@ -48,13 +54,13 @@ class IPv4TestCase(TestCase):
         ip = '10.0.0.1'
         self.assertFalse(util.is_loopback_ip(ip))
 
-        ip = '::1/128'
+        ip = '::1'
         self.assertTrue(util.is_loopback_ip(ip))
 
         ip = '74dc::02ba'
         self.assertFalse(util.is_loopback_ip(ip))
 
-        ip = '2001:db8:'
+        ip = '2001:db8::'
         self.assertFalse(util.is_loopback_ip(ip))
 
     def test_http_request_meta_headers(self):

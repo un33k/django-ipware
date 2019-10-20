@@ -1,11 +1,11 @@
 import warnings
+import ipaddress
 
 from django.conf import settings
 
 from .utils import is_valid_ip
 from . import defaults as defs
 
-NON_PUBLIC_IP_PREFIX = tuple([ip.lower() for ip in defs.IPWARE_NON_PUBLIC_IP_PREFIX])
 TRUSTED_PROXY_LIST = tuple([ip.lower() for ip in getattr(settings, 'IPWARE_TRUSTED_PROXY_LIST', [])])
 
 warnings.simplefilter('always', DeprecationWarning)
@@ -26,14 +26,20 @@ def get_ip(request, real_ip_only=False, right_most_proxy=False):
                 ips = reversed(ips)
             for ip_str in ips:
                 if ip_str and is_valid_ip(ip_str):
-                    if not ip_str.startswith(NON_PUBLIC_IP_PREFIX):
+                    is_private = False
+                    for net in defs.IPWARE_NON_PUBLIC_IP_PREFIX:
+                        if ipaddress.ip_address(ip_str) in ipaddress.ip_network(net):
+                            is_private = True
+                            break
+                    if not is_private:
                         return ip_str
                     if not real_ip_only:
-                        loopback = defs.IPWARE_LOOPBACK_PREFIX
                         if best_matched_ip is None:
                             best_matched_ip = ip_str
-                        elif best_matched_ip.startswith(loopback) and not ip_str.startswith(loopback):
-                            best_matched_ip = ip_str
+                        for net in defs.IPWARE_LOOPBACK_PREFIX:
+                            if ipaddress.ip_address(best_matched_ip) in ipaddress.ip_network(net) and ipaddress.ip_address(ip_str) not in ipaddress.ip_network(net):
+                                best_matched_ip = ip_str
+                                break
     return best_matched_ip
 
 
