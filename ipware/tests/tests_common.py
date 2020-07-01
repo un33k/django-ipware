@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from django.conf import settings
 from django.http import HttpRequest
 from django.test import TestCase
 from .. import utils as util
@@ -65,7 +64,6 @@ class IPv4TestCase(TestCase):
         self.assertEqual(value, ip_str)
 
     def test_ips_from_strings(self):
-        request = HttpRequest()
         ip_str = '192.168.255.182, 198.84.193.157, 177.139.233.139 ,'
         result = util.get_ips_from_string(ip_str)
         self.assertEqual(result, (['192.168.255.182', '198.84.193.157', '177.139.233.139'], 3))

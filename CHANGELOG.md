@@ -1,3 +1,10 @@
+## 3.0.0
+
+Enhancement:
+  - Remove deprecated logic
+  - Drop "official" support for py < 3.5
+  - Update to latest Django
+  
 ## 2.1.1
 
 Enhancement:

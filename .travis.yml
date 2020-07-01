@@ -2,37 +2,31 @@ sudo: false
 language: python
 
 python:
-  - "3.7-dev"
+  - "3.8"
+  - "3.7"
   - "3.6"
   - "3.5"
-  - "3.4"
-  - "2.7"
-  - "pypy"
   - "pypy3"
 
 env:
-  - DJANGO="django==2.1.3"
-  - DJANGO="django==1.11.16"
+  - DJANGO="django==3.0.7"
+  - DJANGO="django==2.2.8"
 
 install:
   - pip install $DJANGO
   - pip install -e .
   - pip install pycodestyle
-  - pip install https://github.com/un33k/pyflakes/tarball/master
+  - pip install flake8
   - pip install coveralls
 
 before_script:
   - "pycodestyle --exclude=migrations,tests --ignore=E501,E241,E225,E128 ."
-  - if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then pyflakes -x W ipware; fi
+  - "flake8 --exclude=migrations,tests --ignore=E501,E241,E225,E128 ."
 
 matrix:
   exclude:
-    - python: "3.4"
-      env: DJANGO="django==2.1.3"
-    - python: "2.7"
-      env: DJANGO="django==2.1.3"
-    - python: "pypy"
-      env: DJANGO="django==2.1.3"
+    - python: "3.5"
+      env: DJANGO="django==3.0.7"
 
 script: coverage run --source=ipware manage.py test
 
