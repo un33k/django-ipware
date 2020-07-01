@@ -9,6 +9,7 @@ python:
   - "pypy3"
 
 env:
+  - DJANGO="django==3.0.7"
   - DJANGO="django==2.2.8"
 
 install:
