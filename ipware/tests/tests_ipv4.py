@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from django.conf import settings
 from django.http import HttpRequest
 from django.test import TestCase
 from ipware import get_client_ip

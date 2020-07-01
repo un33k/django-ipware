@@ -8,3 +8,4 @@
 #  -- E501 line too long
 
 pycodestyle --exclude=migrations,tests --ignore=E128,E225,E241,E501 .
+flake8 --exclude=migrations,tests --ignore=E128,E225,E241,E501 .

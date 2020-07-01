@@ -227,4 +227,4 @@ X.Y.Z Version
 Sponsors
 ====================
 
-[Surge](https://github.com/surgeforward)
+[Neekware Inc.](http://neekware.com)
