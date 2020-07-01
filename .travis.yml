@@ -26,7 +26,7 @@ before_script:
 matrix:
   exclude:
     - python: "3.5"
-      env: DJANGO="django==2.2.8"
+      env: DJANGO="django==3.0.7"
 
 script: coverage run --source=ipware manage.py test
 
