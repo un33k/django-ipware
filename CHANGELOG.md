@@ -2,7 +2,7 @@
 
 Enhancement:
   - Remove deprecated logic
-  - Drop "official" support form py < 3.5
+  - Drop "official" support for py < 3.5
   - Update to latest Django
   
 ## 2.1.1
