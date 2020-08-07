@@ -1,3 +1,8 @@
+## 3.0.1
+
+Fix:
+  - Ensure no-required build artifacts won't get into the package 
+
 ## 3.0.0
 
 Enhancement:
