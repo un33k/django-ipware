@@ -1,5 +1,7 @@
 ## 3.0.1
 
+Enhancement:
+  - Change how settings are handled so that `override_settings` will work in tests to influence ipware configuration.
 Fix:
   - Ensure no-required build artifacts won't get into the package 
 

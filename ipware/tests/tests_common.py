@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpRequest
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from .. import utils as util
 
 
@@ -30,12 +30,28 @@ class IPv4TestCase(TestCase):
         ip = '::1/128'
         self.assertTrue(util.is_private_ip(ip))
 
+    @override_settings(IPWARE_PRIVATE_IP_PREFIX=('177.', '3ffe:'), IPWARE_LOOPBACK_PREFIX=('111.', '8888:'))
+    def test_is_private_ip_uses_settings(self):
+        ip = '127.0.0.1'
+        self.assertFalse(util.is_private_ip(ip))
+
+        ip = '::1/128'
+        self.assertFalse(util.is_private_ip(ip))
+
     def test_is_public_ip(self):
         ip = '177.139.233.139'
         self.assertTrue(util.is_public_ip(ip))
 
         ip = '74dc::02ba'
         self.assertTrue(util.is_public_ip(ip))
+
+    @override_settings(IPWARE_PRIVATE_IP_PREFIX=('177.', '74dc:'), IPWARE_PUBLIC_IP_PREFIX=('127.', '1::'))
+    def test_is_public_ip_uses_settings(self):
+        ip = '177.139.233.139'
+        self.assertFalse(util.is_public_ip(ip))
+
+        ip = '74dc::02ba'
+        self.assertFalse(util.is_public_ip(ip))
 
     def test_is_loopback_ip(self):
         ip = '127.0.0.1'

@@ -1,6 +1,5 @@
 import socket
-
-from . import defaults as defs
+from django.conf import settings
 
 
 def cleanup_ip(ip):
@@ -52,7 +51,12 @@ def is_private_ip(ip_str):
     """
     Returns true of ip_str is private & not routable, else return false
     """
-    return ip_str.startswith(defs.IPWARE_NON_PUBLIC_IP_PREFIX)
+    # TODO: Make this a setting?
+    IPWARE_NON_PUBLIC_IP_PREFIX = (
+        settings.IPWARE_PRIVATE_IP_PREFIX +
+        settings.IPWARE_LOOPBACK_PREFIX
+    )
+    return ip_str.startswith(IPWARE_NON_PUBLIC_IP_PREFIX)
 
 
 def is_public_ip(ip_str):
@@ -66,7 +70,7 @@ def is_loopback_ip(ip_str):
     """
     Returns true of ip_str is public & routable, else return false
     """
-    return ip_str.startswith(defs.IPWARE_LOOPBACK_PREFIX)
+    return ip_str.startswith(settings.IPWARE_LOOPBACK_PREFIX)
 
 
 def get_request_meta(request, key):

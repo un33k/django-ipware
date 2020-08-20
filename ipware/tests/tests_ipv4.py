@@ -250,3 +250,17 @@ class IPv4TestCase(TestCase):
         }
         ip = get_client_ip(request, request_header_order=['X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR'])
         self.assertEqual(ip, ("177.139.233.138", True))
+
+
+    def test_request_header_order_multiple_missing_or_none_takes_from_settings(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+            'X_FORWARDED_FOR': '177.139.233.138, 198.84.193.157, 198.84.193.158',
+            'REMOTE_ADDR': '177.139.233.133',
+        }
+        with self.settings(IPWARE_META_PRECEDENCE_ORDER=['X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR']):
+            ip = get_client_ip(request)
+            self.assertEqual(ip, ("177.139.233.138", True))
+            ip = get_client_ip(request, request_header_order=None)
+            self.assertEqual(ip, ("177.139.233.138", True))

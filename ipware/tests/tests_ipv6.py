@@ -39,8 +39,28 @@ class IPv4TestCase(TestCase):
             'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba, 74dc::02bb',
             'REMOTE_ADDR': '74dc::02bc',
         }
-        result = get_client_ip(request)
+        result = get_client_ip(request, request_header_order=('HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR'))
         self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+        result = get_client_ip(request, request_header_order=('X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR'))
+        self.assertEqual(result, ('74dc::02be', True))
+
+    def test_meta_multi_precedence_order_none_or_missing_uses_settings(self):
+        request = HttpRequest()
+        request.META = {
+            'X_FORWARDED_FOR': '74dc::02be, 74dc::02bf',
+            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba, 74dc::02bb',
+            'REMOTE_ADDR': '74dc::02bc',
+        }
+        with self.settings(IPWARE_META_PRECEDENCE_ORDER=('HTTP_X_FORWARDED_FOR', 'X_FORWARDED_FOR')):
+            result = get_client_ip(request, request_header_order=None)
+            self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+            result = get_client_ip(request)
+            self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+        with self.settings(IPWARE_META_PRECEDENCE_ORDER=('X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR')):
+            result = get_client_ip(request, request_header_order=None)
+            self.assertEqual(result, ('74dc::02be', True))
+            result = get_client_ip(request)
+            self.assertEqual(result, ('74dc::02be', True))
 
     def test_meta_proxy_order_left_most(self):
         request = HttpRequest()
