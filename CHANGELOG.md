@@ -2,6 +2,7 @@
 
 Enhancement:
   - Change how settings are handled so that `override_settings` will work in tests to influence ipware configuration.
+  - Add `IPWARE_PROXY_ORDER`, `IPWARE_PROXY_COUNT` and `IPWARE_PROXY_TRUSTED_IPS` to Django settings, which are used when the corresponding options are `None` or not supplied to `get_client_ip`.
 Fix:
   - Ensure no-required build artifacts won't get into the package 
 

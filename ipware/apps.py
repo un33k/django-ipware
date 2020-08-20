@@ -13,7 +13,14 @@ class IPwareConfig(AppConfig):
     def ready(self):
         # Copy all default attrs into the user's settings module if
         # they're not defined there.
-        for attr in ('IPWARE_META_PRECEDENCE_ORDER', 'IPWARE_PRIVATE_IP_PREFIX', 'IPWARE_LOOPBACK_PREFIX'):
+        for attr in (
+                'IPWARE_META_PRECEDENCE_ORDER',
+                'IPWARE_PRIVATE_IP_PREFIX',
+                'IPWARE_LOOPBACK_PREFIX',
+                'IPWARE_PROXY_ORDER',
+                'IPWARE_PROXY_COUNT',
+                'IPWARE_PROXY_TRUSTED_IPS',
+        ):
             default_value = getattr(defaults, attr)
             setattr(settings, attr, getattr(settings, attr, default_value))
 

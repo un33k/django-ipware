@@ -4,7 +4,7 @@ from django.conf import settings
 
 def get_client_ip(
     request,
-    proxy_order='left-most',
+    proxy_order=None,
     proxy_count=None,
     proxy_trusted_ips=None,
     request_header_order=None,
@@ -13,13 +13,22 @@ def get_client_ip(
     routable = False
 
     if proxy_count is None:
+        proxy_count = settings.IPWARE_PROXY_COUNT
+
+    if proxy_count is None:
         proxy_count = -1
+
+    if proxy_trusted_ips is None:
+        proxy_trusted_ips = settings.IPWARE_PROXY_TRUSTED_IPS
 
     if proxy_trusted_ips is None:
         proxy_trusted_ips = []
 
     if request_header_order is None:
         request_header_order = settings.IPWARE_META_PRECEDENCE_ORDER
+
+    if proxy_order is None:
+        proxy_order = settings.IPWARE_PROXY_ORDER
 
     for key in request_header_order:
         value = util.get_request_meta(request, key)

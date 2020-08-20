@@ -61,3 +61,7 @@ IPWARE_LOOPBACK_PREFIX = (
     '127.',  # IPv4 loopback device (Host)
     '::1',  # IPv6 loopback device (Host)
 )
+
+IPWARE_PROXY_ORDER='left-most'
+IPWARE_PROXY_COUNT=None
+IPWARE_PROXY_TRUSTED_IPS=None

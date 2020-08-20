@@ -137,7 +137,8 @@ prefixes are considered *private* & are **not** publicly routable.
 ### Trusted Proxies
 
 If your Django server is behind one or more known proxy server(s), you can filter out unwanted requests
-by providing the `trusted` proxy list when calling `get_client_ip(request, proxy_trusted_ips=['177.139.233.133'])`.
+by providing the list of trusted proxy IP addresses.
+
 In the following example, your load balancer (LB) can be seen as a `trusted` proxy.
 
    ```
@@ -147,9 +148,20 @@ In the following example, your load balancer (LB) can be seen as a `trusted` pro
     `Fake` Client  <private> <---> <private> LB (Server) <private> ---^
    ```
 
+You can tell `django-ipware` about the trusted proxy (or proxies) by
+adding them to your project's `settings.py`:
 
    ```python
    # In the above scenario, use your load balancer's IP address as a way to filter out unwanted requests.
+   IPWARE_PROXY_TRUSTED_IPS = [
+       '177.139.233.133',
+       '177.139.233.134',
+   ]
+   ```
+
+**Alternatively**, you can provide your custom *trusted proxy ip whitelist* when calling `get_client_ip()`:
+
+   ```python
    client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.233.133'])
 
    # If you have multiple proxies, simply add them to the list
@@ -160,11 +172,18 @@ In the following example, your load balancer (LB) can be seen as a `trusted` pro
    client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.233.', '177.139.240'])
    ```
 
+If `proxy_trusted_ips` is passed to `get_client_ip`, that list will be
+used.  Otherwise, if it's not supplied or `None`,
+`IPWARE_PROXY_TRUSTED_IPS` is used as a fallback.  This can also be
+`None` if you wish to trust the information supplied in the headers
+fully, or if you only use the proxy count (see below).
+
 ### Proxy Count
 
-If your Django server is behind a *known* number of proxy server(s), you can filter out unwanted requests
-by providing the *number* of proxies when calling `get_client_ip(request, proxy_count=1)`.
-In the following example, your load balancer (LB) can be seen as the *only* proxy.
+If your Django server is behind a *known* number of proxy server(s),
+you can filter out unwanted requests by providing the *number* of
+proxies.  In the following example, your load balancer (LB) can be
+seen as the *only* proxy.
 
    ```
     `Real` Client  <public> <---> <public> LB (Server) <private> <--------> <private> Django Server
@@ -175,6 +194,12 @@ In the following example, your load balancer (LB) can be seen as the *only* prox
 
    ```python
    # In the above scenario, the total number of proxies can be used as a way to filter out unwanted requests.
+   IPWARE_PROXY_COUNT=1
+   ```
+
+**Alternatively**, you can provide your custom *trusted proxy count* when calling `get_client_ip()`:
+
+   ```python
    client_ip, is_routable = get_client_ip(request, proxy_count=1)
 
    # The above may be very useful in cases where your proxy server's IP address is assigned dynamically.
@@ -182,10 +207,33 @@ In the following example, your load balancer (LB) can be seen as the *only* prox
    client_ip, is_routable = get_client_ip(request, proxy_count=1, proxy_trusted_ips=['177.139.233.133'])
    ```
 
+If `proxy_count` is passed to `get_client_ip`, that will be used.
+Otherwise, if it's not supplied or `None`, `IPWARE_PROXY_COUNT` is
+used as a fallback.  This can also be `None` if you do not wish to use
+a fixed count.
+
+
 ### Originating Request
 
 If your proxy server is configured such that the right-most IP address is that of the originating client, you
-can indicate `right-most` as your `proxy_order` when calling `get_client_ip(request, proxy_order="right-most")`.
+can indicate `right-most` as the proxy order in your project's `settings.py`:
+
+   ```python
+   # In the above scenario, the total number of proxies can be used as a way to filter out unwanted requests.
+   IPWARE_PROXY_ORDER='right-most'
+   ```
+
+**Alternatively**, you can provide your custom *proxy order* when calling `get_client_ip()`:
+
+   ```python
+   client_ip, is_routable = get_client_ip(request, proxy_order='right-most')
+   ```
+
+If `proxy_order` is passed to `get_client_ip`, that will be used.
+Otherwise, if it's not supplied or `None`, `IPWARE_PROXY_ORDER` is
+used as a fallback.  This can also be `None` if you want to use the
+default (which is `left-most`).
+
 Please note that the [de-facto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) standard
 for the originating client IP address is  the `left-most` as per `<client>, <proxy1>, <proxy2>`.
 

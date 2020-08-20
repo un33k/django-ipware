@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpRequest
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from ipware import get_client_ip
 
 
@@ -78,6 +78,28 @@ class IPv4TestCase(TestCase):
         result = get_client_ip(request, proxy_order='right-most')
         self.assertEqual(result, ("74dc::02bb", True))
 
+    @override_settings(IPWARE_PROXY_ORDER='left-most')
+    def test_meta_proxy_order_none_or_not_supplied_left_most_from_settings(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba, 74dc::02bb',
+        }
+        result = get_client_ip(request, proxy_order=None)
+        self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+        result = get_client_ip(request)
+        self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+
+    @override_settings(IPWARE_PROXY_ORDER='right-most')
+    def test_meta_proxy_order_none_or_not_supplied_right_most_from_settings(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba, 74dc::02bb',
+        }
+        result = get_client_ip(request, proxy_order=None)
+        self.assertEqual(result, ("74dc::02bb", True))
+        result = get_client_ip(request)
+        self.assertEqual(result, ("74dc::02bb", True))
+
     def test_meta_multi_precedence_private_first(self):
         request = HttpRequest()
         request.META = {
@@ -132,6 +154,22 @@ class IPv4TestCase(TestCase):
         result = get_client_ip(request, proxy_count=1)
         self.assertEqual(result, (None, False))
 
+    def test_meta_singleton_proxy_count_uses_settings_if_none_or_not_supplied(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf',
+        }
+        with self.settings(IPWARE_PROXY_COUNT=1):
+            result = get_client_ip(request)
+            self.assertEqual(result, (None, False))
+            result = get_client_ip(request, proxy_count=None)
+            self.assertEqual(result, (None, False))
+        with self.settings(IPWARE_PROXY_COUNT=None):
+            result = get_client_ip(request)
+            self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+            result = get_client_ip(request, proxy_count=None)
+            self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+
     def test_meta_singleton_proxy_count_private(self):
         request = HttpRequest()
         request.META = {
@@ -157,6 +195,22 @@ class IPv4TestCase(TestCase):
         }
         result = get_client_ip(request, proxy_trusted_ips=['74dc::02bb'])
         self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+
+    def test_meta_proxy_trusted_ips_uses_settings_if_none_or_not_supplied(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '3ffe:1900:4545:3:200:f8ff:fe21:67cf, 74dc::02ba, 74dc::02bb',
+        }
+        with self.settings(IPWARE_PROXY_TRUSTED_IPS=['74dc::02bb']):
+            result = get_client_ip(request)
+            self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+            result = get_client_ip(request, proxy_trusted_ips=None)
+            self.assertEqual(result, ("3ffe:1900:4545:3:200:f8ff:fe21:67cf", True))
+        with self.settings(IPWARE_PROXY_TRUSTED_IPS=['::1']):
+            result = get_client_ip(request)
+            self.assertEqual(result, (None, False))
+            result = get_client_ip(request, proxy_trusted_ips=None)
+            self.assertEqual(result, (None, False))
 
     def test_meta_proxy_trusted_ips_proxy_count(self):
         request = HttpRequest()

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.http import HttpRequest
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from ipware import get_client_ip
 
 
@@ -51,6 +51,37 @@ class IPv4TestCase(TestCase):
         self.assertEqual(result, ("177.139.233.139", True))
 
     def test_meta_proxy_order_right_most(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request, proxy_order='right-most')
+        self.assertEqual(result, ("198.84.193.158", True))
+
+    @override_settings(IPWARE_PROXY_ORDER='left-most')
+    def test_meta_proxy_order_none_or_not_supplied_left_most_from_settings(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request, proxy_order=None)
+        self.assertEqual(result, ("177.139.233.139", True))
+        result = get_client_ip(request)
+        self.assertEqual(result, ("177.139.233.139", True))
+
+    @override_settings(IPWARE_PROXY_ORDER='right-most')
+    def test_meta_proxy_order_none_or_not_supplied_right_most_from_settings(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request, proxy_order=None)
+        self.assertEqual(result, ("198.84.193.158", True))
+        result = get_client_ip(request)
+        self.assertEqual(result, ("198.84.193.158", True))
+
+    @override_settings(IPWARE_PROXY_ORDER='left-most')
+    def test_meta_proxy_order_supplied_has_precedence_over_settings(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
@@ -111,6 +142,22 @@ class IPv4TestCase(TestCase):
         result = get_client_ip(request, proxy_count=1)
         self.assertEqual(result, (None, False))
 
+    def test_meta_singleton_proxy_count_uses_settings_if_none_or_not_supplied(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139',
+        }
+        with self.settings(IPWARE_PROXY_COUNT=1):
+            result = get_client_ip(request)
+            self.assertEqual(result, (None, False))
+            result = get_client_ip(request, proxy_count=None)
+            self.assertEqual(result, (None, False))
+        with self.settings(IPWARE_PROXY_COUNT=None):
+            result = get_client_ip(request)
+            self.assertEqual(result, ("177.139.233.139", True))
+            result = get_client_ip(request, proxy_count=None)
+            self.assertEqual(result, ("177.139.233.139", True))
+
     def test_meta_singleton_proxy_count_private(self):
         request = HttpRequest()
         request.META = {
@@ -136,6 +183,22 @@ class IPv4TestCase(TestCase):
         }
         result = get_client_ip(request, proxy_trusted_ips=['198.84.193.158'])
         self.assertEqual(result, ("177.139.233.139", True))
+
+    def test_meta_proxy_trusted_ips_uses_settings_if_none_or_not_supplied(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        with self.settings(IPWARE_PROXY_TRUSTED_IPS=['198.84.193.158']):
+            result = get_client_ip(request)
+            self.assertEqual(result, ("177.139.233.139", True))
+            result = get_client_ip(request, proxy_trusted_ips=None)
+            self.assertEqual(result, ("177.139.233.139", True))
+        with self.settings(IPWARE_PROXY_TRUSTED_IPS=['127.0.0.1']):
+            result = get_client_ip(request)
+            self.assertEqual(result, (None, False))
+            result = get_client_ip(request, proxy_trusted_ips=None)
+            self.assertEqual(result, (None, False))
 
     def test_meta_proxy_trusted_ips_proxy_count(self):
         request = HttpRequest()
