@@ -8,6 +8,10 @@ python:
   - "3.5"
   - "pypy3"
 
+arch:
+  - amd64
+  - ppc64le
+
 env:
   - DJANGO="django==3.0.7"
   - DJANGO="django==2.2.8"
@@ -27,6 +31,9 @@ matrix:
   exclude:
     - python: "3.5"
       env: DJANGO="django==3.0.7"
+    - python: "pypy3"
+      arch: ppc64le
+
 
 script: coverage run --source=ipware manage.py test
 
