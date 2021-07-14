@@ -1,10 +1,12 @@
-name: Unit tests
+name: MAIN
 
+# Run on push only for main
+# Otherwise it may trigger concurrently `push & pull_request` on PRs.
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - main
+
 
 jobs:
   build:
