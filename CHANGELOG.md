@@ -1,3 +1,9 @@
+## 3.0.3
+
+Enhancement:
+
+- Add support for github action (@awais786)
+
 ## 3.0.2
 
 Enhancement:

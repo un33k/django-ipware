@@ -1,10 +1,9 @@
-name: Unit tests
+name: (CI)
 
 on:
   push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    branches:
+      - staging
 
 jobs:
   build:

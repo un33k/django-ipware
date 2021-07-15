@@ -5,8 +5,8 @@ name: DEV
 on:
   push:
     branches:
-      - dev
       - sandbox
+      - dev
 
 jobs:
   build:
