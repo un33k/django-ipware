@@ -5,11 +5,11 @@ import sys
 
 from codecs import open
 from shutil import rmtree
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
+
 
 package = 'ipware'
 python_requires = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
-packages = find_packages(package, exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
 here = os.path.abspath(os.path.dirname(__file__))
 
 requires = []
@@ -55,7 +55,7 @@ setup(
     author=about['__author__'],
     author_email=about['__author_email__'],
     url=about['__url__'],
-    packages=packages,
+    packages=find_packages(package, exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
     package_data={'': ['LICENSE']},
     package_dir={'ipware': 'ipware'},
     include_package_data=True,
