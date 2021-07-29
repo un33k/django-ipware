@@ -1,83 +1,82 @@
-import setuptools
-import re
+#!/usr/bin/env python
+# Learn more: https://github.com/un33k/setup.py
 import os
 import sys
 
-name = 'django-ipware'
+from codecs import open
+from shutil import rmtree
+from setuptools import setup
+
+
 package = 'ipware'
-description = "A Django utility application that returns client's real IP address"
-url = 'https://github.com/un33k/django-ipware'
-author = 'Val Neekman'
-author_email = 'info@neekware.com'
-license = 'MIT'
-install_requires = ['']
-classifiers = [
-    'Development Status :: 5 - Production/Stable',
-    'Environment :: Web Environment',
-    'Intended Audience :: Developers',
-    'License :: OSI Approved :: MIT License',
-    'Operating System :: OS Independent',
-    'Programming Language :: Python',
-    'Programming Language :: Python :: 3.6',
-    'Programming Language :: Python :: 3.7',
-    'Programming Language :: Python :: 3.8',
-    'Programming Language :: Python :: 3.9',
-    'Topic :: Utilities'
-]
+python_requires = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+here = os.path.abspath(os.path.dirname(__file__))
+
+requires = []
+test_requirements = []
+
+about = {}
+with open(os.path.join(here, package, '__version__.py'), 'r', 'utf-8') as f:
+    exec(f.read(), about)
+
+with open('README.md', 'r', 'utf-8') as f:
+    readme = f.read()
 
 
-def get_version(package):
-    """
-    Return package version as listed in `__version__` in `init.py`.
-    """
-    init_py = open(os.path.join(package, '__init__.py')).read()
-    return re.search("^__version__ = ['\"]([^'\"]+)['\"]", init_py, re.MULTILINE).group(1)
+def status(s):
+    print('\033[1m{0}\033[0m'.format(s))
 
 
-def get_packages(package):
-    """
-    Return root package and all sub-packages.
-    """
-    return [dirpath
-        for dirpath, dirnames, filenames in os.walk(package)
-        if os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-
-def get_package_data(package):
-    """
-    Return all files under the root package, that are not in a
-    package themselves.
-    """
-    walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
-        for dirpath, dirnames, filenames in os.walk(package)
-        if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
-
-    filepaths = []
-    for base, filenames in walk:
-        filepaths.extend([os.path.join(base, filename)
-        for filename in filenames])
-    return {package: filepaths}
-
-
+# 'setup.py publish' shortcut.
 if sys.argv[-1] == 'publish':
-    os.system("python setup.py sdist bdist_wheel")
-    os.system("twine upload dist/*")
-    args = {'version': get_version(package)}
-    print("You probably want to also tag the version now:")
-    print("  git tag -a %(version)s -m 'version %(version)s' && git push --tags" % args)
+    try:
+        status('Removing previous builds…')
+        rmtree(os.path.join(here, 'dist'))
+    except OSError:
+        pass
+
+    status('Building Source and Wheel (universal) distribution…')
+    os.system('{0} setup.py sdist bdist_wheel --universal'.format(sys.executable))
+
+    status('Uploading the package to PyPI via Twine…')
+    os.system('twine upload dist/*')
+
+    status('Pushing git tags…')
+    os.system('git tag v{0}'.format(about['__version__']))
+    os.system('git push --tags')
     sys.exit()
 
-
-setuptools.setup(
-    name=name,
-    version=get_version(package),
-    url=url,
-    license=license,
-    description=description,
-    author=author,
-    author_email=author_email,
-    packages=get_packages(package),
-    package_data=get_package_data(package),
-    install_requires=install_requires,
-    classifiers=classifiers
+setup(
+    name=about['__title__'],
+    version=about['__version__'],
+    description=about['__description__'],
+    long_description=readme,
+    long_description_content_type='text/markdown',
+    author=about['__author__'],
+    author_email=about['__author_email__'],
+    url=about['__url__'],
+    packages=[package],
+    package_data={'': ['LICENSE']},
+    package_dir={'ipware': 'ipware'},
+    include_package_data=True,
+    python_requires=python_requires,
+    install_requires=requires,
+    license=about['__license__'],
+    zip_safe=False,
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Intended Audience :: Developers',
+        'Natural Language :: English',
+        'License :: OSI Approved :: Apache Software License',
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+    ],
+    cmdclass={},
+    tests_require=test_requirements,
+    extras_require={},
+    project_urls={},
 )
