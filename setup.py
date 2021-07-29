@@ -5,12 +5,13 @@ import sys
 
 from codecs import open
 from shutil import rmtree
-from setuptools import setup
+from setuptools import setup, find_packages
 
 package = 'ipware'
 python_requires = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+packages = find_packages(package, exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
 here = os.path.abspath(os.path.dirname(__file__))
-packages = [package]
+
 requires = []
 test_requirements = []
 
