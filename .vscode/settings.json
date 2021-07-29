@@ -1,13 +1,18 @@
 {
   "python.linting.enabled": false,
   "cSpell.words": [
+    "Neekman",
+    "Neekware",
+    "Pware",
     "getattr",
     "ipware",
     "multicast",
+    "noqa",
     "pycodestyle",
     "pyflakes",
     "routable",
     "setuptools",
-    "stackoverflow"
+    "stackoverflow",
+    "vneekman"
   ]
 }
