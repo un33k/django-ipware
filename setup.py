@@ -5,7 +5,7 @@ import sys
 
 from codecs import open
 from shutil import rmtree
-from setuptools import find_packages, setup
+from setuptools import setup
 
 
 package = 'ipware'
@@ -55,7 +55,7 @@ setup(
     author=about['__author__'],
     author_email=about['__author_email__'],
     url=about['__url__'],
-    packages=find_packages(package, exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
+    packages=[package],
     package_data={'': ['LICENSE']},
     package_dir={'ipware': 'ipware'},
     include_package_data=True,
