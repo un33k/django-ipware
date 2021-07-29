@@ -43,7 +43,7 @@ if sys.argv[-1] == 'publish':
     status('Pushing git tags…')
     os.system('git tag v{0}'.format(about['__version__']))
     os.system('git push --tags')
-
+    sys.exit()
 
 setup(
     name=about['__title__'],
