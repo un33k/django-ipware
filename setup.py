@@ -1,11 +1,7 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
-from setuptools import setup
+import setuptools
 import re
 import os
 import sys
-
 
 name = 'django-ipware'
 package = 'ipware'
@@ -22,10 +18,10 @@ classifiers = [
     'License :: OSI Approved :: MIT License',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
-    'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
     'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
     'Topic :: Utilities'
 ]
 
@@ -43,8 +39,8 @@ def get_packages(package):
     Return root package and all sub-packages.
     """
     return [dirpath
-            for dirpath, dirnames, filenames in os.walk(package)
-            if os.path.exists(os.path.join(dirpath, '__init__.py'))]
+        for dirpath, dirnames, filenames in os.walk(package)
+        if os.path.exists(os.path.join(dirpath, '__init__.py'))]
 
 
 def get_package_data(package):
@@ -53,13 +49,13 @@ def get_package_data(package):
     package themselves.
     """
     walk = [(dirpath.replace(package + os.sep, '', 1), filenames)
-            for dirpath, dirnames, filenames in os.walk(package)
-            if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
+        for dirpath, dirnames, filenames in os.walk(package)
+        if not os.path.exists(os.path.join(dirpath, '__init__.py'))]
 
     filepaths = []
     for base, filenames in walk:
         filepaths.extend([os.path.join(base, filename)
-                          for filename in filenames])
+        for filename in filenames])
     return {package: filepaths}
 
 
@@ -71,7 +67,7 @@ if sys.argv[-1] == 'publish':
     sys.exit()
 
 
-setup(
+setuptools.setup(
     name=name,
     version=get_version(package),
     url=url,
