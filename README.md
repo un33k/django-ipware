@@ -12,10 +12,10 @@
 
 # Notice
 
-There is not a good _out-of-the-box_ solution against fake IP addresses, aka _IP Address Spoofing_.
+There is not a good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
 You are encouraged to read the ([Advanced users](README.md#advanced-users)) section of this page and
-use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially _if_ you are
-planning to include `ipware` in any authentication, security or _anti-fraud_ related architecture.
+use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially `if` you are
+planning to include `ipware` in any authentication, security or `anti-fraud` related architecture.
 
 # How to install
 
@@ -153,11 +153,15 @@ client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.', '
 client_ip, is_routable = get_client_ip(request, proxy_trusted_ips=['177.139.233.', '177.139.240'])
 ```
 
+`Please note:` By default, the `right-most` proxy in the chain is the `trusted` proxy and that is the one your django
+server talks to. Therefore, `ipware` checks to see if the `right-most` proxy address starts with any ip pattern that was
+passed in via the `proxy_trusted_ips` list.
+
 ### Proxy Count
 
-If your Django server is behind a _known_ number of proxy server(s), you can filter out unwanted requests
-by providing the _number_ of proxies when calling `get_client_ip(request, proxy_count=1)`.
-In the following example, your load balancer (LB) can be seen as the _only_ proxy.
+If your Django server is behind a `known` number of proxy server(s), you can filter out unwanted requests
+by providing the `number` of proxies when calling `get_client_ip(request, proxy_count=1)`.
+In the following example, your load balancer (LB) can be seen as the `only` proxy.
 
 ```
  `Real` Client  <public> <---> <public> LB (Server) <private> <--------> <private> Django Server

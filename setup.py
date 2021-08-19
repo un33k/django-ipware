@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Learn more: https://github.com/kennethreitz/setup.py
+# Learn more: https://github.com/un33k/setup.py
 import os
 import sys
 

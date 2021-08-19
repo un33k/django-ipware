@@ -129,13 +129,37 @@ class IPv4TestCase(TestCase):
         result = get_client_ip(request)
         self.assertEqual(result, ("177.139.233.139", True))
 
-    def test_meta_proxy_trusted_ips(self):
+    def test_meta_proxy_trusted_ips_exact_ip_check(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
         }
         result = get_client_ip(request, proxy_trusted_ips=['198.84.193.158'])
         self.assertEqual(result, ("177.139.233.139", True))
+
+    def test_meta_proxy_trusted_ips_exact_ips_check(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request, proxy_trusted_ips=['198.84.193.157', '198.84.193.158'])
+        self.assertEqual(result, ("177.139.233.139", True))
+
+    def test_meta_proxy_trusted_ips_subnet_start_with_check(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request, proxy_trusted_ips=['198.84.193'])
+        self.assertEqual(result, ("177.139.233.139", True))
+
+    def test_meta_proxy_trusted_ips_does_not_start_with_check(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request, proxy_trusted_ips=['84.193.158'])
+        self.assertEqual(result, (None, False))
 
     def test_meta_proxy_trusted_ips_proxy_count(self):
         request = HttpRequest()
@@ -197,7 +221,7 @@ class IPv4TestCase(TestCase):
         ip = get_client_ip(request)
         self.assertEqual(ip, ("192.168.1.1", False))
 
-    def test_best_matched_ip_private_precedence(self):
+    def test_best_matched_ip_private_loopback_precedence(self):
         request = HttpRequest()
         request.META = {
             'HTTP_X_REAL_IP': '127.0.0.1',
@@ -205,6 +229,15 @@ class IPv4TestCase(TestCase):
         }
         ip = get_client_ip(request)
         self.assertEqual(ip, ("192.168.1.1", False))
+
+    def test_best_matched_ip_private_precedence(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '172.25.0.1',
+            'REMOTE_ADDR': '172.25.0.3',
+        }
+        ip = get_client_ip(request)
+        self.assertEqual(ip, ("172.25.0.3", False))
 
     def test_100_low_range_public(self):
         request = HttpRequest()

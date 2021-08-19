@@ -48,7 +48,8 @@ def get_client_ip(
 
             if proxy_trusted_ips:
                 for proxy in proxy_trusted_ips:
-                    if proxy in ips[-1]:
+                    # right most proxy is the most reliable proxy that talks to the django server
+                    if ips[-1].startswith(proxy):
                         client_ip, routable = util.get_ip_info(ips[0])
                         if client_ip and routable:
                             return client_ip, routable
