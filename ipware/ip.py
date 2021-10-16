@@ -37,7 +37,7 @@ def get_client_ip(
 
         if len(matching_reverse_proxy_definitions) == 0:
             # This request did not come from one of our authorized proxies, the current IP is the Client.
-            log.warning(f"Return {outmost_proven_ip}, since it is not a proxy.")
+            log.debug(f"Return {outmost_proven_ip}, since it is not a proxy.")
             break
 
         proxy_definition, = matching_reverse_proxy_definitions
@@ -54,7 +54,7 @@ def get_client_ip(
             break
 
         new_address = _parse_and_update_header(header_definition, headers)
-        log.warning(f"Trusted proxy {outmost_proven_ip} saw address {new_address} and wrote it to header {header_definition.uppercase_name}")
+        log.warning(f"Trusted proxy {outmost_proven_ip} has set header {header_definition.uppercase_name}")
 
         assert new_address is not None
 
