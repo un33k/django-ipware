@@ -22,7 +22,8 @@ jobs:
             django-version: 4.0
           - python-version: 3.7
             django-version: 4.0
-          
+          - python-version: pypy3
+            django-version: 4.0
     steps:
       - uses: actions/checkout@v2
       - name: setup python
