@@ -1,3 +1,9 @@
+## 4.0.1
+
+Enhancement:
+
+- Added test for django 4.0 (Thx PetrDlouhy)
+
 ## 4.0.0
 
 Enhancement:
