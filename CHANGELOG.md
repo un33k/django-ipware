@@ -1,3 +1,9 @@
+# 4.0.2
+
+Enhancement:
+
+- Added support for Python 3.10 (Thx joshuadavidthomas)
+
 ## 4.0.1
 
 Enhancement:
