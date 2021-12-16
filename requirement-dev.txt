@@ -1,4 +1,4 @@
-Django==3.2.5
+Django==4.0
 pycodestyle==2.7.0
 flake8==3.9.2
 twine==3.4.2
