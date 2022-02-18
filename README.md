@@ -1,4 +1,4 @@
-# Django IPware
+# Django IPware (Read [Notice](README.md#Notice))
 
 **A Django application to retrieve client's IP address**
 
@@ -12,10 +12,14 @@
 
 # Notice
 
-There is not a good `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
+There is no perfect `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
 You are encouraged to read the ([Advanced users](README.md#advanced-users)) section of this page and
 use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially `if` you are
 planning to include `ipware` in any authentication, security or `anti-fraud` related architecture.
+
+This is an open source projects, with the source code visible to all. Therefore, it may be exploited through unimplemented, or badly implemented features.
+
+Please use ipware `ONLY` as a complement to your `firewall` security measures!
 
 # How to install
 
