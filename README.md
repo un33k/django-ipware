@@ -17,7 +17,7 @@ You are encouraged to read the ([Advanced users](README.md#advanced-users)) sect
 use `trusted_proxies_ips` and/or `proxy_count` features to match your needs, especially `if` you are
 planning to include `ipware` in any authentication, security or `anti-fraud` related architecture.
 
-This is an open source projects, with the source code visible to all. Therefore, it may be exploited through unimplemented, or badly implemented features.
+This is an open source project, with the source code visible to all. Therefore, it may be exploited through unimplemented, or badly implemented features.
 
 Please use ipware `ONLY` as a complement to your `firewall` security measures!
 
