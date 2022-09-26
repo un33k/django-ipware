@@ -23,6 +23,14 @@ class IPv4TestCase(TestCase):
         result = get_client_ip(request)
         self.assertEqual(result, ("177.139.233.139", True))
 
+    def test_meta_single_with_unwanted_port(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': '177.139.233.139:17085, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request)
+        self.assertEqual(result, ("177.139.233.139", True))
+
     def test_meta_multi(self):
         request = HttpRequest()
         request.META = {

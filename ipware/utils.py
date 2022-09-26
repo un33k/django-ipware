@@ -3,11 +3,18 @@ import socket
 from . import defaults as defs
 
 
-def cleanup_ip(ip):
+def cleanup_ip(ip, strip_ports=True):
     """
-    Given ip address string, it cleans it up
+    Given ip address string, it cleans it up;
+
+    Args:
+        ip (str): ip address
+        strip_ports (bool, optional): Some reverse proxies add port numbers in the forward headers;
+                by default we remove them. Defaults to True.
     """
     ip = ip.strip().lower()
+    if ip.count(':') == 1 and strip_ports is True:
+        return ip.split(':')[0]
     if (ip.startswith('::ffff:')):
         return ip.replace('::ffff:', '')
     return ip
@@ -86,7 +93,7 @@ def get_ips_from_string(ip_str):
     ip_list = []
 
     for ip in ip_str.split(','):
-        clean_ip = ip.strip().lower()
+        clean_ip = cleanup_ip(ip)
         if clean_ip:
             ip_list.append(clean_ip)
 
