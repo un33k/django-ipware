@@ -1,6 +1,6 @@
 # Azure Application Gateway
 
-If you use an Azure application gateways as a reverse proxy for your application the `HTTP_X_FORWARDED_FOR` header can be set using the IPv4 including a "random" port number - this for some reason does not happen on all requests
+If you use an Azure application gateways as a reverse proxy for your application the `HTTP_X_FORWARDED_FOR` header can be set using the IPv4 including a "random" port number - this for some reason does not happen on all requests.
 
 
 ## Sample Headers
