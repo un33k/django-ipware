@@ -93,7 +93,7 @@ def get_ips_from_string(ip_str):
     ip_list = []
 
     for ip in ip_str.split(','):
-        clean_ip = ip.strip().lower()
+        clean_ip = cleanup_ip(ip)
         if clean_ip:
             ip_list.append(clean_ip)
 
