@@ -13,7 +13,7 @@ def cleanup_ip(ip, strip_ports=True):
                 by default we remove them. Defaults to True.
     """
     ip = ip.strip().lower()
-    if ip.count(':') == 1 and strip_ports == True:
+    if ip.count(':') == 1 and strip_ports is True:
         return ip.split(':')[0]
     if (ip.startswith('::ffff:')):
         return ip.replace('::ffff:', '')
