@@ -68,6 +68,11 @@ class IPv4TestCase(TestCase):
         result = util.get_ips_from_string(ip_str)
         self.assertEqual(result, (['192.168.255.182', '198.84.193.157', '177.139.233.139'], 3))
 
+    def test_ips_with_port(self):
+        ip_str = "198.51.100.10:46532"
+        result = util.get_ips_from_string(ip_str)
+        self.assertEqual(result, (["198.51.100.10"], 1))
+
     def test_get_ip_info(self):
         ip = '127.0.0.1'
         result = util.get_ip_info(ip)

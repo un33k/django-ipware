@@ -1,5 +1,7 @@
 import socket
 
+from django.http.request import split_domain_port
+
 from . import defaults as defs
 
 
@@ -87,6 +89,12 @@ def get_ips_from_string(ip_str):
 
     for ip in ip_str.split(','):
         clean_ip = ip.strip().lower()
+
+        # Some IP values may contain a port
+        split_ip, port = split_domain_port(ip.strip().lower())
+        if port:
+            clean_ip = split_ip
+
         if clean_ip:
             ip_list.append(clean_ip)
 
