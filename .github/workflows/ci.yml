@@ -1,18 +1,21 @@
 # https://devguide.python.org/versions
 # https://www.djangoproject.com/download/#supported-versions
-name: (CI)
+name: ci
 
 on:
   push:
     branches:
       - ci
+      - dev
+      - master
   pull_request:
     branches:
       - ci
+      - dev
       - master
 
 jobs:
-  build:
+  ci:
     name: Python ${{ matrix.python-version }}, django ${{ matrix.django-version }}
     runs-on: ubuntu-latest
     strategy:
