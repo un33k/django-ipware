@@ -6,6 +6,10 @@ on:
   push:
     branches:
       - ci
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build:
