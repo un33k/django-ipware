@@ -4,3 +4,34 @@ requires = [
     "wheel"
 ]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+select = [
+    "B",
+    "C4",
+    "C9",
+    "DJ",
+    "E",
+    "EM",
+    "F",
+    "I",
+    "N",
+    "PGH",
+    "PLC",
+    "PLE",
+    "PLW",
+    "RSE",
+    "RET",
+    "RUF",
+    "SLF",
+    "SIM",
+    "TCH",
+    "TID",
+    "W",
+]
+ignore = ["PGH004", "TID252"]
+line-length = 107
+target-version = "py37"
+
+[tool.ruff.mccabe]
+max-complexity = 15

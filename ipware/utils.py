@@ -91,9 +91,8 @@ def get_ips_from_string(ip_str):
             ip_list.append(clean_ip)
 
     ip_count = len(ip_list)
-    if ip_count > 0:
-        if is_valid_ip(ip_list[0]) and is_valid_ip(ip_list[-1]):
-            return ip_list, ip_count
+    if ip_count > 0 and is_valid_ip(ip_list[0]) and is_valid_ip(ip_list[-1]):
+        return ip_list, ip_count
 
     return [], 0
 

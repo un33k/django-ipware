@@ -2,11 +2,10 @@
 # Learn more: https://github.com/un33k/setup.py
 import os
 import sys
-
 from codecs import open
 from shutil import rmtree
-from setuptools import setup
 
+from setuptools import setup
 
 package = 'ipware'
 python_requires = ">=3.7"
