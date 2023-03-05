@@ -1,3 +1,10 @@
+# 5.0.0
+
+Enhancement:
+
+- Added support for Python 3.11 (@ccluass - thx)
+- Drop support for Python 3.6, Django 2.2
+
 # 4.0.2
 
 Enhancement:
