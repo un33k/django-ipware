@@ -2,6 +2,7 @@
 
 from django.http import HttpRequest
 from django.test import TestCase
+
 from ipware import get_client_ip
 
 
