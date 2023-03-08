@@ -12,7 +12,7 @@
 
 # Alternative package
 
-If you prefer a python version, you can use the `(python-ipware)[https://github.com/un33k/python-ipware]` package instead. `python-ipware` is a newer package, with more advanced features. While this a Django specific package, `python-ipware` can be used with Django, Flask, etc.
+If you prefer a python version, you can use the [python-ipware](https://github.com/un33k/python-ipware) package instead. `python-ipware` is a newer package, with more advanced features. While this a Django specific package, `python-ipware` can be used with Django, Flask, etc.
 
 # Notice
 
