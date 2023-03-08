@@ -10,6 +10,10 @@
 
 **Best attempt** to get client's IP address while keeping it **DRY**.
 
+# Alternative package
+
+If you prefer a python version, you can use the `(python-ipware)[https://github.com/un33k/python-ipware]` package instead. `python-ipware` is a newer package, with more advanced features. While this a Django specific package, `python-ipware` can be used with Django, Flask, etc.
+
 # Notice
 
 There is no perfect `out-of-the-box` solution against fake IP addresses, aka `IP Address Spoofing`.
