@@ -14,6 +14,7 @@ IPWARE_META_PRECEDENCE_ORDER = getattr(settings,
         'HTTP_FORWARDED_FOR',
         'HTTP_FORWARDED',
         'HTTP_VIA',
+        'HTTP_X_CLIENT_IP",
         'REMOTE_ADDR',
     )
 )
