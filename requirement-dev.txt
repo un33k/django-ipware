@@ -1,4 +1,4 @@
-Django==4.0
-pycodestyle==2.7.0
-flake8==3.9.2
-twine==3.4.2
+Django==4.2.4
+pycodestyle==2.11.0
+flake8==6.1.0
+twine==4.0.2
