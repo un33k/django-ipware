@@ -59,11 +59,12 @@ IPWARE_PRIVATE_IP_PREFIX = getattr(settings,
         '240.', '241.', '242.', '243.', '244.', '245.', '246.', '247.', '248.',
         '249.', '250.', '251.', '252.', '253.', '254.', '255.',  # reserved
         '::',  # Unspecified address
-        '::ffff:', '2001:10:', '2001:20:'  # messages to software
+        '::ffff:', '2001:10:', '2001:20:',  # messages to software
         '2001::',  # TEREDO
         '2001:2::',  # benchmarking
         '2001:db8:',  # reserved for documentation and example code
-        'fc00:',  # IPv6 private block
+        'fc',  # IPv6 ULA (RFC4193) - NOTE: Reserved for future use, not currently in widespread use.
+        'fd',  # IPv6 ULA (RFC4193) - Mainly used for private network addressing
         'fe80:',  # link-local unicast
         'ff00:',  # IPv6 multicast
     )

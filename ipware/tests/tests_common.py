@@ -81,3 +81,16 @@ class IPv4TestCase(TestCase):
         ip = '74dc::02ba'
         result = util.get_ip_info(ip)
         self.assertTrue(result, (ip, True))
+
+    def test_is_ipv6_private_block(self):
+        ip = 'fc00::1'
+        self.assertTrue(util.is_private_ip(ip))
+
+        ip = 'fd00::1'
+        self.assertTrue(util.is_private_ip(ip))
+
+        # Test an address that is outside the fc00::/7 private block range
+        ip = 'fb00::1'
+        self.assertFalse(util.is_private_ip(ip))
+        ip = 'fe00::1'
+        self.assertFalse(util.is_private_ip(ip))
