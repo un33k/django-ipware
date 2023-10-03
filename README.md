@@ -7,7 +7,7 @@ This package is no longer maintained. Please use [python-ipware](https://github.
 
 While this package is no longer maintained, it will continue to work as is. If you are using this package, you are encouraged to migrate to `python-ipware` as soon as possible.
 
-=====================================================================================
+===============================================================================
 
 **A Django application to retrieve client's IP address**
 
