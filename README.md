@@ -3,7 +3,7 @@
 
 This package is no longer maintained. Please use [python-ipware](https://github.com/un33k/python-ipware) instead.
 
-`python-ipware` is a newer package, with more advanced features. While this a Django specific package, `python-ipware` can be used with Django, Flask, etc.
+`python-ipware` is a newer package, with more advanced features and can be used with `Django`, Flask, etc.
 
 While this package is no longer maintained, it will continue to work as is. If you are using this package, you are encouraged to migrate to `python-ipware` as soon as possible.
 
