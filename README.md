@@ -8,7 +8,7 @@
 
 # Alternative package
 
-If you prefer a python only version that does not integrate with Django , you can use the [python-ipware](https://github.com/un33k/python-ipware) package instead. `django-ipware` will use python-ipware in the future.
+If you prefer a python only version that does not integrate with Django, you can use the [python-ipware](https://github.com/un33k/python-ipware) package instead. `django-ipware` will use python-ipware in the future.
 
 # Overview
 
@@ -221,6 +221,7 @@ X.Y.Z Version
 [version-image]: https://img.shields.io/pypi/v/django-ipware.svg
 [version-link]: https://pypi.python.org/pypi/django-ipware
 [coverage-image]: https://coveralls.io/repos/un33k/django-ipware/badge.svg
+[coverage-link]: https://coveralls.io/r/un33k/django-ipware
 
 # Sponsors
 
