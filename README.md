@@ -1,5 +1,7 @@
 # Django IPware 
 
+If you prefer a python only version that does not integrate with Django, you can use the [python-ipware](https://github.com/un33k/python-ipware) package instead. `django-ipware` will use python-ipware in the future.
+
 **A Django application to retrieve client's IP address**
 
 [![status-image]][status-link]

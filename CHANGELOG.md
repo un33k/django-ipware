@@ -1,4 +1,4 @@
-# Unreleased
+# 5.0.2
 
 Enhancement:
 
@@ -6,6 +6,7 @@ Enhancement:
 - Add support for Django 4.2
 - Drop support for Django 4.0
 - Drop support for PyPy
+- Readme updates to encourage users to use `python-ipware` instead of `django-ipware`
 
 # 5.0.0
 
