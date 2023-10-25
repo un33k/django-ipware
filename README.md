@@ -1,16 +1,14 @@
 # Django IPware 
 
-While this package will continue to work, you are encouraged to use [python-ipware](https://github.com/un33k/python-ipware) instead.
-
-`python-ipware` is a newer package, with more advanced features and can be used with `Django`, Flask, etc.
-
-===============================================================================
-
 **A Django application to retrieve client's IP address**
 
 [![status-image]][status-link]
 [![version-image]][version-link]
 [![coverage-image]][coverage-link]
+
+# Alternative package
+
+If you prefer a python only version that does not integrate with Django , you can use the [python-ipware](https://github.com/un33k/python-ipware) package instead. `django-ipware` will use python-ipware in the future.
 
 # Overview
 
@@ -218,14 +216,11 @@ X.Y.Z Version
     `MINOR` version -- when you add functionality in a backwards-compatible manner, and
     `PATCH` version -- when you make backwards-compatible bug fixes.
 
-[status-image]: https://travis-ci.org/un33k/django-ipware.svg?branch=master
-[status-link]: https://travis-ci.org/un33k/django-ipware
+[status-image]: https://github.com/un33k/django-ipware/actions/workflows/ci.yml/badge.svg
+[status-link]: https://github.com/un33k/django-ipware/actions/workflows/ci.yml
 [version-image]: https://img.shields.io/pypi/v/django-ipware.svg
 [version-link]: https://pypi.python.org/pypi/django-ipware
 [coverage-image]: https://coveralls.io/repos/un33k/django-ipware/badge.svg
-[coverage-link]: https://coveralls.io/r/un33k/django-ipware
-[download-image]: https://img.shields.io/pypi/dm/django-ipware.svg
-[download-link]: https://pypi.python.org/pypi/django-ipware
 
 # Sponsors
 
