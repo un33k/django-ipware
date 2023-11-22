@@ -42,7 +42,7 @@ jobs:
       - name: Run ruff
         run: ruff .
       - name: Run test
-        run: coverage run --source=ipware manage.py test
+        run: coverage run --omit=ipware/__version.py --source=ipware manage.py test
       - name: Coveralls
         run: coveralls --service=github
         env:
