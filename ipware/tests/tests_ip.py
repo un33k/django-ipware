@@ -34,7 +34,7 @@ class IpTestCase(TestCase):
         }
         result = get_client_ip(request, proxy_count=2)
         self.assertEqual(result, ("177.139.233.139", True))
-        
+
     def test_meta_proxy_trusted_ips_exact_ip_check(self):
         request = HttpRequest()
         request.META = {
