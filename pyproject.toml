@@ -35,3 +35,9 @@ target-version = "py311"
 
 [tool.ruff.mccabe]
 max-complexity = 16
+
+[tool.coverage.run]
+omit = [
+    "ipware/__version__.py",
+    "ipware/tests/*",
+]
