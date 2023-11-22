@@ -5,6 +5,53 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "django-ipware"
+authors = [
+    {name = "Val Neekman", email = "info@neekware.com"},
+]
+description = "A Python package to retrieve user's IP address"
+requires-python = ">=3.7"
+dynamic = ["version", "readme"]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+
+[project.urls]
+Documentation = "https://github.com/un33k/django-ipware#readme"
+Issues = "https://github.com/un33k/django-ipware/issues"
+Source = "https://github.com/un33k/django-ipware"
+Changelog = "https://github.com/un33k/django-ipware/blob/master/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+  "ruff",
+  "coveralls~=3.3",
+  "coverage[toml]",
+  "twine"
+]
+
+[tool.setuptools]
+packages = ["ipware"]
+
+[tool.setuptools.dynamic]
+version = {attr = "ipware.__version__"}
+readme = {file = ["README.md"], content-type = "text/markdown"}
+
+[tool.setuptools.package-data]
+"ipware" = ["py.typed"]
+
 [tool.ruff]
 select = [
     "B",
@@ -29,9 +76,15 @@ select = [
     "TID",
     "W",
 ]
-ignore = ["PGH004", "TID252"]
-line-length = 107
-target-version = "py311"
+ignore = ["PGH004", "TID252", "E501", "I001", "EM101", "SIM108", "SIM110"]
+line-length = 120
+target-version = "py37"
 
 [tool.ruff.mccabe]
 max-complexity = 16
+
+[tool.coverage.run]
+omit = [
+    "ipware/__version__.py",
+    "ipware/tests/*",
+]
