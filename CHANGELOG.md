@@ -1,3 +1,10 @@
+# 6.0.0
+
+Enhancement: (breaking changes)
+
+- Use python-ipware under the hood
+- Minor behavior changes as python-ipware is more accurate
+
 # 5.0.2
 
 Enhancement:
