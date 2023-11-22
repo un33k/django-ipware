@@ -8,7 +8,7 @@
 
 # Alternative package
 
-If you prefer a python only version that does not integrate with Django directly, but allows for more flexibility and advanced features, you can use the [python-ipware](https://github.com/un33k/python-ipware) package instead. `django-ipware` is now a wrapper using python-ipware underneath.
+If you prefer a python only version that does not integrate with Django directly, but allows for more flexibility and advanced features, you can use the [python-ipware](https://github.com/un33k/python-ipware) package instead.  `django-ipware` is a wrapper using [python-ipware](https://github.com/un33k/python-ipware) under the hood staring from version `6.0.0`.
 
 # Overview
 
