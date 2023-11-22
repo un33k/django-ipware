@@ -5,14 +5,6 @@ requires = [
 ]
 build-backend = "setuptools.build_meta"
 
-[project.optional-dependencies]
-dev = [
-  "ruff",
-  "coveralls~=3.3",
-  "coverage[toml]",
-  "twine"
-]
-
 [tool.ruff]
 select = [
     "B",
@@ -43,9 +35,3 @@ target-version = "py311"
 
 [tool.ruff.mccabe]
 max-complexity = 16
-
-[tool.coverage.run]
-omit = [
-    "ipware/__version__.py",
-    "ipware/tests/*",
-]
