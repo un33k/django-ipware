@@ -1,6 +1,7 @@
 from django.conf import settings
 from python_ipware import IpWare
 
+
 def get_client_ip(
     request,
     proxy_order='left-most',
