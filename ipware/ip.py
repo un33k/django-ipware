@@ -12,7 +12,7 @@ def get_client_ip(
     leftmost = proxy_order == 'left-most'
     proxy_count = proxy_count if proxy_count is not None else 0
     proxy_list = proxy_trusted_ips if proxy_trusted_ips is not None else []
-    request_header_order = request_header_order if request_header_order is not None else getattr(settings, 'IPWARE_META_PRECEDENCE_ORDER', None)
+    request_header_order = getattr(settings, 'IPWARE_META_PRECEDENCE_ORDER', request_header_order)
 
     # Instantiate IpWare with values from the function arguments
     ipw = IpWare(precedence=request_header_order,
