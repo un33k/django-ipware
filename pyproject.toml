@@ -14,6 +14,9 @@ description = "A Django package to retrieve user's IP address"
 requires-python = ">=3.8"
 dynamic = ["version", "readme"]
 license = {text = "MIT"}
+dependencies = [
+    "python-ipware>=2.0.0"
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -31,9 +34,6 @@ Documentation = "https://github.com/un33k/django-ipware#readme"
 Issues = "https://github.com/un33k/django-ipware/issues"
 Source = "https://github.com/un33k/django-ipware"
 Changelog = "https://github.com/un33k/django-ipware/blob/master/CHANGELOG.md"
-
-[project.dependencies]
-python-ipware>="2.0.0"
 
 [project.optional-dependencies]
 dev = [
