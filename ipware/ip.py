@@ -1,5 +1,5 @@
-from . import defaults as defs
-from . import utils as util
+from django.conf import settings
+from python_ipware import IpWare
 
 
 def get_client_ip(
@@ -9,53 +9,24 @@ def get_client_ip(
     proxy_trusted_ips=None,
     request_header_order=None,
 ):
+    leftmost = proxy_order == 'left-most'
+    proxy_count = proxy_count if proxy_count is not None else 0
+    proxy_list = proxy_trusted_ips if proxy_trusted_ips is not None else []
+    request_header_order = getattr(settings, 'IPWARE_META_PRECEDENCE_ORDER', request_header_order)
+
+    # Instantiate IpWare with values from the function arguments
+    ipw = IpWare(precedence=request_header_order,
+                 leftmost=leftmost,
+                 proxy_count=proxy_count,
+                 proxy_list=proxy_list)
+
+    ip, _ = ipw.get_client_ip(request.META, True)
+
     client_ip = None
     routable = False
 
-    if proxy_count is None:
-        proxy_count = -1
-
-    if proxy_trusted_ips is None:
-        proxy_trusted_ips = []
-
-    if request_header_order is None:
-        request_header_order = defs.IPWARE_META_PRECEDENCE_ORDER
-
-    for key in request_header_order:
-        value = util.get_request_meta(request, key)
-        if value:
-            ips, ip_count = util.get_ips_from_string(value)
-
-            if ip_count < 1:
-                # we are expecting at least one IP address to process
-                continue
-
-            if proxy_count == 0 and ip_count > 1:
-                # we are not expecting requests via any proxies
-                continue
-
-            if proxy_count > 0 and proxy_count != ip_count - 1:
-                # we are expecting requests via `proxy_count` number of proxies
-                continue
-
-            if proxy_trusted_ips and ip_count < 2:
-                # we are expecting requests via at least one trusted proxy
-                continue
-
-            if proxy_order == 'right-most' and ip_count > 1:
-                # we are expecting requests via proxies to be custom as per `<proxy2>, <proxy1>, <client>`
-                ips.reverse()
-
-            if proxy_trusted_ips:
-                for proxy in proxy_trusted_ips:
-                    # right most proxy is the most reliable proxy that talks to the django server
-                    if ips[-1].startswith(proxy):
-                        client_ip, routable = util.get_ip_info(ips[0])
-                        if client_ip and routable:
-                            return client_ip, routable
-            else:
-                client_ip, routable = util.get_ip_info(util.get_best_ip(client_ip, ips[0]))
-                if client_ip and routable:
-                    return client_ip, routable
+    if ip:
+        client_ip = str(ip)
+        routable = ip.is_global
 
     return client_ip, routable

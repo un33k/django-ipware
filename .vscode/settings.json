@@ -2,6 +2,7 @@
   "python.linting.enabled": false,
   "cSpell.words": [
     "cmdclass",
+    "Fastly",
     "getattr",
     "ipware",
     "multicast",
