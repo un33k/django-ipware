@@ -36,9 +36,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
           pip install --upgrade coveralls ruff
           pip install "django~=${{ matrix.django-version }}"
+          pip install -e .
       - name: Run ruff
         run: ruff .
       - name: Run test
