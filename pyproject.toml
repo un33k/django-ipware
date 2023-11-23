@@ -10,8 +10,8 @@ name = "django-ipware"
 authors = [
     {name = "Val Neekman", email = "info@neekware.com"},
 ]
-description = "A Python package to retrieve user's IP address"
-requires-python = ">=3.7"
+description = "A Django package to retrieve user's IP address"
+requires-python = ">=3.8"
 dynamic = ["version", "readme"]
 license = {text = "MIT"}
 classifiers = [
@@ -20,8 +20,6 @@ classifiers = [
     "Natural Language :: English",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -33,6 +31,9 @@ Documentation = "https://github.com/un33k/django-ipware#readme"
 Issues = "https://github.com/un33k/django-ipware/issues"
 Source = "https://github.com/un33k/django-ipware"
 Changelog = "https://github.com/un33k/django-ipware/blob/master/CHANGELOG.md"
+
+[project.dependencies]
+python-ipware>="2.0.0"
 
 [project.optional-dependencies]
 dev = [
