@@ -1,3 +1,8 @@
+# 6.0.1
+
+Enhancement:
+- Add IPWARE_META_PROXY_COUNT setting + corresponding docs (thx: @mmcclelland1002)
+
 # 6.0.0
 
 Enhancement: (breaking changes)
