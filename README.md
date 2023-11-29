@@ -94,6 +94,11 @@ get_client_ip(request, request_header_order=['X_FORWARDED_FOR'])
 get_client_ip(request, request_header_order=['X_FORWARDED_FOR', 'HTTP_X_FORWARDED_FOR'])
 ```
 
+- ### Proxy Count
+
+  The default meta proxy count is 0 unless explictly provided as an argument to `get_client_ip()`. You may customize the order
+  by providing your own `IPWARE_META_PROXY_COUNT` by adding it to your project's settings.py
+
 ### Trusted Proxies
 
 If your Django server is behind one or more known proxy server(s), you can filter out unwanted requests
