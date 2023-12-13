@@ -1,3 +1,8 @@
+# 6.0.3
+
+Enhancement:
+- Show in Pypi Python 3.12 is supported (thx: @jrobichaud)
+
 # 6.0.2
 
 Enhancement:
