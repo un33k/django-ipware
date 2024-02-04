@@ -20,15 +20,23 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", "3.11"]
-        django-version: [3.2, 4.1, 4.2]
+        python-version: [3.8, 3.9, "3.10", 3.11, 3.12]
+        django-version: [3.2, 4.1, 4.2, "5.0"]
         exclude:
           # excludes list
           - python-version: 3.11
             django-version: 3.2
+          - python-version: 3.12
+            django-version: 3.2
+          - python-version: 3.12
+            django-version: 4.1
+          - python-version: 3.8
+            django-version: 5.0
+          - python-version: 3.9
+            django-version: 5.0
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: setup python
         uses: actions/setup-python@v4
         with:
@@ -40,7 +48,7 @@ jobs:
           pip install --upgrade coveralls ruff
           pip install "django~=${{ matrix.django-version }}"
       - name: Run ruff
-        run: ruff .
+        run: ruff --output-format=github
       - name: Run test
         run: coverage run --source=ipware manage.py test
       - name: Coveralls

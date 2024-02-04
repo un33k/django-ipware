@@ -1,3 +1,14 @@
+# 6.0.3
+
+Enhancement:
+- Show in Pypi Python 3.12 is supported (thx: @jrobichaud)
+
+# 6.0.2
+
+Enhancement:
+- Add support for Django 5.0 (thx: @cclauss)
+- Add support for Python 3.12 (thx: @cclauss)
+
 # 6.0.1
 
 Enhancement:
