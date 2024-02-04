@@ -1,3 +1,8 @@
+# 6.0.4
+
+Enhancement:
+- Add typings (thx: @federicobond)
+
 # 6.0.3
 
 Enhancement:
