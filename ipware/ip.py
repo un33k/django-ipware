@@ -1,14 +1,17 @@
+from typing import Iterable, Literal, Optional, Tuple
+
 from django.conf import settings
+from django.http import HttpRequest
 from python_ipware import IpWare
 
 
 def get_client_ip(
-    request,
-    proxy_order='left-most',
-    proxy_count=None,
-    proxy_trusted_ips=None,
-    request_header_order=None,
-):
+    request: HttpRequest,
+    proxy_order: Literal['left-most', 'right-most'] = 'left-most',
+    proxy_count: Optional[int] = None,
+    proxy_trusted_ips: Optional[Iterable[str]] = None,
+    request_header_order: Optional[Iterable[str]] = None,
+) -> Tuple[str, bool]:
     leftmost = proxy_order == 'left-most'
     proxy_count = proxy_count if proxy_count is not None else getattr(settings, 'IPWARE_META_PROXY_COUNT', 0)
     proxy_list = proxy_trusted_ips if proxy_trusted_ips is not None else []
