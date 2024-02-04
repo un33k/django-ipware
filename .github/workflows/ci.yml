@@ -52,6 +52,6 @@ jobs:
       - name: Run test
         run: coverage run --source=ipware manage.py test
       - name: Coveralls
-        run: coveralls --service=github
+        uses: coverallsapp/github-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
