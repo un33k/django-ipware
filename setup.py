@@ -11,7 +11,7 @@ package = 'ipware'
 python_requires = ">=3.8"
 here = os.path.abspath(os.path.dirname(__file__))
 
-requires = ['python-ipware>=2.0.0']
+requires = ['python-ipware>=2.0.3']
 test_requirements = []
 
 about = {}

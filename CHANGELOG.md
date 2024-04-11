@@ -1,3 +1,10 @@
+# 6.0.5
+
+Enhance:
+- Add `HTTP_CF_CONNECTING_IP` to list of known ip headers (Adam M.)
+- Remove `HTTP_VIA` header support (unreliable IP information) (@yourcelf)
+- Up-version python-ipware to 2.0.3
+
 # 6.0.4
 
 Enhancement:
