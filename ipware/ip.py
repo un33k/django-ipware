@@ -14,14 +14,13 @@ def get_client_ip(
 ) -> Tuple[str, bool]:
     leftmost = proxy_order == 'left-most'
     proxy_count = proxy_count
-    proxy_list = proxy_trusted_ips
     request_header_order = getattr(settings, 'IPWARE_META_PRECEDENCE_ORDER', request_header_order)
 
     # Instantiate IpWare with values from the function arguments
     ipw = IpWare(precedence=request_header_order,
                  leftmost=leftmost,
                  proxy_count=proxy_count,
-                 proxy_list=proxy_list)
+                 proxy_list=proxy_trusted_ips)
 
     ip, _ = ipw.get_client_ip(request.META, True)
 
