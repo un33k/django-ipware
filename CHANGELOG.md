@@ -1,3 +1,8 @@
+# 7.0.0
+
+Enhance:
+- Up version python-ipware (minimal possible api / compatibility change)
+
 # 6.0.5
 
 Enhance:
