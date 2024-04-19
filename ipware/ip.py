@@ -13,7 +13,6 @@ def get_client_ip(
     request_header_order: Optional[Iterable[str]] = None,
 ) -> Tuple[str, bool]:
     leftmost = proxy_order == 'left-most'
-    proxy_count = proxy_count
     request_header_order = getattr(settings, 'IPWARE_META_PRECEDENCE_ORDER', request_header_order)
 
     # Instantiate IpWare with values from the function arguments
