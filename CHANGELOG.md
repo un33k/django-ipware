@@ -1,4 +1,4 @@
-# 7.0.0
+# 7.0.0 / 7.0.1
 
 Enhance:
 - Up version python-ipware (minimal possible api / compatibility change)
