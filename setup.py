@@ -8,7 +8,7 @@ from shutil import rmtree
 from setuptools import setup
 
 package = 'ipware'
-python_requires = ">=3.8"
+python_requires = ">=3.10"
 here = os.path.abspath(os.path.dirname(__file__))
 
 requires = ['python-ipware>=2.0.3']
@@ -69,11 +69,14 @@ setup(
         'License :: OSI Approved :: MIT License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: 3.14',
+        'Framework :: Django :: 4.2',
+        'Framework :: Django :: 5.2',
+        'Framework :: Django :: 6.0',
     ],
     cmdclass={},
     tests_require=test_requirements,

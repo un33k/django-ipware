@@ -1,3 +1,11 @@
+# Unreleased
+
+Enhancement:
+- Added support for Django 5.2 and Django 6.0.
+- Added support for Python 3.13 and Python 3.14.
+- Dropped support for Django 3.2, Django 4.1, and Django 5.0.
+- Dropped support for Python 3.8 and Python 3.9
+
 # 7.0.0 / 7.0.1
 
 Enhance:
