@@ -12,8 +12,8 @@ Community (thank you!):
 - `IPWARE_META_PROXY_COUNT` works again. Reported by @sujh (#127).
 
 Enhance:
-- New `algorithm` argument and `IPWARE_ALGORITHM` setting: `"auto"` (default, modern), `"modern"`,
-  `"legacy"`.
+- New `algorithm` argument and `IPWARE_ALGORITHM` setting: `"modern"` (default) or `"legacy"`. Upgrade
+  and pass nothing to get modern; set `IPWARE_ALGORITHM = "legacy"` to keep the exact 7.x results.
 - Modern picks a better client IP, see python-ipware 4.1: public > private > link-local > loopback,
   the first public hop of a chain, never multicast / `0.0.0.0` / reserved, RFC 7239 `Forwarded`,
   NAT64 unwrapping, and malformed values rejected instead of truncated.

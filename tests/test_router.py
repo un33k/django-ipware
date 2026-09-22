@@ -1,4 +1,4 @@
-"""Algorithm selection: the argument wins, then IPWARE_ALGORITHM, then "auto" (modern)."""
+"""Algorithm selection: the argument wins, then IPWARE_ALGORITHM, then "modern"."""
 
 from django.apps import apps
 from django.http import HttpRequest
@@ -24,9 +24,12 @@ class AlgorithmSelection(SimpleTestCase):
         self.assertEqual(resolve(), MODERN)
 
     def test_explicit_algorithms(self):
-        self.assertEqual(resolve(algorithm="auto"), MODERN)
         self.assertEqual(resolve(algorithm="modern"), MODERN)
         self.assertEqual(resolve(algorithm="legacy"), LEGACY)
+
+    @override_settings(IPWARE_ALGORITHM="modern")
+    def test_setting_selects_modern(self):
+        self.assertEqual(resolve(), MODERN)
 
     @override_settings(IPWARE_ALGORITHM="legacy")
     def test_setting_selects_legacy(self):
@@ -37,8 +40,10 @@ class AlgorithmSelection(SimpleTestCase):
         self.assertEqual(resolve(algorithm="modern"), MODERN)
 
     def test_unknown_algorithm_raises(self):
-        with self.assertRaises(ValueError):
-            resolve(algorithm="bogus")
+        # "auto" is python-ipware-only; django-ipware documents modern and legacy.
+        for value in ("bogus", "auto", "Legacy"):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                resolve(algorithm=value)
 
     @override_settings(IPWARE_ALGORITHM="bogus")
     def test_unknown_algorithm_setting_raises(self):

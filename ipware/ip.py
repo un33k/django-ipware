@@ -6,14 +6,14 @@ settings and arguments onto it.
 
 Algorithms
 ----------
-* ``"modern"`` (the default, also via ``"auto"``): python-ipware's modern
-  engine. An explicit argument always wins over the matching Django setting.
+* ``"modern"`` (the default): python-ipware's modern engine. Upgrading users
+  pass nothing. An explicit argument always wins over the matching Django setting.
 * ``"legacy"``: the frozen django-ipware 7.x function, byte-for-byte
   behavior, including its quirk that settings override explicit arguments.
 
 Django settings (all optional)
 ------------------------------
-``IPWARE_ALGORITHM``             ``"auto"`` | ``"modern"`` | ``"legacy"``
+``IPWARE_ALGORITHM``             ``"modern"`` (default) | ``"legacy"``
 ``IPWARE_META_PRECEDENCE_ORDER`` header keys to check, in order
 ``IPWARE_META_PROXY_COUNT``      expected number of proxies
 ``IPWARE_STRICT``                strict chain validation (default ``True``)
@@ -29,10 +29,10 @@ from python_ipware.modern.parsers import TIER_GLOBAL, ip_tier
 
 from . import legacy
 
-Algorithm = Literal["auto", "modern", "legacy"]
+Algorithm = Literal["modern", "legacy"]
 ProxyOrder = Literal["left-most", "right-most"]
 
-_ALGORITHMS = ("auto", "modern", "legacy")
+_ALGORITHMS = ("modern", "legacy")
 _PROXY_ORDERS = ("left-most", "right-most")
 
 
@@ -70,7 +70,7 @@ def get_client_ip(
     Raises ``ValueError`` on misconfiguration: an unknown ``algorithm`` or
     ``proxy_order``, or an invalid proxy list, header order or proxy count.
     """
-    algorithm = _setting("IPWARE_ALGORITHM", algorithm) or "auto"
+    algorithm = _setting("IPWARE_ALGORITHM", algorithm) or "modern"
     if algorithm not in _ALGORITHMS:
         msg = f"algorithm must be one of {_ALGORITHMS}, got {algorithm!r}"
         raise ValueError(msg)
