@@ -55,7 +55,7 @@ setup(
     author_email=about['__author_email__'],
     url=about['__url__'],
     packages=[package],
-    package_data={'': ['LICENSE']},
+    package_data={'': ['py.typed', 'LICENSE']},
     package_dir={'ipware': 'ipware'},
     include_package_data=True,
     python_requires=python_requires,
