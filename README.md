@@ -157,6 +157,16 @@ can indicate `right-most` as your `proxy_order` when calling `get_client_ip(requ
 Please note that the [de-facto](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) standard
 for the originating client IP address is the `left-most` as per `<client>, <proxy1>, <proxy2>`.
 
+- ### Non strict mode
+
+By default, `django-ipware` use strict `python-ipware` mode (read mode about it [here](https://github.com/un33k/python-ipware/tree/main?tab=readme-ov-file#proxy-count--trusted-proxy-list-combo)).
+
+You can set it non-strict by either setting the `IPWARE_STRICT` to `False` at your project's `settings.py` or by calling `get_client_ip` with strict=False:
+
+```python
+get_client_ip(request, strict=False)
+```
+
 # Running the tests
 
 To run the tests against the current environment:

@@ -42,3 +42,13 @@ class IpTestCase(TestCase):
         }
         result = get_client_ip(request, proxy_trusted_ips=['198.84.193.157', '198.84.193.158'])
         self.assertEqual(result, ("177.139.233.139", True))
+
+    def test_nonstrict(self):
+        request = HttpRequest()
+        request.META = {
+            'HTTP_X_FORWARDED_FOR': 'unknown, 177.139.233.139, 198.84.193.157, 198.84.193.158',
+        }
+        result = get_client_ip(request, strict=False)
+        self.assertEqual(result, ("177.139.233.139", True))
+
+
