@@ -2,54 +2,93 @@
 # https://www.djangoproject.com/download/#supported-versions
 name: ci
 
+# Runs only on pull requests into master: test and build before merge.
+# master is protected (PR-only, these checks required), so nothing reaches it
+# untested and there is no need to re-run after merge. Releases are
+# published manually; tags do not trigger CI.
 on:
-  push:
-    branches:
-      - ci
-      - dev
-      - master
   pull_request:
     branches:
-      - ci
-      - dev
       - master
 
 jobs:
   ci:
-    name: Python ${{ matrix.python-version }}, django ${{ matrix.django-version }}
+    name: Python ${{ matrix.python-version }}, Django ${{ matrix.django-version }}
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
-        django-version: ["4.2", "5.2", "6.0"]
-        exclude:
-          # excludes list
-          - python-version: "3.13"
-            django-version: "4.2"
-          - python-version: "3.14"
-            django-version: "4.2"
-          - python-version: "3.10"
-            django-version: "6.0"
-          - python-version: "3.11"
-            django-version: "6.0"
+        include:
+          - { python-version: "3.10", django-version: "5.2" }
+          - { python-version: "3.11", django-version: "5.2" }
+          - { python-version: "3.12", django-version: "5.2" }
+          - { python-version: "3.13", django-version: "5.2" }
+          - { python-version: "3.14", django-version: "5.2" }
+          - { python-version: "3.12", django-version: "6.0" }
+          - { python-version: "3.13", django-version: "6.0" }
+          - { python-version: "3.14", django-version: "6.0" }
+          - { python-version: "3.12", django-version: "6.1" }
+          - { python-version: "3.13", django-version: "6.1" }
+          - { python-version: "3.14", django-version: "6.1" }
 
     steps:
-      - uses: actions/checkout@v4
-      - name: setup python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
+          cache: "pip"
+          cache-dependency-path: pyproject.toml
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -e .
-          pip install --upgrade coveralls ruff
-          pip install "django~=${{ matrix.django-version }}"
+          pip install -e ".[test]" coveralls "Django~=${{ matrix.django-version }}.0"
       - name: Run ruff
-        run: ruff check --output-format=github
-      - name: Run test
-        run: coverage run --source=ipware manage.py test
+        run: ruff check --output-format=github .
+      - name: Run tests (modern default, legacy, router, frozen 7.x suite on both)
+        run: coverage run manage.py test
       - name: Coveralls
-        uses: coverallsapp/github-action@v2
+        # Coverage upload is informational; a Coveralls outage must not fail CI.
+        continue-on-error: true
+        run: coveralls --service=github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COVERALLS_FLAG_NAME: python-${{ matrix.python-version }}-django-${{ matrix.django-version }}
+          COVERALLS_PARALLEL: true
+
+  coveralls-finish:
+    name: Coveralls finish
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finish parallel coverage
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
+          fail-on-error: false
+
+  build:
+    name: Build
+    # Only package code whose tests passed on every Python / Django combination.
+    needs: ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: Install build tools
+        run: python -m pip install --upgrade build twine
+      - name: Build
+        run: python -m build
+      - name: Check distribution metadata
+        run: python -m twine check dist/*
+      - uses: actions/upload-artifact@v7
+        with:
+          name: artifacts
+          path: dist/*
+          if-no-files-found: error
+          retention-days: 7

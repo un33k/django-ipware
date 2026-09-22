@@ -1,11 +1,101 @@
 [build-system]
-requires = [
-    "setuptools>=42",
-    "wheel"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-ipware"
+description = "A Django application to retrieve a client's real IP address."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Val Neekman", email = "info@neekware.com" },
 ]
-build-backend = "setuptools.build_meta"
+maintainers = [
+    { name = "Val Neekman", email = "info@neekware.com" },
+]
+keywords = [
+    "django",
+    "ip",
+    "ipware",
+    "client ip",
+    "real ip",
+    "remote addr",
+    "x-forwarded-for",
+    "proxy",
+]
+dynamic = ["version"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
+    "Framework :: Django :: 6.1",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP",
+    "Typing :: Typed",
+]
+dependencies = [
+    "Django>=5.2",
+    # 4.1 is the first release with the modern/legacy engine router this package relies on.
+    "python-ipware>=4.1.0,<5",
+]
+
+[project.urls]
+Homepage = "https://github.com/un33k/django-ipware"
+Documentation = "https://github.com/un33k/django-ipware#readme"
+Repository = "https://github.com/un33k/django-ipware"
+Issues = "https://github.com/un33k/django-ipware/issues"
+Changelog = "https://github.com/un33k/django-ipware/blob/master/CHANGELOG.md"
+
+[project.optional-dependencies]
+test = [
+    "ruff==0.16.8",  # pinned so new lint rules cannot break CI unannounced
+    "coverage[toml]",
+]
+dev = [
+    "django-ipware[test]",
+    "build",
+    "twine",
+]
+
+[tool.hatch.version]
+path = "ipware/__version__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["ipware"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "ipware",
+    "tests",
+    "manage.py",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+]
 
 [tool.ruff]
+line-length = 120
+target-version = "py310"
+# The legacy 7.x function and its tests are frozen, so newer lint rules
+# must not force edits there.
+extend-exclude = ["ipware/legacy", "tests/legacy"]
+
+[tool.ruff.lint]
 select = [
     "B",
     "C4",
@@ -25,13 +115,19 @@ select = [
     "RUF",
     "SLF",
     "SIM",
-    "TCH",
+    "TC",
     "TID",
     "W",
 ]
 ignore = ["PGH004", "TID252", "E501", "I001", "EM101", "SIM108", "SIM110"]
-line-length = 107
-target-version = "py311"
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 16
+
+[tool.coverage.run]
+source = ["ipware"]
+branch = true
+omit = ["ipware/__version__.py"]
+
+[tool.coverage.report]
+show_missing = true
