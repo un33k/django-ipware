@@ -1,10 +1,46 @@
-# Unreleased
+# 8.0.0
 
-Enhancement:
-- Added support for Django 5.2 and Django 6.0.
-- Added support for Python 3.13 and Python 3.14.
-- Dropped support for Django 3.2, Django 4.1, and Django 5.0.
-- Dropped support for Python 3.8 and Python 3.9
+Built on python-ipware 4.1. The default algorithm is now python-ipware's modern engine; the 7.x
+behavior stays available, frozen, via `algorithm="legacy"` or `IPWARE_ALGORITHM = "legacy"`.
+
+Community (thank you!):
+- Non-strict mode: `get_client_ip(request, strict=False)` or `IPWARE_STRICT = False`. By @hirotasoshu
+  (#122, closes #121).
+- `py.typed` is shipped in the package, so type checkers see the annotations. By @streadway (#124).
+- CI tests currently supported Python and Django versions. By @philipstarkey (#125).
+- Return type is `Tuple[Optional[str], bool]`. Reported by @btruhand (#126).
+- `IPWARE_META_PROXY_COUNT` works again. Reported by @sujh (#127).
+
+Enhance:
+- New `algorithm` argument and `IPWARE_ALGORITHM` setting: `"auto"` (default, modern), `"modern"`,
+  `"legacy"`.
+- Modern picks a better client IP, see python-ipware 4.1: public > private > link-local > loopback,
+  the first public hop of a chain, never multicast / `0.0.0.0` / reserved, RFC 7239 `Forwarded`,
+  NAT64 unwrapping, and malformed values rejected instead of truncated.
+- `is_routable` is True only for globally routable addresses as ranked by python-ipware (deprecated
+  site-local `fec0::/10` is no longer reported as routable).
+- Trusted proxies: a complete IP matches exactly (7.x prefix-matched, so `"1.2.3.4"` also trusted
+  `1.2.3.45`); prefixes match on whole octets; CIDR networks are supported.
+
+Fix:
+- An explicit argument now always wins over its Django setting. In 7.x, `IPWARE_META_PRECEDENCE_ORDER`
+  and `IPWARE_STRICT` silently overrode the `request_header_order` and `strict` arguments.
+- `IPWARE_META_PROXY_COUNT` is read again (documented but ignored in 7.x). It applies only when set.
+- `proxy_order` must be `"left-most"` or `"right-most"`; anything else raises `ValueError` (7.x
+  silently used right-most).
+- Misconfiguration raises `ValueError`, e.g. `proxy_trusted_ips` passed as a bare string, an empty or
+  non-IP entry, or a negative `proxy_count`.
+- One-shot iterables (generators) work for `proxy_trusted_ips` and `request_header_order`.
+
+Modernize:
+- Requires Python 3.10+ and Django 5.2+ (tested on Python 3.10–3.14, Django 5.2, 6.0, 6.1). Django
+  4.2 and Python 3.9 are end of life; use `django-ipware<8` for them.
+- Depends on `python-ipware>=4.1.0,<5` and declares `Django>=5.2`.
+- Packaging moved to PEP 621 `pyproject.toml` with the Hatchling backend; `setup.py` removed.
+- CI runs only on pull requests into master: tests on every Python / Django combination, then build.
+- Removed the obsolete `default_app_config`.
+- Tests: the original 7.x suite runs against both algorithms; option-matrix tests check modern
+  against python-ipware's modern engine and legacy against its v3 engine; 100% line and branch coverage.
 
 # 7.0.0 / 7.0.1
 

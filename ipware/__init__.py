@@ -1,3 +1,4 @@
-from .ip import get_client_ip  # noqa
+from .__version__ import __version__
+from .ip import get_client_ip
 
-default_app_config = 'ipware.apps.IPwareConfig'
+__all__ = ["__version__", "get_client_ip"]
