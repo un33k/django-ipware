@@ -36,7 +36,26 @@ On older Python or Django versions, use `django-ipware<8`.
 > FastAPI or any WSGI/ASGI app. It also returns a `trusted_route` flag and `ipaddress` objects.
 
 > **Legacy:** the frozen 7.x behavior is still available with `algorithm="legacy"` or
-> `IPWARE_ALGORITHM = "legacy"`. See [Legacy (7.x) behavior](#legacy-7x-behavior).
+> `IPWARE_ALGORITHM = "legacy"`. See [Upgrading from 7.x](#upgrading-from-7x).
+
+## What you get
+
+Messy, forgeable request headers in; one clean, ranked client IP out.
+
+```mermaid
+flowchart LR
+    subgraph IN["What arrives in request.META"]
+        H1["X-Forwarded-For:<br/>unknown, 10.0.0.1, 177.139.233.139:443"]
+        H2["Forwarded:<br/>for=&quot;[2001:db8::1]:4711&quot;"]
+        H3["CF-Connecting-IP, X-Real-IP,<br/>30+ CDN and proxy headers"]
+        H4["REMOTE_ADDR"]
+    end
+    IN --> W["get_client_ip(request)"]
+    W --> P["Parse: strip ports and brackets,<br/>unwrap IPv4-mapped and NAT64,<br/>reject malformed values"]
+    P --> V["Validate the chain against<br/>your trusted proxies and proxy count"]
+    V --> R["Rank: public > private ><br/>link-local > loopback"]
+    R --> OUT["('177.139.233.139', True)<br/>client_ip, is_routable"]
+```
 
 ## What it's used for
 
@@ -57,7 +76,7 @@ flowchart LR
     REQ["request.META"] --> DJ["django-ipware<br/>get_client_ip()"]
     SET["settings.py<br/>IPWARE_*"] --> DJ
     ARG["Call arguments"] -->|"always win over settings"| DJ
-    DJ -->|"algorithm: auto / modern"| MOD["python-ipware<br/>modern engine"]
+    DJ -->|"default"| MOD["python-ipware<br/>modern engine"]
     DJ -->|"algorithm: legacy"| LEG["Frozen 7.x function<br/>(python-ipware v3 engine)"]
     MOD --> OUT["(client_ip, is_routable)"]
     LEG --> OUT
@@ -95,7 +114,7 @@ get_client_ip(
     proxy_trusted_ips=None,      # trusted proxies: IPs, CIDR networks or prefixes
     request_header_order=None,   # header keys to check, in order
     strict=None,                 # strict chain validation; default True
-    algorithm=None,              # "auto" (modern), "modern" or "legacy"
+    algorithm=None,              # default "modern"; "legacy" for exact 7.x results
 )
 ```
 
@@ -106,7 +125,7 @@ get_client_ip(
 | `proxy_trusted_ips` | Trusted proxies nearest Django, one entry per hop. Each entry is a CIDR network (`"100.64.0.0/10"`), a complete IP matched exactly (`"198.84.193.157"`), or an IP prefix matched on whole octets (`"10.1."`). See [Trusted proxies](#trusted-proxies). |
 | `request_header_order` | Header keys to search, top to bottom. Defaults to the list below. |
 | `strict` | `True` (default): exactly `proxy_count` proxies, and any malformed entry rejects that header. `False`: at least that many, and bad entries are skipped. |
-| `algorithm` | `"auto"` (default) and `"modern"` use the modern engine; `"legacy"` runs the frozen 7.x function. |
+| `algorithm` | `"modern"` (default) uses the modern engine; `"legacy"` runs the frozen 7.x function. |
 
 | Output | Description |
 | --- | --- |
@@ -122,7 +141,7 @@ Each setting applies only when the matching argument is not passed. **An explici
 
 | Setting | Argument | Default |
 | --- | --- | --- |
-| `IPWARE_ALGORITHM` | `algorithm` | `"auto"` (modern) |
+| `IPWARE_ALGORITHM` | `algorithm` | `"modern"` |
 | `IPWARE_META_PRECEDENCE_ORDER` | `request_header_order` | the list below |
 | `IPWARE_META_PROXY_COUNT` | `proxy_count` | not enforced |
 | `IPWARE_STRICT` | `strict` | `True` |
@@ -348,17 +367,31 @@ MIDDLEWARE = [
 ]
 ```
 
-## Legacy (7.x) behavior
+## Upgrading from 7.x
 
-The 7.x results are available unchanged. The legacy algorithm is frozen and takes no further changes:
+Upgrade and pass nothing: you get the modern engine. If anything changes in a way you don't want,
+add one setting and you're back on the exact 7.x results — while still getting the 8.x package,
+Django 6 support and fixes.
 
-```python
-get_client_ip(request, algorithm="legacy")
+```mermaid
+flowchart TD
+    U["pip install --upgrade django-ipware"] --> D["Default: modern engine<br/>(no code changes)"]
+    D --> T{"Your tests and results look right?"}
+    T -->|"yes (most projects)"| M["Done. Enjoy the better IP selection"]
+    T -->|"no, something changed"| L["settings.py:<br/>IPWARE_ALGORITHM = 'legacy'"]
+    L --> F["Exact 7.x results, frozen,<br/>on the 8.x package"]
+    F -.->|"when you're ready"| D
 ```
+
+The legacy algorithm is frozen and takes no further changes. Use it for the whole project, or per call:
 
 ```python
 # settings.py: the whole project
 IPWARE_ALGORITHM = "legacy"
+```
+
+```python
+get_client_ip(request, algorithm="legacy")
 ```
 
 Where the default differs from 7.x, it is always toward a better answer:
