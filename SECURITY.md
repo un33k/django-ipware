@@ -4,7 +4,7 @@
 
 **Please do not report security issues through public GitHub issues, pull requests, or discussions.**
 
-Email **support@heydojo.ai** privately instead, with:
+Email **info@neekware.com** privately instead, with:
 
 - a description of the issue and its impact
 - steps or a minimal example to reproduce it
