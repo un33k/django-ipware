@@ -84,7 +84,7 @@ flowchart LR
 
 ## Security notice
 
-> **Found a security issue?** Please email **info@neekware.com** privately — do not open a public
+> **Found a security issue?** Please email **support@heydojo.ai** privately — do not open a public
 > issue or pull request. See [SECURITY.md](https://github.com/un33k/django-ipware/blob/master/SECURITY.md).
 
 There is no perfect defense against IP address spoofing. Headers such as `X-Forwarded-For` are set by
@@ -424,7 +424,7 @@ Released under the [MIT](https://github.com/un33k/django-ipware/blob/master/LICE
 
 `django-ipware` is actively maintained with [Dojo](https://heydojo.ai) ⛩️. The legacy algorithm is frozen
 for backward compatibility; all improvements target the modern engine. Need support? Reach
-[Neekware Inc.](https://neekware.com) at info@neekware.com.
+[HeyDojo AI](https://heydojo.ai) at support@heydojo.ai.
 
 ## Sponsors
 
